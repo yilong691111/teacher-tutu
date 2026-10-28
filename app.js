@@ -4,7 +4,7 @@ const BOOT=window.TUTU_BOOTSTRAP||{settings:{},gallery:[],news:[]};
 const ADMIN_KEY='teacher-tutu-static-cms-v1';
 const FAVORITES_KEY='teacher-tutu-favorites-v1';
 const draftMode=new URLSearchParams(location.search).get('draft')==='1';
-function getSite(){if(draftMode){try{const x=JSON.parse(localStorage.getItem(ADMIN_KEY)||'null');if(x)return x}catch{}}return BOOT}
+function getSite(){if(draftMode){try{const v2=JSON.parse(localStorage.getItem('teacher-tutu-static-cms-v2')||'null');if(v2?.data)return v2.data;const x=JSON.parse(localStorage.getItem(ADMIN_KEY)||'null');if(x)return x}catch{}}return BOOT}
 let site=getSite(),currentCat='全部',currentSeries='全部',currentQuery='',currentSort='featured',shown=12,newsCat='全部',heroIdx=0,heroRunning=true,visibleWorks=[],activeWorkIndex=-1;
 let favorites=new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]'));
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
