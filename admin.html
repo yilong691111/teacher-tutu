@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>塗塗官方網站｜無伺服器後台</title>
+<link rel="stylesheet" href="admin.css">
+<script defer src="data/site-data.js"></script>
+<script defer src="admin.js"></script>
+</head>
+<body>
+<div id="dashboard" class="dashboard">
+  <aside class="side">
+    <div class="side-brand">✳ 塗塗老師 <small>GitHub Pages 管理器</small></div>
+    <nav>
+      <button class="selected" data-page="overview">◈　總覽</button>
+      <button data-page="gallery">▣　作品相簿</button>
+      <button data-page="news">☷　最新消息</button>
+      <button data-page="settings">✎　網站設定</button>
+      <button data-page="publish">⇩　匯入／匯出</button>
+    </nav>
+    <div class="side-foot"><a href="index.html" target="_blank" rel="noopener">↗ 查看官網</a></div>
+  </aside>
+
+  <div class="content">
+    <header class="admin-header">
+      <div><small>TEACHER TUTU / STATIC CMS</small><h1 id="page-title">管理總覽</h1></div>
+      <span class="admin-state">● 無伺服器模式</span>
+    </header>
+    <div id="alert" role="status" aria-live="polite"></div>
+
+    <section id="page-overview" class="page">
+      <div class="panel" style="border-left:5px solid #164ee8">
+        <h2>這個後台不需要主機</h2>
+        <p>所有修改只保存在這台裝置的瀏覽器中。完成編輯後，請到「匯入／匯出」下載新的 <b>site-data.js</b>，再到 GitHub 專案覆蓋 <b>data/site-data.js</b> 並 Commit，官網即可更新。</p>
+      </div>
+      <div class="stats">
+        <div><span>作品總數</span><strong id="stat-works">0</strong></div>
+        <div><span>已公開作品</span><strong id="stat-published">0</strong></div>
+        <div><span>最新消息</span><strong id="stat-news">0</strong></div>
+        <div><span>作品分類</span><strong id="stat-categories">0</strong></div>
+      </div>
+      <div class="panel"><h2>快速操作</h2><div class="actions">
+        <button data-jump="gallery">＋ 新增作品</button>
+        <button data-jump="news">＋ 發布最新消息</button>
+        <button data-jump="settings">✎ 編輯品牌故事</button>
+        <button data-jump="publish">⇩ 匯出更新檔</button><button id="preview-draft">◎ 預覽目前草稿</button>
+      </div></div>
+      <div class="panel"><h2>圖片展示</h2><div class="mini-gallery" id="mini-gallery"></div></div>
+    </section>
+
+    <section id="page-gallery" class="page" hidden>
+      <div class="panel"><div class="panel-head"><div><h2>作品相簿管理</h2><p>新增圖片會在瀏覽器中自動縮放並轉成 WEBP，嵌入匯出的資料檔。建議單次新增少量作品。</p></div><button id="new-work" class="primary">＋ 新增作品</button></div>
+      <label class="filter-row">搜尋現有作品　<input id="admin-work-search" type="search" placeholder="輸入作品名稱"></label>
+      <div class="table-scroll"><table><thead><tr><th>圖片</th><th>作品標題</th><th>類別</th><th>公開</th><th>操作</th></tr></thead><tbody id="works-table"></tbody></table></div></div>
+      <form id="work-form" class="panel editor" hidden>
+        <h2 id="work-form-heading">新增作品</h2><input id="work-id" type="hidden"><input id="work-existing-image" type="hidden">
+        <div class="form-grid">
+          <label>作品名稱 *<input id="work-title" required maxlength="90"></label>
+          <label>分類<select id="work-category"><option>賀新年</option><option>成語</option><option>日常</option><option>角色</option><option>其他</option></select></label>
+          <label>作品系列<input id="work-series" maxlength="100" value="塗塗的日常"></label>
+          <label>圖片<input type="file" accept="image/png,image/jpeg,image/webp" id="work-file"><small>新增時必選；編輯既有作品可不換圖。</small></label>
+        </div>
+        <label>圖片／作品介紹<textarea id="work-description" rows="3" maxlength="1500"></textarea></label>
+        <div class="checks"><label><input id="work-published" type="checkbox" checked> 在官網公開</label><label><input id="work-featured" type="checkbox"> 首頁精選</label></div>
+        <div class="actions"><button class="primary" type="submit">儲存作品</button><button class="secondary" type="button" id="cancel-work">取消</button></div>
+      </form>
+    </section>
+
+    <section id="page-news" class="page" hidden>
+      <div class="panel"><div class="panel-head"><div><h2>公告與最新消息</h2><p>支援日期、分類與發布狀態。</p></div><button id="new-news" class="primary">＋ 新增公告</button></div>
+      <div class="table-scroll"><table><thead><tr><th>日期</th><th>標題</th><th>分類</th><th>公開</th><th>操作</th></tr></thead><tbody id="news-table"></tbody></table></div></div>
+      <form id="news-form" class="panel editor" hidden>
+        <h2 id="news-form-heading">新增公告</h2><input id="news-id" type="hidden">
+        <div class="form-grid"><label>標題 *<input id="news-title" required maxlength="150"></label><label>日期<input id="news-date" type="date" required></label><label>分類<select id="news-category"><option>網站公告</option><option>作品更新</option><option>活動消息</option></select></label></div>
+        <label>內文<textarea id="news-body" rows="6" maxlength="6000"></textarea></label>
+        <div class="checks"><label><input type="checkbox" id="news-published" checked> 在官網公開</label></div>
+        <div class="actions"><button class="primary" type="submit">儲存公告</button><button class="secondary" type="button" id="cancel-news">取消</button></div>
+      </form>
+    </section>
+
+    <section id="page-settings" class="page" hidden>
+      <form class="panel" id="settings-form"><h2>品牌與網站設定</h2><p>可修改首頁介紹、故事與 LINE 商店入口。</p>
+        <div class="form-grid"><label>品牌中文名稱<input id="settings-brand" maxlength="80" required></label><label>品牌英文名稱<input id="settings-brandEn" maxlength="80"></label><label>品牌短句<input id="settings-tagline" maxlength="150"></label><label>LINE 貼圖商店網址<input id="settings-lineUrl" type="url" required></label></div>
+        <label>首頁介紹<textarea id="settings-heroDescription" rows="3" maxlength="1000"></textarea></label>
+        <label>塗塗的故事<textarea id="settings-storyText" rows="8" maxlength="5000"></textarea></label>
+        <label>頂部公告跑馬文字<input id="settings-siteNotice" maxlength="500"></label>
+        <div class="actions"><button type="submit" class="primary">儲存網站設定</button></div>
+      </form>
+    </section>
+
+    <section id="page-publish" class="page" hidden>
+      <div class="panel publish-check"><h2>發布前檢查</h2><div id="publish-checks" class="check-grid"></div></div><div class="panel"><h2>發布到 GitHub Pages</h2>
+        <ol style="line-height:1.9">
+          <li>在本後台完成修改。</li>
+          <li>按「下載 site-data.js」。</li>
+          <li>到 GitHub 專案，開啟 <b>data/site-data.js</b>。</li>
+          <li>上傳／覆蓋剛下載的檔案，按 <b>Commit changes</b>。</li>
+          <li>GitHub Pages 會自動顯示新版內容。</li>
+        </ol>
+        <div class="actions"><button id="export-js" class="primary">⇩ 下載 site-data.js</button><button id="export-json">⇩ 下載完整備份 JSON</button><button id="preview-publish" class="secondary">◎ 預覽目前草稿</button></div>
+      </div>
+      <div class="panel"><h2>匯入現有資料</h2><p>如果換電腦，先從 GitHub 下載目前的 <b>data/site-data.js</b> 或使用之前備份的 JSON，再從這裡匯入。</p>
+        <input id="import-file" type="file" accept=".js,.json,application/json,text/javascript">
+        <div class="actions"><button id="import-data" class="primary">匯入資料</button><button id="reset-bootstrap" class="secondary">還原目前網站資料</button></div>
+      </div>
+      <div class="panel"><h2>本機草稿</h2><p>每次儲存都會同步寫入瀏覽器 localStorage。清除瀏覽器資料前，請先下載備份。</p><div class="actions"><button id="clear-local" class="danger">清除本機草稿</button></div></div>
+    </section>
+  </div>
+</div>
+<dialog id="confirm-dialog"><h3>確定要刪除嗎？</h3><p>刪除後仍可從備份檔復原。</p><div class="actions"><button id="confirm-delete" class="danger">確認刪除</button><button id="cancel-delete" class="secondary">取消</button></div></dialog>
+</body></html>
