@@ -5,7 +5,7 @@ const draftStore=new window.TutuGitHub.DraftStore(localStorage);
 let draftBaseBlob=draftStore.read()?.baseBlob||null;
 let site=loadLocal()||structuredClone(BOOTSTRAP), pendingDelete=null;
 const clean=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const safeImg=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.webp$/.test(s||'')||/^data:image\/(?:webp|png|jpeg);base64,/i.test(s||'')?s:'assets/tutu-hero.webp';
+const safeImg=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g)$/.test(s||'')||/^data:image\/(?:webp|png|jpeg);base64,/i.test(s||'')?s:'assets/tutu-hero.webp';
 const toast=(message,err=false)=>{const el=$('#alert');el.textContent=message;el.classList.toggle('error',err);if(message)setTimeout(()=>{if(el.textContent===message)el.textContent=''},5000);};
 const saveLocal=()=>{
  let saved=true;

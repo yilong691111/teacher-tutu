@@ -8,7 +8,7 @@ function getSite(){if(draftMode){try{const v2=JSON.parse(localStorage.getItem('t
 let site=getSite(),currentCat='全部',currentSeries='全部',currentQuery='',currentSort='featured',shown=12,newsCat='全部',heroIdx=0,heroRunning=true,visibleWorks=[],activeWorkIndex=-1;
 let favorites=new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]'));
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const safeImage=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.webp$/.test(s||'')||/^data:image\/(?:webp|png|jpeg);base64,/i.test(s||'')?s:'assets/tutu-hero.webp';
+const safeImage=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g)$/.test(s||'')||/^data:image\/(?:webp|png|jpeg);base64,/i.test(s||'')?s:'assets/tutu-hero.webp';
 const formatDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')?s.replace(/-/g,'.'):safe(s);
 const toast=msg=>{const el=$('#site-toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)};
 function renderLinks(){const url=site.settings?.lineUrl||'https://store.line.me/stickershop/author/5947333/zh-Hant';const valid=/^https:\/\//.test(url)?url:'https://store.line.me/stickershop/author/5947333/zh-Hant';['header-line','quick-line','main-line','footer-line'].forEach(id=>{const el=document.getElementById(id);if(el)el.href=valid})}
