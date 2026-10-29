@@ -43,6 +43,11 @@ function renderLineProduct(){
   const button=document.createElement('button');button.type='button';button.textContent=value==='全部'?'全部貼圖':value;button.classList.toggle('on',value===category);button.setAttribute('aria-pressed',String(value===category));
   button.addEventListener('click',()=>{category=value;$('#line-product-filters').querySelectorAll('button').forEach(b=>{const active=b===button;b.classList.toggle('on',active);b.setAttribute('aria-pressed',String(active));});renderProducts();});return button;
  }));
+ const idiomButton=$('#show-grade7-idioms');
+ if(idiomButton)idiomButton.onclick=()=>{
+  const filter=Array.from($('#line-product-filters').querySelectorAll('button')).find(button=>button.textContent==='12年國教七年級常用成語');
+  if(filter){$('#line-product-search').value='';filter.click();$('#line-product-filters').scrollIntoView({behavior:'smooth',block:'center'});}
+ };
  $('#line-product-search').addEventListener('input',renderProducts);renderProducts();
 }
 const lantianWorksLink=$('#lantian-works-link');
