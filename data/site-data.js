@@ -298,16 +298,6 @@ window.TUTU_BOOTSTRAP = {
       "published": true
     },
     {
-      "id": "w042",
-      "title": "心想事成",
-      "category": "成語",
-      "series": "塗塗賀歲創作",
-      "image": "assets/works/042.webp",
-      "description": "心想事成｜塗塗賀歲創作。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
-    },
-    {
       "id": "w062",
       "title": "塗塗男孩",
       "category": "角色",
