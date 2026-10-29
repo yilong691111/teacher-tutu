@@ -104,8 +104,8 @@ window.TUTU_BOOTSTRAP = {
       "series": "新春祝福",
       "image": "assets/works/009.webp",
       "description": "開春納福｜新春祝福。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
+      "published": true,
+      "featured": true
     },
     {
       "id": "w028",
@@ -114,8 +114,8 @@ window.TUTU_BOOTSTRAP = {
       "series": "新春成語篇",
       "image": "assets/works/028.webp",
       "description": "鴻圖大展｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
+      "published": true,
+      "featured": true
     },
     {
       "id": "w030",
@@ -174,8 +174,8 @@ window.TUTU_BOOTSTRAP = {
       "series": "塗塗賀歲創作",
       "image": "assets/works/039.webp",
       "description": "名揚四海｜塗塗賀歲創作。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
+      "published": true,
+      "featured": true
     },
     {
       "id": "w062",
