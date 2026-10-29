@@ -8,11 +8,43 @@ function getSite(){if(draftMode){try{const v2=JSON.parse(localStorage.getItem('t
 let site=getSite(),currentCat='全部',currentSeries='全部',currentQuery='',currentSort='featured',shown=12,newsCat='全部',heroIdx=0,heroRunning=true,visibleWorks=[],activeWorkIndex=-1;
 let favorites=new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]'));
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const safeImage=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g)$/.test(s||'')||/^data:image\/(?:webp|png|jpeg);base64,/i.test(s||'')?s:'assets/tutu-hero.webp';
+const safeImage=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g|png)$/.test(s||'')||/^data:image\/(?:webp|png|jpeg);base64,/i.test(s||'')?s:'assets/tutu-hero.webp';
 const formatDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')?s.replace(/-/g,'.'):safe(s);
 const toast=msg=>{const el=$('#site-toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)};
 function renderLinks(){const url=site.settings?.lineUrl||'https://store.line.me/stickershop/author/5947333/zh-Hant';const valid=/^https:\/\//.test(url)?url:'https://store.line.me/stickershop/author/5947333/zh-Hant';['header-line','quick-line','main-line','footer-line'].forEach(id=>{const el=document.getElementById(id);if(el)el.href=valid})}
-function initSettings(){document.title=(site.settings.brand||'塗塗老師')+' Teacher Tutu｜官方網站';$('#notice-text').textContent=draftMode?'草稿預覽模式｜'+(site.settings.siteNotice||''):site.settings.siteNotice||'';$('#hero-description').textContent=site.settings.heroDescription||'';$('#story-description').textContent=site.settings.storyText||'';$('#year').textContent=new Date().getFullYear();renderLinks();initSeries();}
+function initSettings(){document.title=(site.settings.brand||'塗塗老師')+' Teacher Tutu｜官方網站';$('#notice-text').textContent=draftMode?'草稿預覽模式｜'+(site.settings.siteNotice||''):site.settings.siteNotice||'';$('#hero-description').textContent=site.settings.heroDescription||'';$('#story-description').textContent=site.settings.storyText||'';$('#year').textContent=new Date().getFullYear();renderLinks();renderLineProduct();initSeries();}
+function renderLineProduct(){
+ const catalog=$('#line-catalog');if(!catalog)return;
+ const products=(Array.isArray(site.lineProducts)?site.lineProducts:[]).filter(p=>p&&/^\d+$/.test(p.id||'')&&p.url===`https://store.line.me/stickershop/product/${p.id}/zh-Hant`&&typeof p.title==='string'&&p.title.trim());
+ if(!products.length)return;
+ catalog.hidden=false;$('#line-product-count').textContent=products.length;
+ const categories=['全部',...new Set(products.map(p=>p.category||'日常'))];
+ let category='全部';
+ const renderProducts=()=>{
+  const query=$('#line-product-search').value.trim().toLocaleLowerCase();
+  const visible=products.filter(p=>(category==='全部'||(p.category||'日常')===category)&&p.title.toLocaleLowerCase().includes(query));
+  $('#line-product-result').textContent=`顯示 ${visible.length} / ${products.length} 款貼圖`;
+  $('#line-product-empty').hidden=visible.length>0;
+  const cards=visible.map(p=>{
+   const card=document.createElement('article');card.className='line-product-card';
+   const link=document.createElement('a');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',`前往《${p.title}》LINE 商品頁`);
+   const cover=document.createElement('div');cover.className='line-product-image';
+   const img=document.createElement('img');img.src=safeImage(p.image);img.alt=p.title+' 官方封面';img.loading='lazy';img.width=240;img.height=240;cover.append(img);
+   const body=document.createElement('div');body.className='line-product-body';
+   const tag=document.createElement('span');tag.className='line-product-category';tag.textContent=p.category||'日常';
+   const title=document.createElement('h3');title.textContent=p.title;
+   const author=document.createElement('p');author.textContent=p.author?`作者：${p.author}`:'';
+   const action=document.createElement('span');action.className='line-product-action';action.textContent='前往 LINE STORE ↗';
+   body.append(tag,title,author,action);link.append(cover,body);card.append(link);return card;
+  });
+  $('#line-product-grid').replaceChildren(...cards);
+ };
+ $('#line-product-filters').replaceChildren(...categories.map(value=>{
+  const button=document.createElement('button');button.type='button';button.textContent=value==='全部'?'全部貼圖':value;button.classList.toggle('on',value===category);button.setAttribute('aria-pressed',String(value===category));
+  button.addEventListener('click',()=>{category=value;$('#line-product-filters').querySelectorAll('button').forEach(b=>{const active=b===button;b.classList.toggle('on',active);b.setAttribute('aria-pressed',String(active));});renderProducts();});return button;
+ }));
+ $('#line-product-search').addEventListener('input',renderProducts);renderProducts();
+}
 function initSeries(){const select=$('#series-filter');const vals=[...new Set((site.gallery||[]).map(w=>w.series).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant'));select.innerHTML='<option value="全部">全部系列</option>'+vals.map(v=>`<option value="${safe(v)}">${safe(v)}</option>`).join('')}
 function renderNews(){let news=(site.news||[]).filter(n=>n.published!==false&&(newsCat==='全部'||n.category===newsCat)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const list=$('#news-list');list.textContent='';if(!news.length){list.innerHTML='<p style="padding:24px;color:#8193aa">目前沒有這一類的公告。</p>';return}news.slice(0,5).forEach(n=>{const b=document.createElement('button');b.className='news-row';b.type='button';b.innerHTML=`<time>${formatDate(n.date)}</time><span class="category">${safe(n.category)}</span><strong>${safe(n.title)}</strong><span class="arrow">→</span>`;b.addEventListener('click',()=>openNews(n));list.appendChild(b)})}
 function openNews(n){$('#news-dialog-title').textContent=n.title;$('#news-dialog-category').textContent=n.category;$('#news-dialog-date').textContent=formatDate(n.date);$('#news-dialog-body').textContent=n.body||'';$('#news-dialog').showModal()}
