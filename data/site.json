@@ -38,6 +38,56 @@
   ],
   "gallery": [
     {
+      "id": "lantian-32044",
+      "title": "藍田老師｜上課！",
+      "category": "角色",
+      "series": "藍田老師的教學日常",
+      "image": "assets/works/lantian-32044.png",
+      "description": "舉起手指提醒大家上課，準備一起學習。",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "lantian-32038",
+      "title": "藍田老師｜備課中",
+      "category": "角色",
+      "series": "藍田老師的教學日常",
+      "image": "assets/works/lantian-32038.png",
+      "description": "戴著眼鏡，對著筆電與書本專心備課。",
+      "featured": false,
+      "published": true
+    },
+    {
+      "id": "lantian-32037",
+      "title": "藍田老師｜點名",
+      "category": "角色",
+      "series": "藍田老師的教學日常",
+      "image": "assets/works/lantian-32037.png",
+      "description": "拿著點名板與筆，確認每一位同學。",
+      "featured": false,
+      "published": true
+    },
+    {
+      "id": "lantian-32041",
+      "title": "藍田老師｜認真！",
+      "category": "角色",
+      "series": "藍田老師的教學日常",
+      "image": "assets/works/lantian-32041.png",
+      "description": "雙手交叉，提醒大家認真上課。",
+      "featured": false,
+      "published": true
+    },
+    {
+      "id": "lantian-32039",
+      "title": "藍田老師｜作業太多！",
+      "category": "角色",
+      "series": "藍田老師的教學日常",
+      "image": "assets/works/lantian-32039.png",
+      "description": "抱著一大疊作業本，記錄老師忙碌的教學日常。",
+      "featured": false,
+      "published": true
+    },
+    {
       "id": "daily-v1-8212",
       "title": "午餐時間",
       "category": "日常",
