@@ -6,15 +6,17 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261029-studio-next">
+<link rel="stylesheet" href="admin.css?v=20261029-festival-calendar">
 <script defer src="data/site-data.js"></script>
-<script defer src="content-models.js?v=20261029-studio-next"></script>
-<script defer src="form-drafts.js?v=20261029-studio-next"></script>
-<script defer src="github-cms.js?v=20261029-studio-next"></script>
-<script defer src="admin.js?v=20261029-studio-next"></script>
-<script defer src="admin-collections.js?v=20261029-studio-next"></script>
-<script defer src="admin-drafts.js?v=20261029-studio-next"></script>
-<script defer src="admin-publish.js?v=20261029-studio-next"></script>
+<script defer src="content-models.js?v=20261029-festival-calendar"></script>
+<script defer src="form-drafts.js?v=20261029-festival-calendar"></script>
+<script defer src="festival-model.js?v=20261029-festival-calendar"></script>
+<script defer src="github-cms.js?v=20261029-festival-calendar"></script>
+<script defer src="admin.js?v=20261029-festival-calendar"></script>
+<script defer src="admin-collections.js?v=20261029-festival-calendar"></script>
+<script defer src="admin-festivals.js?v=20261029-festival-calendar"></script>
+<script defer src="admin-drafts.js?v=20261029-festival-calendar"></script>
+<script defer src="admin-publish.js?v=20261029-festival-calendar"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -136,8 +138,11 @@
     </section>
 
     <section id="page-festivals" class="page" hidden>
-      <form class="panel" id="festival-form">
-        <span class="studio-label">FESTIVAL COLLECTION</span><h2>節慶系列</h2>
+      <div class="panel"><div class="section-head"><div><span class="studio-label">FESTIVAL CALENDAR</span><h2>節慶系列與日期</h2></div><button id="new-festival" type="button" class="primary">＋ 新增節慶系列</button></div><p>依西元年／月／日順序輪播各系列封面與作品。農曆節日請填該年度對應的國曆日期。</p><p id="festival-list-count"></p><div class="table-scroll"><table><thead><tr><th>封面</th><th>節慶日期</th><th>節日與系列</th><th>展示狀態</th><th>操作</th></tr></thead><tbody id="festivals-table"></tbody></table></div><p id="festival-list-empty" hidden>尚無節慶系列，按「新增節慶系列」開始。</p><div class="actions"><button type="button" id="preview-festival" class="secondary">預覽已儲存草稿</button></div></div>
+      <form class="panel" id="festival-form" hidden>
+        <input type="hidden" id="festival-id"><input type="hidden" id="festival-origin-id"><input type="hidden" id="festival-cover-work-id"><input type="hidden" id="festival-work-ids">
+        <div class="form-grid"><label>節慶日期 *<input id="festival-date" type="date" min="0001-01-01" max="9999-12-31" required><small>依西元日期排序。原有舊系列可先留空，新系列需填寫。</small></label><label>節日名稱 *<input id="festival-holiday-name" required maxlength="90" placeholder="例如：萬聖節、聖誕節、農曆新年"></label></div>
+        <span class="studio-label">FESTIVAL COLLECTION</span><h2 id="festival-form-heading">節慶系列</h2>
         <p>編輯官網「節慶系列」區塊。儲存後可預覽草稿，再到「發布與備份」更新官網。</p>
         <div class="form-grid">
           <label>主標題 *<input id="festival-title" required maxlength="90"></label>
@@ -149,7 +154,7 @@
           <div class="festival-image-preview"><img id="festival-image-preview" alt="目前的節慶系列圖片"></div>
           <div>
             <input id="festival-current-image" type="hidden">
-            <label>從作品相簿選圖<select id="festival-gallery-image"><option value="">保留目前圖片</option></select></label>
+            <label>從作品相簿選圖<select id="festival-gallery-image"><option value="">保留目前圖片</option></select><small>相簿封面會跟隨原作品更新；原作品隱藏或刪除時，封面也不播放。自行上傳的封面獨立保存。</small></label>
             <label>或上傳新圖片<input id="festival-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB。圖片會自動縮放，保留完整比例。</small></label>
             <label>圖片說明 *<input id="festival-image-alt" required maxlength="200"><small>描述圖中內容，協助使用螢幕閱讀器的訪客理解圖片。</small></label>
           </div>
@@ -159,7 +164,9 @@
           <label>按鈕連結 *<input id="festival-button-link" required maxlength="2000" aria-describedby="festival-link-help"><small id="festival-link-help">例如 #gallery（作品相簿）、#line-catalog（LINE 貼圖），或完整的 https:// 網址。</small></label>
         </div>
         <input id="festival-image-error" type="hidden" value=""><div id="festival-image-warning" class="image-edit-warning" role="alert" hidden><p>圖片無法自動暫存，請重新選擇圖片，或取消本次換圖。</p><button id="festival-cancel-image" type="button" class="secondary">取消本次換圖</button></div>
-        <div class="actions"><button id="save-festival" type="submit" class="primary">儲存節慶系列</button><button id="preview-festival" type="button" class="secondary">預覽已儲存草稿</button><button type="button" class="secondary" data-jump="publish">前往發布與備份</button></div>
+        <fieldset class="festival-work-picker"><legend>選擇這個系列要輪播的作品</legend><p>可先到「作品相簿」新增圖片，再回來勾選。前台只播放展示中的作品，封面圖片不會重複播放。</p><p id="festival-work-count"></p><div id="festival-selected-works"></div><div id="festival-work-options" class="festival-work-options"></div></fieldset>
+        <label class="checkbox"><input id="festival-published" type="checkbox" checked>在官網展示此系列</label>
+        <div class="actions"><button id="save-festival" type="submit" class="primary">儲存節慶系列</button><button id="cancel-festival" type="button" class="secondary">收起編輯</button><button type="button" class="secondary" data-jump="publish">前往發布與備份</button></div>
       </form>
     </section>
 

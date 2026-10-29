@@ -24,7 +24,7 @@
   $('#github-check-submission').hidden=!pending?.uncertain;
   $('#draft-state').textContent=needsAdoption?'本機草稿需要與官網對照':conflicted?'官網已有新版，請先同步':baseline===null?'尚未確認官網版本':dirty()?'● 有尚未發布的修改':'✓ 草稿與目前 GitHub 內容一致';
   const all=site.gallery||[],shown=all.filter(w=>w.published!==false).length;
-  const festival=site.settings?.festivalSubtitle||site.settings?.festivalTitle||api.FESTIVAL_DEFAULTS?.festivalSubtitle||'羊年賀歲祝福';
+  const festivals=window.TutuFestivals.festivalsFor(site,api.FESTIVAL_DEFAULTS),festival=`${festivals.filter(f=>f.published!==false).length}／${festivals.length} 個展示中`;
   const products=site.lineProducts||[],characters=window.TutuContent?.charactersFor(site)||[];
   $('#publish-summary').textContent=`這份草稿：${all.length} 件作品（展示 ${shown} 件、隱藏 ${all.length-shown} 件），${(site.news||[]).length} 則公告。LINE 貼圖 ${products.filter(p=>p.published!==false).length}／${products.length} 款、人物夥伴 ${characters.filter(c=>c.published!==false).length}／${characters.length} 位。節慶系列：${festival}。`;
   if(formPending)$('#publish-summary').textContent+=' 尚有未儲存的編輯，請先在上方繼續編輯或放棄暫存。';

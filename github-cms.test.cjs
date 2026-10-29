@@ -172,3 +172,11 @@ test('product visibility and character edits use the same atomic publication',as
  const blobs=s.calls.filter(c=>c.path.endsWith('/git/blobs')&&c.method==='POST');const parsed=cms.parseData(blobs[0].body.content);
  assert.equal(parsed.lineProducts[0].published,false);assert.equal(parsed.characters[0].name,'新夥伴');assert.deepEqual(JSON.parse(blobs[1].body.content),parsed);
 });
+
+test('dated festival collections are validated and atomically published with their selected work order',async()=>{
+ const d=data();d.festivals=[{id:'halloween',title:'塗塗的日常',subtitle:'萬聖節篇',holidayName:'萬聖節',eventDate:'2026-10-31',description:'一起玩',tags:'快樂',image:'assets/works/009.webp',imageAlt:'塗塗',buttonText:'看作品',buttonLink:'#gallery',workIds:['w1'],published:true}];
+ const bad=structuredClone(d);bad.festivals[0].eventDate='2026-02-30';assert.throws(()=>cms.validateData(bad),/日期/);
+ const s=server(),client=new cms.Client({fetch:s.fetch});await client.connect('test-token');await client.publish(d,'base');
+ const blobs=s.calls.filter(c=>c.path.endsWith('/git/blobs')&&c.method==='POST');const parsed=cms.parseData(blobs[0].body.content);
+ assert.deepEqual(parsed.festivals,d.festivals);assert.deepEqual(JSON.parse(blobs[1].body.content),parsed);assert.deepEqual(parsed.settings,d.settings);
+});

@@ -37,18 +37,7 @@ function renderCharacters(){
  if(!cards.length){const empty=document.createElement('p');empty.className='characters-empty';empty.textContent='新夥伴準備中，敬請期待。';cards.push(empty);}
  container.replaceChildren(...cards);
 }
-function renderFestival(){
- if(!window.TutuGitHub||!$('#festival-title'))return;
- const defaults=window.TutuGitHub.FESTIVAL_DEFAULTS,s=site.settings||{};
- const value=key=>typeof s[key]==='string'?s[key]:defaults[key];
- for(const [key,selector] of [['festivalTitle','#festival-title'],['festivalSubtitle','#festival-subtitle'],['festivalDescription','#festival-description'],['festivalButtonText','#featured-go']])$(selector).textContent=value(key);
- const tags=value('festivalTags').split(/\r?\n/).map(t=>t.trim()).filter(Boolean).slice(0,8);
- $('#festival-tags').replaceChildren(...tags.map(text=>{const tag=document.createElement('span');tag.textContent=text;return tag;}));
- const image=$('#festival-image');image.src=safeImage(value('festivalImage'));image.alt=value('festivalImageAlt');
- const link=$('#featured-go'),href=value('festivalButtonLink');
- link.href=window.TutuGitHub.validFestivalLink(href)?href:defaults.festivalButtonLink;
- if(!link.getAttribute('href').startsWith('#')){link.target='_blank';link.rel='noopener noreferrer';}else{link.removeAttribute('target');link.removeAttribute('rel');}
-}
+function renderFestival(){window.TutuFestivalPlayer?.mount(site,window.TutuGitHub?.FESTIVAL_DEFAULTS);}
 function renderLineProduct(){
  const catalog=$('#line-catalog');if(!catalog)return;
  const products=(Array.isArray(site.lineProducts)?site.lineProducts:[]).filter(p=>p&&p.published!==false&&/^\d+$/.test(p.id||'')&&p.url===`https://store.line.me/stickershop/product/${p.id}/zh-Hant`&&typeof p.title==='string'&&p.title.trim());

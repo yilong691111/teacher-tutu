@@ -1,6 +1,14 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const f=(()=>{try{return require('./form-drafts.js')}catch{return {}}})();
+
+test('different festival dates and selected artwork recover independently without changing identity',()=>{
+ const disk=storage(),store=new f.Store(disk);
+ store.put('festival-form','a',{'festival-id':'a','festival-date':'2026-10-31','festival-holiday-name':'萬聖節','festival-work-ids':'w2,w1','festival-published':true});
+ store.put('festival-form','b',{'festival-id':'b','festival-date':'2026-12-25','festival-holiday-name':'聖誕節','festival-work-ids':'w3','festival-published':false});
+ const restored=new f.Store(disk);assert.equal(restored.get('festival-form','a').values['festival-date'],'2026-10-31');assert.equal(restored.get('festival-form','a').values['festival-work-ids'],'w2,w1');
+ restored.remove('festival-form','a');assert.equal(restored.get('festival-form','b').values['festival-published'],false);assert.equal(restored.get('festival-form','b').values['festival-id'],'b');
+});
 function storage(){const values=new Map();return {values,quota:false,get length(){return values.size},key:i=>[...values.keys()][i]??null,getItem:k=>values.get(k)??null,setItem(k,v){if(this.quota)throw new Error('quota');values.set(k,v)},removeItem:k=>values.delete(k)};}
 
 test('unfinished fields survive reopening without becoming saved site data',()=>{

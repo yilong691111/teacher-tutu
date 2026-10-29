@@ -4,6 +4,15 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const buffers=require('./form-drafts.js');
 const models=require('./content-models.js');
+test('new and copied festival editors retain separate unfinished records rather than sharing an empty key',()=>{
+ const {el}=dom(),storage=memoryStorage(),store=new buffers.Store(storage);
+ const window={TutuFestivals:require('./festival-model.js'),TutuGitHub:require('./github-cms.js'),TutuFormDrafts:{canOpen:()=>true,begin(){}}};
+ const context={window,document:{getElementById:el,createElement:()=>el('node-'+Math.random())},$:s=>el(s.slice(1)),site:{settings:{},gallery:[]},safeImg:String,releaseFestivalPreview(){},toast(){},uniqueId:()=> 'unused',crypto:{getRandomValues:globalThis.crypto.getRandomValues.bind(globalThis.crypto)},Option:function(text,value){return {text,value}},beginEditorSave(){},saveLocal:()=>true,saveFormDraft:()=>true};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/admin-festivals.js','utf8'),context);
+ window.TutuFestivalsAdmin.edit('legacy-festival',true);const first=el('festival-id').value;store.put('festival-form',first,{'festival-id':first,'festival-subtitle':'第一個未完成複本','festival-date':'2026-10-31'});
+ window.TutuFestivalsAdmin.edit();const second=el('festival-id').value;store.put('festival-form',second,{'festival-id':second,'festival-subtitle':'第二個未完成新增','festival-date':'2026-12-25'});
+ assert.notEqual(first,'');assert.notEqual(first,second);assert.equal(new buffers.Store(storage).all().length,2);assert.equal(new buffers.Store(storage).get('festival-form',first).values['festival-date'],'2026-10-31');
+});
 function dom(){
  const elements=new Map();
  const el=id=>{
@@ -63,4 +72,9 @@ test('a synchronous image preparation error receives the same persistent protect
  const h=draftHarness(()=>{throw new Error('圖片無法讀取');});h.el('work-file').files=[{name:'broken.png',type:'image/png'}];h.events.change({target:h.el('work-file')});
  assert.equal(h.manager.canLeave(),false);assert.equal(h.manager.hasPending(),true);assert.equal(h.el('work-image-warning').hidden,false);
  h.el('work-cancel-image').onclick();assert.equal(h.manager.hasPending(),false);
+});
+test('successful independent festival uploads clear gallery provenance in recovered buffers while failed uploads preserve it',async()=>{
+ const h=draftHarness(()=>Promise.resolve('data:image/webp;base64,AAAA'));h.el('festival-cover-work-id').value='cover';h.manager.begin('festival-form','festival-a');h.el('festival-file').files=[{name:'new.png'}];h.events.change({target:h.el('festival-file')});await Promise.resolve();await Promise.resolve();h.manager.flush();
+ assert.equal(h.el('festival-cover-work-id').value,'');assert.equal(new buffers.Store(h.storage).get('festival-form','festival-a').values['festival-cover-work-id'],'');
+ const bad=draftHarness(()=>Promise.reject(new Error('broken')));bad.el('festival-cover-work-id').value='cover';bad.manager.begin('festival-form','festival-b');bad.el('festival-file').files=[{name:'broken.png'}];bad.events.change({target:bad.el('festival-file')});await Promise.resolve();await Promise.resolve();bad.el('festival-cancel-image').onclick();assert.equal(bad.el('festival-cover-work-id').value,'cover');
 });

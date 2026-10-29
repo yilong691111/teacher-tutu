@@ -5,10 +5,10 @@
  const store=new api.Store(localStorage),states=new Map(),imageCache=new WeakMap(),pendingImages=new Set(),pendingSaves=new Set();
  const pages={'work-form':'gallery','news-form':'news','settings-form':'settings','festival-form':'festivals','line-product-form':'products','character-form':'characters'};
  const labels={'work-form':'作品','news-form':'公告','settings-form':'網站設定','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
- const idFields={'work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
+ const idFields={'festival-form':'festival-id','work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
  const imageFields={
   'work-form':{file:'work-file',value:'work-existing-image',preview:'work-image-preview',error:'work-image-error',warning:'work-image-warning',cancel:'work-cancel-image'},
-  'festival-form':{file:'festival-file',value:'festival-current-image',preview:'festival-image-preview',gallery:'festival-gallery-image',error:'festival-image-error',warning:'festival-image-warning',cancel:'festival-cancel-image'},
+  'festival-form':{file:'festival-file',value:'festival-current-image',preview:'festival-image-preview',gallery:'festival-gallery-image',error:'festival-image-error',warning:'festival-image-warning',cancel:'festival-cancel-image',source:'festival-cover-work-id'},
   'line-product-form':{file:'line-product-file',value:'line-product-existing-image',preview:'line-product-image-preview',gallery:'line-product-gallery-image',error:'line-product-image-error',warning:'line-product-image-warning',cancel:'line-product-cancel-image'},
   'character-form':{file:'character-file',value:'character-existing-image',preview:'character-image-preview',gallery:'character-gallery-image',error:'character-image-error',warning:'character-image-warning',cancel:'character-cancel-image'}
  };
@@ -71,7 +71,8 @@
    s.promise=promise;pendingImages.add(promise);
    promise.then(image=>{
     const values=api.imageResult(s,file,spec.value,image);if(!values)return;s.values=values;s.imagePending=false;
-    if(states.get(formId)===s&&document.getElementById(spec.file).files[0]===file){document.getElementById(spec.value).value=image;const preview=document.getElementById(spec.preview);if(preview){preview.src=safeImg(image);preview.hidden=false;}s.values=readValues(formId);}
+    if(spec.source)s.values={...s.values,[spec.source]:''};
+    if(states.get(formId)===s&&document.getElementById(spec.file).files[0]===file){document.getElementById(spec.value).value=image;if(spec.source)document.getElementById(spec.source).value='';const preview=document.getElementById(spec.preview);if(preview){preview.src=safeImg(image);preview.hidden=false;}s.values=readValues(formId);}
     persistState(s);
    }).catch(err=>{if(!s.committed&&s.file===file)failImage(s,spec,err);}).finally(()=>{pendingImages.delete(promise);paint();});
   }
@@ -110,23 +111,27 @@
    else if(formId==='news-form')editNews((site.news||[]).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='line-product-form')window.TutuCollectionsAdmin.editProduct((site.lineProducts||[]).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='character-form')window.TutuCollectionsAdmin.editCharacter(window.TutuContent.charactersFor(site).some(x=>x.id===identity)?identity:undefined);
-   else if(formId==='settings-form')renderSettings();else renderFestival();
+   else if(formId==='festival-form')window.TutuFestivalsAdmin.edit(window.TutuFestivals.festivalsFor(site,window.TutuGitHub.FESTIVAL_DEFAULTS).some(x=>x.id===identity)?identity:undefined);
+   else if(formId==='settings-form')renderSettings();
   }finally{suppress=false;}
  }
  function restore(record){
   if(pendingSaves.size){toast('正在儲存編輯，請稍候。',true);return;}
   if($('.content').getAttribute('aria-busy')==='true'){toast('正在同步官網，請稍候再還原暫存。',true);return;}
   if(!canLeave())return;const latest=store.get(record.formId,record.identity);if(!latest)return;
-  suppress=true;try{showPage(pages[record.formId]);reloadForm(record.formId,record.identity);}finally{suppress=false;}
+  const restoreIdentity=record.formId==='festival-form'?window.TutuFestivals.recoveryId(site,latest):record.identity;
+  suppress=true;try{showPage(pages[record.formId]);reloadForm(record.formId,restoreIdentity);}finally{suppress=false;}
   const formId=record.formId,idField=idFields[formId],targetIdentity=idField?document.getElementById(idField).value:'';
   for(const [id,value] of Object.entries(latest.values)){
-   const el=document.getElementById(id);if(!el||id===idField)continue;
+   const el=document.getElementById(id);if(!el||id===idField||id==='festival-origin-id')continue;
    if(el.type==='checkbox')el.checked=value===true;else el.value=String(value);
   }
+  if(formId==='festival-form')window.TutuFestivalsAdmin.syncSelection();
   const spec=imageFields[formId];if(spec){document.getElementById(spec.file).value='';const image=document.getElementById(spec.value).value,preview=document.getElementById(spec.preview);if(preview){preview.src=safeImg(image);preview.hidden=!image;}}
   const s=states.get(formId);s.identity=record.identity;s.dirty=true;s.imageError=!!spec&&document.getElementById(spec.error).value==='1';s.values=readValues(formId);persistState(s);paint();
   document.getElementById(formId).scrollIntoView({behavior:'smooth',block:'start'});
-  toast(targetIdentity!==record.identity&&record.identity?'原項目已刪除，已還原為新增表單；儲存後會建立新項目。':'已還原暫存編輯，請檢查後按儲存。');
+  const wasExisting=record.formId==='festival-form'?latest.values['festival-origin-id']:record.identity;
+  toast(targetIdentity!==record.identity&&wasExisting?'原項目已刪除，已還原為新增表單；儲存後會建立新項目。':'已還原暫存編輯，請檢查後按儲存。');
  }
  function allowPreview(){flush();if(hasPending()){toast('還有尚未儲存的編輯，請先儲存或放棄暫存，再預覽。',true);return false;}return true;}
  function importBackup(data){

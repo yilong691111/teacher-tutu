@@ -41,17 +41,7 @@ function renderSettings(){const s=site.settings||{};['brand','brandEn','tagline'
 const festivalFields={festivalTitle:'title',festivalSubtitle:'subtitle',festivalDescription:'description',festivalTags:'tags',festivalImageAlt:'image-alt',festivalButtonText:'button-text',festivalButtonLink:'button-link'};
 let festivalPreviewUrl=null;
 function releaseFestivalPreview(){if(festivalPreviewUrl){URL.revokeObjectURL(festivalPreviewUrl);festivalPreviewUrl=null;}}
-function renderFestival(){
- if(!$('#festival-form'))return;
- releaseFestivalPreview();
- const s=site.settings||{},defaults=window.TutuGitHub.FESTIVAL_DEFAULTS;
- Object.entries(festivalFields).forEach(([key,id])=>$('#festival-'+id).value=s[key]??defaults[key]);
- const image=s.festivalImage??defaults.festivalImage;
- $('#festival-current-image').value=image;$('#festival-image-preview').src=safeImg(image);$('#festival-file').value='';
- const select=$('#festival-gallery-image');select.replaceChildren(new Option('保留目前圖片',''));
- (site.gallery||[]).filter(w=>w.published!==false).forEach(w=>select.add(new Option(w.title,w.id)));
- window.TutuFormDrafts?.begin('festival-form','');
-}
+function renderFestival(){window.TutuFestivalsAdmin?.render();}
 function checkFestivalFile(file){if(!['image/png','image/jpeg','image/webp'].includes(file.type))throw new Error('只支援 PNG、JPG、WEBP');if(file.size>15*1024*1024)throw new Error('原始圖片請勿超過 15 MB');}
 function askDelete(kind,id){pendingDelete={kind,id};$('#confirm-dialog').showModal();}
 function uniqueId(prefix,list){let i=Date.now().toString(36),id=prefix+i;while(list.some(x=>x.id===id)){i+='x';id=prefix+i}return id;}
@@ -88,27 +78,13 @@ $('#settings-form').addEventListener('submit',e=>{
 });
 $('#festival-gallery-image')?.addEventListener('change',e=>{
  const w=(site.gallery||[]).find(w=>w.id===e.target.value);if(!w)return;
- releaseFestivalPreview();$('#festival-file').value='';$('#festival-current-image').value=w.image;$('#festival-image-preview').src=safeImg(w.image);$('#festival-image-alt').value=w.title;
+ releaseFestivalPreview();$('#festival-file').value='';$('#festival-cover-work-id').value=w.id;$('#festival-current-image').value=w.image;$('#festival-image-preview').src=safeImg(w.image);$('#festival-image-preview').hidden=false;$('#festival-image-alt').value=w.title;
 });
 $('#festival-file')?.addEventListener('change',e=>{
  releaseFestivalPreview();const file=e.target.files[0];
  if(!file){$('#festival-image-preview').src=safeImg($('#festival-current-image').value);return;}
- try{checkFestivalFile(file);festivalPreviewUrl=URL.createObjectURL(file);$('#festival-image-preview').src=festivalPreviewUrl;$('#festival-gallery-image').value='';}
+ try{checkFestivalFile(file);festivalPreviewUrl=URL.createObjectURL(file);$('#festival-image-preview').src=festivalPreviewUrl;$('#festival-image-preview').hidden=false;$('#festival-gallery-image').value='';}
  catch(err){e.target.value='';$('#festival-image-preview').src=safeImg($('#festival-current-image').value);toast(err.message,true);}
-});
-$('#festival-form')?.addEventListener('submit',async e=>{
- e.preventDefault();const button=$('#save-festival');if(button.disabled)return;button.disabled=true;let release=()=>{};
- try{
-  release=beginEditorSave('festival-form');
-  let settings={};
-  Object.entries(festivalFields).forEach(([key,id])=>settings[key]=$('#festival-'+id).value.trim());
-  settings.festivalTags=settings.festivalTags.split(/\r?\n/).map(t=>t.trim()).filter(Boolean).join('\n');
-  settings.festivalImage=$('#festival-current-image').value;
-  const file=$('#festival-file').files[0];if(file){checkFestivalFile(file);settings.festivalImage=await (window.TutuFormDrafts?.imageFor(file)||compressImage(file));}
-  settings={...(site.settings||{}),...settings};
-  window.TutuGitHub.validateData({...site,settings});site.settings=settings;
-  $('#festival-current-image').value=settings.festivalImage;$('#festival-file').value='';const saved=saveFormDraft('festival-form');renderFestival();toast(saved?'節慶系列已儲存為草稿。預覽後可前往「發布與備份」。':'節慶系列目前只保留於此頁面，請先下載備份。',!saved);
- }catch(err){toast(err.message,true);}finally{release();button.disabled=false;}
 });
 $('#cancel-delete').onclick=()=>{$('#confirm-dialog').close();pendingDelete=null;};
 $('#confirm-delete').onclick=()=>{if(!pendingDelete)return;const {kind,id}=pendingDelete;const key=kind==='works'?'gallery':'news';site[key]=(site[key]||[]).filter(x=>x.id!==id);saveLocal();render();toast('已從本機草稿刪除。');$('#confirm-dialog').close();pendingDelete=null;};

@@ -6,7 +6,7 @@
   'work-form':['work-id','work-existing-image','work-title','work-category','work-series','work-description','work-published','work-featured','work-image-error'],
   'news-form':['news-id','news-title','news-date','news-category','news-body','news-published'],
   'settings-form':['settings-brand','settings-brandEn','settings-tagline','settings-lineUrl','settings-heroDescription','settings-storyText','settings-siteNotice'],
-  'festival-form':['festival-title','festival-subtitle','festival-description','festival-tags','festival-current-image','festival-image-alt','festival-button-text','festival-button-link','festival-image-error'],
+  'festival-form':['festival-id','festival-origin-id','festival-cover-work-id','festival-date','festival-holiday-name','festival-work-ids','festival-published','festival-title','festival-subtitle','festival-description','festival-tags','festival-current-image','festival-image-alt','festival-button-text','festival-button-link','festival-image-error'],
   'line-product-form':['line-product-id','line-product-existing-image','line-product-url','line-product-title','line-product-author','line-product-category','line-product-description','line-product-published','line-product-image-error'],
   'character-form':['character-id','character-existing-image','character-name','character-description','character-image-alt','character-link-text','character-link','character-gallery-series','character-published','character-image-error']
  });
