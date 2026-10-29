@@ -459,5 +459,38 @@
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37513322/LINEStorePC/main.png?v=1",
       "category": "其他節慶"
     }
+  ],
+  "festivals": [
+    {
+      "id": "legacy-festival",
+      "title": "塗塗的日常",
+      "subtitle": "羊年賀歲祝福",
+      "holidayName": "羊年賀歲祝福",
+      "eventDate": "",
+      "description": "紅色賀年服裝、藍色蠟筆祝福字、童趣的喜怒哀樂——這是一份來自塗塗的暖心新年禮物。",
+      "tags": "喜氣羊羊\n吉羊迎春\n羊年大吉\n福星高照",
+      "image": "assets/works/031.webp",
+      "imageAlt": "業績長紅",
+      "buttonText": "看看羊年系列 →",
+      "buttonLink": "#gallery",
+      "workIds": [],
+      "published": true
+    },
+    {
+      "id": "world-childrens-day-20261120",
+      "title": "塗塗的日常",
+      "subtitle": "世界兒童節",
+      "holidayName": "世界兒童節",
+      "eventDate": "2026-11-20",
+      "description": "和塗塗一起抱抱地球，祝每個孩子世界兒童節快樂！",
+      "tags": "世界兒童節快樂",
+      "image": "assets/works/world-childrens-day-20261120.png",
+      "imageAlt": "塗塗抱著地球快樂跳躍，周圍有星星、愛心與「世界兒童節快樂」字樣。",
+      "buttonText": "看看世界兒童節貼圖 →",
+      "buttonLink": "https://store.line.me/stickershop/product/37390494/zh-Hant",
+      "workIds": [],
+      "coverWorkId": "",
+      "published": true
+    }
   ]
 }
