@@ -68,26 +68,6 @@ window.TUTU_BOOTSTRAP = {
       "published": true
     },
     {
-      "id": "lantian-32038",
-      "title": "藍田老師｜備課中",
-      "category": "角色",
-      "series": "藍田老師的教學日常",
-      "image": "assets/works/lantian-32038.png",
-      "description": "戴著眼鏡，對著筆電與書本專心備課。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "lantian-32037",
-      "title": "藍田老師｜點名",
-      "category": "角色",
-      "series": "藍田老師的教學日常",
-      "image": "assets/works/lantian-32037.png",
-      "description": "拿著點名板與筆，確認每一位同學。",
-      "featured": false,
-      "published": true
-    },
-    {
       "id": "lantian-32041",
       "title": "藍田老師｜認真！",
       "category": "角色",
@@ -104,106 +84,6 @@ window.TUTU_BOOTSTRAP = {
       "series": "藍田老師的教學日常",
       "image": "assets/works/lantian-32039.png",
       "description": "抱著一大疊作業本，記錄老師忙碌的教學日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8212",
-      "title": "午餐時間",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8212.jpg",
-      "description": "午餐時間｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8211",
-      "title": "下課啦",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8211.jpg",
-      "description": "下課啦｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8210",
-      "title": "上學去",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8210.jpg",
-      "description": "上學去｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8209",
-      "title": "考試加油",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8209.jpg",
-      "description": "考試加油｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8208",
-      "title": "老師早",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8208.jpg",
-      "description": "老師早｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8205",
-      "title": "放學啦",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8205.jpg",
-      "description": "放學啦｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8206",
-      "title": "社團時間",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8206.jpg",
-      "description": "社團時間｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8204",
-      "title": "哈囉",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8204.jpg",
-      "description": "哈囉｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8207",
-      "title": "圖書館見",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8207.jpg",
-      "description": "圖書館見｜第一版 塗塗的日常。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "daily-v1-8203",
-      "title": "上課中",
-      "category": "日常",
-      "series": "第一版 塗塗的日常",
-      "image": "assets/works/daily-v1-8203.jpg",
-      "description": "上課中｜第一版 塗塗的日常。",
       "featured": false,
       "published": true
     },
