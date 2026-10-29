@@ -44,10 +44,13 @@ test('validation rejects unsafe images and duplicate IDs before any publish',()=
  const duplicate=data();duplicate.gallery[1].id=duplicate.gallery[0].id;assert.throws(()=>cms.validateData(duplicate),/ID/);
  const invalid=data();invalid.news[0].date='wrong';assert.throws(()=>cms.validateData(invalid),/日期/);
 });
-test('original JPEG artwork can be published while external paths stay blocked',()=>{
- const d=data();d.gallery[0].image='assets/works/daily-v1-8212.jpg';
- assert.doesNotThrow(()=>cms.validateData(d));
- d.gallery[0].image='assets/works/../../outside.jpg';assert.throws(()=>cms.validateData(d),/圖片/);
+test('original JPEG and PNG artwork can be published while unsafe paths stay blocked',()=>{
+ for(const image of ['assets/works/daily-v1-8212.jpg','assets/works/lantian-class.png']){
+  const d=data();d.gallery[0].image=image;assert.doesNotThrow(()=>cms.validateData(d));
+ }
+ for(const image of ['assets/works/../../outside.jpg','assets/works/../../outside.png','https://example.com/art.png']){
+  const d=data();d.gallery[0].image=image;assert.throws(()=>cms.validateData(d),/圖片/);
+ }
 });
 test('authenticated publish commits both data files atomically and never forces main',async()=>{
  assert.equal(typeof cms.Client,'function');const s=server();const client=new cms.Client({fetch:s.fetch});

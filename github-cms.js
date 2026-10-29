@@ -9,7 +9,7 @@
  const REPO='yilong691111/teacher-tutu',BRANCH='main';
  const REPO_URL='https://github.com/'+REPO;
  const SITE_URL='https://yilong691111.github.io/teacher-tutu/';
- const imagePattern=/^(?:assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g)|data:image\/(?:webp|png|jpeg);base64,[A-Za-z0-9+/=\r\n]+)$/;
+ const imagePattern=/^(?:assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g|png)|data:image\/(?:webp|png|jpeg);base64,[A-Za-z0-9+/=\r\n]+)$/;
  class CmsError extends Error{constructor(message,code){super(message);this.code=code;}}
  function error(message,code='invalid'){return new CmsError(message,code);}
  function validateData(data){

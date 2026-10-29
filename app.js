@@ -45,6 +45,12 @@ function renderLineProduct(){
  }));
  $('#line-product-search').addEventListener('input',renderProducts);renderProducts();
 }
+const lantianWorksLink=$('#lantian-works-link');
+if(lantianWorksLink)lantianWorksLink.addEventListener('click',()=>{
+ currentCat='全部';currentSeries='藍田老師的教學日常';currentQuery='';shown=12;
+ $('#series-filter').value=currentSeries;$('#gallery-search').value='';
+ $$('#gallery-filters button').forEach(b=>b.classList.toggle('on',b.dataset.cat==='全部'));renderGallery();
+});
 function initSeries(){const select=$('#series-filter');const vals=[...new Set((site.gallery||[]).map(w=>w.series).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant'));select.innerHTML='<option value="全部">全部系列</option>'+vals.map(v=>`<option value="${safe(v)}">${safe(v)}</option>`).join('')}
 function renderNews(){let news=(site.news||[]).filter(n=>n.published!==false&&(newsCat==='全部'||n.category===newsCat)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const list=$('#news-list');list.textContent='';if(!news.length){list.innerHTML='<p style="padding:24px;color:#8193aa">目前沒有這一類的公告。</p>';return}news.slice(0,5).forEach(n=>{const b=document.createElement('button');b.className='news-row';b.type='button';b.innerHTML=`<time>${formatDate(n.date)}</time><span class="category">${safe(n.category)}</span><strong>${safe(n.title)}</strong><span class="arrow">→</span>`;b.addEventListener('click',()=>openNews(n));list.appendChild(b)})}
 function openNews(n){$('#news-dialog-title').textContent=n.title;$('#news-dialog-category').textContent=n.category;$('#news-dialog-date').textContent=formatDate(n.date);$('#news-dialog-body').textContent=n.body||'';$('#news-dialog').showModal()}
