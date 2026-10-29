@@ -23,7 +23,8 @@
   $('#github-check-submission').hidden=!pending?.uncertain;
   $('#draft-state').textContent=needsAdoption?'本機草稿需要與官網對照':conflicted?'官網已有新版，請先同步':baseline===null?'尚未確認官網版本':dirty()?'● 有尚未發布的修改':'✓ 草稿與目前 GitHub 內容一致';
   const all=site.gallery||[],shown=all.filter(w=>w.published!==false).length;
-  $('#publish-summary').textContent=`這份草稿：${all.length} 件作品（展示 ${shown} 件、隱藏 ${all.length-shown} 件），${(site.news||[]).length} 則公告。`;
+  const festival=site.settings?.festivalSubtitle||site.settings?.festivalTitle||api.FESTIVAL_DEFAULTS?.festivalSubtitle||'羊年賀歲祝福';
+  $('#publish-summary').textContent=`這份草稿：${all.length} 件作品（展示 ${shown} 件、隱藏 ${all.length-shown} 件），${(site.news||[]).length} 則公告。節慶系列：${festival}。`;
  }
  async function run(fn){
   if(busy)return;

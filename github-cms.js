@@ -10,12 +10,38 @@
  const REPO_URL='https://github.com/'+REPO;
  const SITE_URL='https://yilong691111.github.io/teacher-tutu/';
  const imagePattern=/^(?:assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g|png)|data:image\/(?:webp|png|jpeg);base64,[A-Za-z0-9+/=\r\n]+)$/;
+ const FESTIVAL_DEFAULTS=Object.freeze({
+  festivalTitle:'塗塗的日常',festivalSubtitle:'羊年賀歲祝福',
+  festivalDescription:'紅色賀年服裝、藍色蠟筆祝福字、童趣的喜怒哀樂——這是一份來自塗塗的暖心新年禮物。',
+  festivalTags:'喜氣羊羊\n吉羊迎春\n羊年大吉\n福星高照',
+  festivalImage:'assets/works/009.webp',festivalImageAlt:'開春納福｜塗塗羊年賀歲祝福作品',
+  festivalButtonText:'看看羊年系列 →',festivalButtonLink:'#gallery'
+ });
+ function validFestivalLink(value){
+  if(typeof value!=='string'||!value||value.length>2000||/\s/.test(value))return false;
+  if(['#top','#about','#characters','#gallery','#news','#series','#line','#line-catalog','#contact'].includes(value))return true;
+  try{const u=new URL(value);return u.protocol==='https:'&&!!u.hostname&&!u.username&&!u.password;}catch{return false;}
+ }
  class CmsError extends Error{constructor(message,code){super(message);this.code=code;}}
  function error(message,code='invalid'){return new CmsError(message,code);}
  function validateData(data){
   if(!data||typeof data.settings!=='object'||!data.settings||Array.isArray(data.settings)||!Array.isArray(data.gallery)||!Array.isArray(data.news))throw error('網站資料格式不正確。');
   if(!String(data.settings.brand||'').trim())throw error('請填寫品牌名稱。');
   try{const u=new URL(data.settings.lineUrl);if(u.protocol!=='https:'||u.username||u.password)throw 0;}catch{throw error('LINE 商店網址必須是完整的 HTTPS 網址。');}
+  for(const [key,label,max,required] of [
+   ['festivalTitle','主標題',90,true],['festivalSubtitle','系列名稱',90,false],
+   ['festivalDescription','介紹',1500,false],['festivalTags','標籤',500,false],
+   ['festivalImageAlt','圖片說明',200,true],['festivalButtonText','按鈕文字',80,true]
+  ]){
+   const v=data.settings[key];
+   if(v!==undefined&&(typeof v!=='string'||v.length>max||(required&&!v.trim())))throw error('節慶系列'+label+'格式不正確，請檢查內容與字數。');
+  }
+  if(data.settings.festivalTags!==undefined){
+   const tags=data.settings.festivalTags.split(/\r?\n/).map(t=>t.trim()).filter(Boolean);
+   if(tags.length>8||tags.some(t=>t.length>40))throw error('節慶系列最多 8 個標籤，每個標籤最多 40 字。');
+  }
+  if(data.settings.festivalImage!==undefined&&(typeof data.settings.festivalImage!=='string'||!imagePattern.test(data.settings.festivalImage)))throw error('節慶系列圖片必須是網站內圖片或上傳的圖片。');
+  if(data.settings.festivalButtonLink!==undefined&&!validFestivalLink(data.settings.festivalButtonLink))throw error('節慶系列按鈕連結必須是官網區塊或完整的 HTTPS 網址。');
   for(const [kind,list] of [['作品',data.gallery],['公告',data.news]]){
    const ids=new Set();
    for(const item of list){
@@ -134,5 +160,5 @@
    return {state:run.conclusion==='success'?'succeeded':'failed',url,conclusion:run.conclusion};
   }
  }
- return {Client,DraftStore,validateData,serializeData,parseData,resolveDraft,REPO,BRANCH,REPO_URL,SITE_URL};
+ return {Client,DraftStore,validateData,serializeData,parseData,resolveDraft,FESTIVAL_DEFAULTS,validFestivalLink,REPO,BRANCH,REPO_URL,SITE_URL};
 });

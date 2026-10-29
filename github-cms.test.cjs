@@ -113,3 +113,50 @@ test('draft data and base are one atomic record, including quota failure and leg
  const v3=data();v3.news[0].title='下次修改';quota=true;
  assert.throws(()=>drafts.save(v3,'base-v3'));assert.equal(drafts.read().baseBlob,'base-v2');assert.equal(drafts.read().data.news[0].title,'新版官網');
 });
+
+test('festival edits reject unsafe image sources and button destinations before publishing',()=>{
+ for(const image of ['https://example.com/tracker.png','assets/works/../../outside.png','data:image/svg+xml;base64,PHN2Zz4=']){
+  const d=data();d.settings.festivalImage=image;
+  assert.throws(()=>cms.validateData(d),/節慶.*圖片/);
+ }
+ for(const link of ['javascript:alert(1)','data:text/html,hello','http://example.com/','#missing-section','https://user:secret@example.com/']){
+  const d=data();d.settings.festivalButtonLink=link;
+  assert.throws(()=>cms.validateData(d),/節慶.*連結/);
+ }
+});
+
+test('festival fields enforce required text, length and tag limits',()=>{
+ for(const [key,value] of [
+  ['festivalTitle',' '],['festivalButtonText',''],['festivalImageAlt',''],
+  ['festivalTitle','字'.repeat(91)],['festivalDescription','字'.repeat(1501)],
+  ['festivalSubtitle',{}],['festivalTags',Array(2).fill('福')],
+  ['festivalTags',Array(9).fill('祝福').join('\n')],['festivalTags','字'.repeat(41)]
+ ]){
+  const d=data();d.settings[key]=value;
+  assert.throws(()=>cms.validateData(d),/節慶/);
+ }
+});
+
+test('festival content survives the existing atomic publish with other collections intact',async()=>{
+ const d=data();const original=data();
+ Object.assign(d.settings,{
+  festivalTitle:'塗塗的節慶日常',festivalSubtitle:'新年祝福',
+  festivalDescription:'一張可愛的貼圖，\n送出暖暖祝福。',festivalTags:'平安\n快樂',
+  festivalImage:'assets/works/009.webp',festivalImageAlt:'塗塗穿新衣送祝福',
+  festivalButtonText:'挑選我的祝福',festivalButtonLink:'#line-catalog'
+ });
+ const s=server(),c=new cms.Client({fetch:s.fetch});await c.connect('test-token');
+ await c.publish(d,'base');
+ const blobs=s.calls.filter(x=>x.path.endsWith('/git/blobs')&&x.method==='POST');
+ const js=cms.parseData(blobs[0].body.content),json=JSON.parse(blobs[1].body.content);
+ assert.equal(js.settings.festivalSubtitle,'新年祝福');
+ assert.equal(js.settings.festivalDescription,'一張可愛的貼圖，\n送出暖暖祝福。');
+ assert.equal(js.settings.festivalButtonLink,'#line-catalog');
+ assert.deepEqual(js,json);assert.deepEqual(js.gallery,original.gallery);
+ assert.deepEqual(js.news,original.news);assert.deepEqual(js.lineProducts,original.lineProducts);
+ for(const link of ['#gallery','https://store.line.me/stickershop/author/5947333/zh-Hant']){
+  d.settings.festivalButtonLink=link;assert.doesNotThrow(()=>cms.validateData(d));
+ }
+ d.settings.festivalImage='data:image/png;base64,iVBORw0KGgo=';
+ assert.doesNotThrow(()=>cms.validateData(d));
+});

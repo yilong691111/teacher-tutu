@@ -6,11 +6,11 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="admin.css?v=20261029-festival">
 <script defer src="data/site-data.js"></script>
-<script defer src="github-cms.js"></script>
-<script defer src="admin.js"></script>
-<script defer src="admin-publish.js"></script>
+<script defer src="github-cms.js?v=20261029-festival"></script>
+<script defer src="admin.js?v=20261029-festival"></script>
+<script defer src="admin-publish.js?v=20261029-festival"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -20,6 +20,7 @@
       <button class="selected" data-page="overview">◈　總覽</button>
       <button data-page="gallery">▣　作品相簿</button>
       <button data-page="news">☷　最新消息</button>
+      <button data-page="festivals">✿　節慶系列</button>
       <button data-page="settings">✎　網站設定</button>
       <button data-page="publish">↗　發布與備份</button>
     </nav>
@@ -50,6 +51,7 @@
         <button data-jump="gallery">＋ 新增作品</button>
         <button data-jump="news">＋ 發布最新消息</button>
         <button data-jump="settings">✎ 編輯品牌故事</button>
+        <button data-jump="festivals">✿ 編輯節慶系列</button>
         <button data-jump="publish">↗ 發布與備份</button><button id="preview-draft">◎ 預覽目前草稿</button>
       </div></div>
       <div class="panel"><h2>圖片展示</h2><div class="mini-gallery" id="mini-gallery"></div></div>
@@ -82,6 +84,33 @@
         <label>內文<textarea id="news-body" rows="6" maxlength="6000"></textarea></label>
         <div class="checks"><label><input type="checkbox" id="news-published" checked> 在官網展示</label></div>
         <div class="actions"><button class="primary" type="submit">儲存公告</button><button class="secondary" type="button" id="cancel-news">取消</button></div>
+      </form>
+    </section>
+
+    <section id="page-festivals" class="page" hidden>
+      <form class="panel" id="festival-form">
+        <span class="studio-label">FESTIVAL COLLECTION</span><h2>節慶系列</h2>
+        <p>編輯官網「節慶系列」區塊。儲存後可預覽草稿，再到「發布與備份」更新官網。</p>
+        <div class="form-grid">
+          <label>主標題 *<input id="festival-title" required maxlength="90"></label>
+          <label>系列名稱<input id="festival-subtitle" maxlength="90"></label>
+        </div>
+        <label>系列介紹<textarea id="festival-description" rows="4" maxlength="1500"></textarea></label>
+        <label>祝福標籤<textarea id="festival-tags" rows="4" maxlength="500" aria-describedby="festival-tags-help"></textarea><small id="festival-tags-help">每行一個，最多 8 個，每個最多 40 字；留空可不顯示標籤。</small></label>
+        <div class="festival-image-editor">
+          <div class="festival-image-preview"><img id="festival-image-preview" alt="目前的節慶系列圖片"></div>
+          <div>
+            <input id="festival-current-image" type="hidden">
+            <label>從作品相簿選圖<select id="festival-gallery-image"><option value="">保留目前圖片</option></select></label>
+            <label>或上傳新圖片<input id="festival-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB。圖片會自動縮放，保留完整比例。</small></label>
+            <label>圖片說明 *<input id="festival-image-alt" required maxlength="200"><small>描述圖中內容，協助使用螢幕閱讀器的訪客理解圖片。</small></label>
+          </div>
+        </div>
+        <div class="form-grid">
+          <label>按鈕文字 *<input id="festival-button-text" required maxlength="80"></label>
+          <label>按鈕連結 *<input id="festival-button-link" required maxlength="2000" aria-describedby="festival-link-help"><small id="festival-link-help">例如 #gallery（作品相簿）、#line-catalog（LINE 貼圖），或完整的 https:// 網址。</small></label>
+        </div>
+        <div class="actions"><button id="save-festival" type="submit" class="primary">儲存節慶系列</button><button id="preview-festival" type="button" class="secondary">預覽已儲存草稿</button><button type="button" class="secondary" data-jump="publish">前往發布與備份</button></div>
       </form>
     </section>
 

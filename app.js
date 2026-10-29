@@ -12,7 +12,19 @@ const safeImage=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g|png)$/.test
 const formatDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')?s.replace(/-/g,'.'):safe(s);
 const toast=msg=>{const el=$('#site-toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)};
 function renderLinks(){const url=site.settings?.lineUrl||'https://store.line.me/stickershop/author/5947333/zh-Hant';const valid=/^https:\/\//.test(url)?url:'https://store.line.me/stickershop/author/5947333/zh-Hant';['header-line','quick-line','main-line','footer-line'].forEach(id=>{const el=document.getElementById(id);if(el)el.href=valid})}
-function initSettings(){document.title=(site.settings.brand||'塗塗老師')+' Teacher Tutu｜官方網站';$('#notice-text').textContent=draftMode?'草稿預覽模式｜'+(site.settings.siteNotice||''):site.settings.siteNotice||'';$('#hero-description').textContent=site.settings.heroDescription||'';$('#story-description').textContent=site.settings.storyText||'';$('#year').textContent=new Date().getFullYear();renderLinks();renderLineProduct();initSeries();}
+function initSettings(){document.title=(site.settings.brand||'塗塗老師')+' Teacher Tutu｜官方網站';$('#notice-text').textContent=draftMode?'草稿預覽模式｜'+(site.settings.siteNotice||''):site.settings.siteNotice||'';$('#hero-description').textContent=site.settings.heroDescription||'';$('#story-description').textContent=site.settings.storyText||'';$('#year').textContent=new Date().getFullYear();renderLinks();renderLineProduct();initSeries();renderFestival();}
+function renderFestival(){
+ if(!window.TutuGitHub||!$('#festival-title'))return;
+ const defaults=window.TutuGitHub.FESTIVAL_DEFAULTS,s=site.settings||{};
+ const value=key=>typeof s[key]==='string'?s[key]:defaults[key];
+ for(const [key,selector] of [['festivalTitle','#festival-title'],['festivalSubtitle','#festival-subtitle'],['festivalDescription','#festival-description'],['festivalButtonText','#featured-go']])$(selector).textContent=value(key);
+ const tags=value('festivalTags').split(/\r?\n/).map(t=>t.trim()).filter(Boolean).slice(0,8);
+ $('#festival-tags').replaceChildren(...tags.map(text=>{const tag=document.createElement('span');tag.textContent=text;return tag;}));
+ const image=$('#festival-image');image.src=safeImage(value('festivalImage'));image.alt=value('festivalImageAlt');
+ const link=$('#featured-go'),href=value('festivalButtonLink');
+ link.href=window.TutuGitHub.validFestivalLink(href)?href:defaults.festivalButtonLink;
+ if(!link.getAttribute('href').startsWith('#')){link.target='_blank';link.rel='noopener noreferrer';}else{link.removeAttribute('target');link.removeAttribute('rel');}
+}
 function renderLineProduct(){
  const catalog=$('#line-catalog');if(!catalog)return;
  const products=(Array.isArray(site.lineProducts)?site.lineProducts:[]).filter(p=>p&&/^\d+$/.test(p.id||'')&&p.url===`https://store.line.me/stickershop/product/${p.id}/zh-Hant`&&typeof p.title==='string'&&p.title.trim());
@@ -81,7 +93,7 @@ function initEvents(){
 $$('.tabs button').forEach(b=>b.addEventListener('click',()=>{$$('.tabs button').forEach(e=>{e.classList.remove('selected');e.setAttribute('aria-selected','false')});b.classList.add('selected');b.setAttribute('aria-selected','true');newsCat=b.dataset.news;renderNews()}));
 $$('#gallery-filters button').forEach(b=>b.addEventListener('click',()=>{$$('#gallery-filters button').forEach(e=>e.classList.remove('on'));b.classList.add('on');currentCat=b.dataset.cat;shown=12;renderGallery()}));
 $('#gallery-search').addEventListener('input',e=>{currentQuery=e.target.value.trim().toLowerCase();shown=12;renderGallery()});$('#series-filter').addEventListener('change',e=>{currentSeries=e.target.value;shown=12;renderGallery()});$('#gallery-sort').addEventListener('change',e=>{currentSort=e.target.value;shown=12;renderGallery()});$('#clear-gallery').addEventListener('click',clearGallery);$('#load-more').addEventListener('click',()=>{shown+=12;renderGallery()});
-$('#featured-go').addEventListener('click',()=>{currentCat='成語';currentQuery='';shown=12;$('#gallery-search').value='';$$('#gallery-filters button').forEach(b=>b.classList.toggle('on',b.dataset.cat==='成語'));renderGallery()});
+$('#featured-go').addEventListener('click',()=>{if($('#featured-go').getAttribute('href')==='#gallery')clearGallery();});
 $('#hero-prev').addEventListener('click',()=>showSlide(heroIdx-1));$('#hero-next').addEventListener('click',()=>showSlide(heroIdx+1));$$('#hero-dots button').forEach(b=>b.addEventListener('click',()=>showSlide(Number(b.dataset.go))));$('#hero-pause').addEventListener('click',()=>{heroRunning=!heroRunning;$('#hero-pause').textContent=heroRunning?'Ⅱ':'▶';$('#hero-pause').ariaLabel=heroRunning?'暫停輪播':'播放輪播'});setInterval(()=>{if(heroRunning&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)showSlide(heroIdx+1)},6500);
 const toggle=$('.mobile-toggle');toggle.addEventListener('click',()=>{const isOpen=$('#primary-nav').classList.toggle('open');toggle.setAttribute('aria-expanded',String(isOpen))});$$('.nav-item').forEach(a=>a.addEventListener('click',()=>{$('#primary-nav').classList.remove('open');toggle.setAttribute('aria-expanded','false')}));
 $('#dialog-close').addEventListener('click',closeWork);$('#dialog-prev').addEventListener('click',()=>openWork(activeWorkIndex-1));$('#dialog-next').addEventListener('click',()=>openWork(activeWorkIndex+1));$('#favorite-work').addEventListener('click',()=>{const w=visibleWorks[activeWorkIndex];if(w){toggleFavorite(w.id);openWork(activeWorkIndex,false);renderGallery()}});$('#share-work').addEventListener('click',shareWork);$('#news-dialog-close').addEventListener('click',()=>$('#news-dialog').close());[$('#work-dialog'),$('#news-dialog')].forEach(d=>d.addEventListener('click',e=>{if(e.target===d){d=== $('#work-dialog')?closeWork():d.close()}}));
