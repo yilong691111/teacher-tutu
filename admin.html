@@ -6,11 +6,15 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261029-festival">
+<link rel="stylesheet" href="admin.css?v=20261029-studio-next">
 <script defer src="data/site-data.js"></script>
-<script defer src="github-cms.js?v=20261029-festival"></script>
-<script defer src="admin.js?v=20261029-festival"></script>
-<script defer src="admin-publish.js?v=20261029-festival"></script>
+<script defer src="content-models.js?v=20261029-studio-next"></script>
+<script defer src="form-drafts.js?v=20261029-studio-next"></script>
+<script defer src="github-cms.js?v=20261029-studio-next"></script>
+<script defer src="admin.js?v=20261029-studio-next"></script>
+<script defer src="admin-collections.js?v=20261029-studio-next"></script>
+<script defer src="admin-drafts.js?v=20261029-studio-next"></script>
+<script defer src="admin-publish.js?v=20261029-studio-next"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -19,6 +23,8 @@
     <nav>
       <button class="selected" data-page="overview">◈　總覽</button>
       <button data-page="gallery">▣　作品相簿</button>
+      <button data-page="products">▦　LINE 貼圖</button>
+      <button data-page="characters">☺　人物夥伴</button>
       <button data-page="news">☷　最新消息</button>
       <button data-page="festivals">✿　節慶系列</button>
       <button data-page="settings">✎　網站設定</button>
@@ -34,6 +40,13 @@
     </header>
     <div id="alert" role="status" aria-live="polite"></div>
     <div id="draft-storage-warning" class="persistent-warning" role="alert" hidden></div>
+    <p id="edit-buffer-status" class="edit-buffer-status" role="status"></p>
+    <div id="form-buffer-warning" class="persistent-warning" role="alert" hidden>無法將暫存寫入此瀏覽器。內容仍保留於此頁面，請下載暫存備份並保持頁面開啟。</div>
+    <section id="form-recovery" class="form-recovery" hidden aria-labelledby="form-recovery-title">
+      <div class="recovery-heading"><h2 id="form-recovery-title">自動暫存的編輯</h2><button id="export-form-buffers" type="button" class="secondary">下載暫存備份</button></div>
+      <p>這些輸入尚未儲存到可發布的草稿。可繼續編輯，或放棄不需要的暫存。</p>
+      <div id="form-recovery-list"></div>
+    </section>
 
     <section id="page-overview" class="page">
       <div class="panel" style="border-left:5px solid #164ee8">
@@ -51,6 +64,8 @@
         <button data-jump="gallery">＋ 新增作品</button>
         <button data-jump="news">＋ 發布最新消息</button>
         <button data-jump="settings">✎ 編輯品牌故事</button>
+        <button data-jump="products">▦ 管理 LINE 貼圖</button>
+        <button data-jump="characters">☺ 管理人物夥伴</button>
         <button data-jump="festivals">✿ 編輯節慶系列</button>
         <button data-jump="publish">↗ 發布與備份</button><button id="preview-draft">◎ 預覽目前草稿</button>
       </div></div>
@@ -67,9 +82,10 @@
           <label>作品名稱 *<input id="work-title" required maxlength="90"></label>
           <label>分類<select id="work-category"><option>萬聖節</option><option>生日祝福</option><option>12年國教七年級成語</option><option>賀新年</option><option>成語</option><option>日常</option><option>角色</option><option>其他</option></select></label>
           <label>作品系列<input id="work-series" maxlength="100" value="塗塗的日常"></label>
-          <label>圖片<input type="file" accept="image/png,image/jpeg,image/webp" id="work-file"><small>新增時必選；編輯既有作品可不換圖。</small></label>
+          <label>圖片<img id="work-image-preview" class="collection-image-preview" alt="作品圖片預覽" hidden><input type="file" accept="image/png,image/jpeg,image/webp" id="work-file"><small>新增時必選；編輯既有作品可不換圖。</small></label>
         </div>
         <label>圖片／作品介紹<textarea id="work-description" rows="3" maxlength="1500"></textarea></label>
+        <input id="work-image-error" type="hidden" value=""><div id="work-image-warning" class="image-edit-warning" role="alert" hidden><p>圖片無法自動暫存，請重新選擇圖片，或取消本次換圖。</p><button id="work-cancel-image" type="button" class="secondary">取消本次換圖</button></div>
         <div class="checks"><label><input id="work-published" type="checkbox" checked> 在官網展示</label><label><input id="work-featured" type="checkbox"> 首頁精選</label></div>
         <div class="actions"><button class="primary" type="submit">儲存作品</button><button class="secondary" type="button" id="cancel-work">取消</button></div>
       </form>
@@ -84,6 +100,38 @@
         <label>內文<textarea id="news-body" rows="6" maxlength="6000"></textarea></label>
         <div class="checks"><label><input type="checkbox" id="news-published" checked> 在官網展示</label></div>
         <div class="actions"><button class="primary" type="submit">儲存公告</button><button class="secondary" type="button" id="cancel-news">取消</button></div>
+      </form>
+    </section>
+
+    <section id="page-products" class="page" hidden>
+      <div class="panel"><div class="panel-head"><div><h2>LINE 貼圖作品管理</h2><p>管理官網展示的貼圖封面、文案、分類與順序。展示或隱藏僅影響官網。</p></div><button id="new-product" class="primary">＋ 新增 LINE 貼圖</button></div>
+      <label>搜尋貼圖<input id="admin-product-search" type="search" placeholder="貼圖名稱、分類或商品編號"></label>
+      <div class="table-scroll"><table><thead><tr><th>封面</th><th>貼圖名稱</th><th>分類</th><th>展示狀態</th><th>排序與操作</th></tr></thead><tbody id="products-table"></tbody></table></div></div>
+      <form id="line-product-form" class="panel editor" hidden>
+        <h2 id="product-form-heading">新增 LINE 貼圖</h2><input id="line-product-id" type="hidden"><input id="line-product-existing-image" type="hidden">
+        <label>LINE 商品網址 *<input id="line-product-url" type="url" required maxlength="2000" placeholder="https://store.line.me/stickershop/product/商品編號/zh-Hant"><small>填寫商品網址後，請自行確認名稱與封面是否對應。</small></label>
+        <div class="form-grid"><label>貼圖名稱 *<input id="line-product-title" required maxlength="150"></label><label>分類<input id="line-product-category" list="product-category-options" maxlength="100"><datalist id="product-category-options"></datalist></label><label>作者<input id="line-product-author" maxlength="100"></label><label>從作品相簿選封面<select id="line-product-gallery-image"><option value="">保留目前圖片</option></select></label></div>
+        <div class="collection-image-editor"><img id="line-product-image-preview" class="collection-image-preview" alt="LINE 貼圖封面預覽"><label>或上傳封面<input id="line-product-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB；新增貼圖需選擇封面。</small></label></div>
+        <label>貼圖介紹<textarea id="line-product-description" rows="4" maxlength="3000"></textarea></label>
+        <input id="line-product-image-error" type="hidden" value=""><div id="line-product-image-warning" class="image-edit-warning" role="alert" hidden><p>圖片無法自動暫存，請重新選擇圖片，或取消本次換圖。</p><button id="line-product-cancel-image" type="button" class="secondary">取消本次換圖</button></div>
+        <div class="checks"><label><input id="line-product-published" type="checkbox" checked> 在官網展示</label></div>
+        <div class="actions"><button id="save-product" class="primary" type="submit">儲存 LINE 貼圖</button><button id="cancel-product" class="secondary" type="button">收起編輯</button><button id="preview-products" class="secondary" type="button">預覽已儲存貼圖</button></div>
+      </form>
+    </section>
+
+    <section id="page-characters" class="page" hidden>
+      <div class="panel"><div class="panel-head"><div><h2>人物夥伴管理</h2><p>編輯角色圖片、介紹、按鈕及展示順序。</p></div><button id="new-character" class="primary">＋ 新增人物夥伴</button></div>
+      <div class="table-scroll"><table><thead><tr><th>圖片</th><th>角色名稱</th><th>介紹</th><th>展示狀態</th><th>排序與操作</th></tr></thead><tbody id="characters-table"></tbody></table></div></div>
+      <form id="character-form" class="panel editor" hidden>
+        <h2 id="character-form-heading">新增人物夥伴</h2><input id="character-id" type="hidden"><input id="character-existing-image" type="hidden">
+        <div class="form-grid"><label>角色名稱 *<input id="character-name" required maxlength="80"></label><label>圖片說明<input id="character-image-alt" maxlength="200"></label></div>
+        <label>角色介紹<textarea id="character-description" rows="4" maxlength="1500"></textarea></label>
+        <div class="collection-image-editor"><img id="character-image-preview" class="collection-image-preview" alt="人物夥伴圖片預覽"><div><label>從作品相簿選圖<select id="character-gallery-image"><option value="">保留目前圖片</option></select></label><label>或上傳角色圖片<input id="character-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB；新增角色需選擇圖片。</small></label></div></div>
+        <div class="form-grid"><label>按鈕文字<input id="character-link-text" maxlength="80"></label><label>按鈕連結<input id="character-link" maxlength="2000" placeholder="#gallery 或 https:// 網址"></label></div>
+        <label>前往相簿時顯示的作品系列<input id="character-gallery-series" maxlength="100" list="character-series-options"><datalist id="character-series-options"></datalist><small>選填，按鈕連結為 #gallery 時生效；按鈕文字與連結都留空即可不顯示按鈕。</small></label>
+        <input id="character-image-error" type="hidden" value=""><div id="character-image-warning" class="image-edit-warning" role="alert" hidden><p>圖片無法自動暫存，請重新選擇圖片，或取消本次換圖。</p><button id="character-cancel-image" type="button" class="secondary">取消本次換圖</button></div>
+        <div class="checks"><label><input id="character-published" type="checkbox" checked> 在官網展示</label></div>
+        <div class="actions"><button id="save-character" class="primary" type="submit">儲存人物夥伴</button><button id="cancel-character" class="secondary" type="button">收起編輯</button><button id="preview-characters" class="secondary" type="button">預覽已儲存角色</button></div>
       </form>
     </section>
 
@@ -110,6 +158,7 @@
           <label>按鈕文字 *<input id="festival-button-text" required maxlength="80"></label>
           <label>按鈕連結 *<input id="festival-button-link" required maxlength="2000" aria-describedby="festival-link-help"><small id="festival-link-help">例如 #gallery（作品相簿）、#line-catalog（LINE 貼圖），或完整的 https:// 網址。</small></label>
         </div>
+        <input id="festival-image-error" type="hidden" value=""><div id="festival-image-warning" class="image-edit-warning" role="alert" hidden><p>圖片無法自動暫存，請重新選擇圖片，或取消本次換圖。</p><button id="festival-cancel-image" type="button" class="secondary">取消本次換圖</button></div>
         <div class="actions"><button id="save-festival" type="submit" class="primary">儲存節慶系列</button><button id="preview-festival" type="button" class="secondary">預覽已儲存草稿</button><button type="button" class="secondary" data-jump="publish">前往發布與備份</button></div>
       </form>
     </section>
@@ -164,6 +213,7 @@
     </section>
   </div>
 </div>
+<div id="editor-save-status" class="editor-save-mask" role="status" aria-live="polite" hidden><div>正在處理圖片與儲存編輯，請稍候…</div></div>
 <dialog id="confirm-dialog"><h3>確定要刪除嗎？</h3><p>刪除後仍可從備份檔復原。</p><div class="actions"><button id="confirm-delete" class="danger">確認刪除</button><button id="cancel-delete" class="secondary">取消</button></div></dialog>
 <dialog id="publish-confirm"><h2 id="publish-confirm-title">發布這份草稿？</h2><p id="publish-confirm-summary"></p><p>確認後會更新公開官網。GitHub Pages 完成建置後，訪客才會看到新內容。</p><div class="actions"><button id="publish-confirm-go" class="primary">確認發布</button><button id="publish-confirm-cancel" class="secondary">繼續編輯</button></div></dialog>
 </body></html>

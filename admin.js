@@ -14,15 +14,30 @@ const saveLocal=()=>{
  if(warning){warning.hidden=saved;warning.textContent=saved?'':'瀏覽器無法儲存這份草稿（可能已滿）。修改仍留在此頁，請先下載 JSON 備份或完成發布，再關閉頁面。';}
  window.dispatchEvent(new CustomEvent('tutu:draft',{detail:{saved}}));return saved;
 };
+function saveFormDraft(formId){
+ let saved=saveLocal();
+ if(window.TutuFormDrafts){window.TutuFormDrafts.saved(formId);if(!saved)saved=saveLocal();}
+ return saved;
+}
+function beginEditorSave(formId){return window.TutuFormDrafts?.beginSave(formId)||window.TutuFormBuffers?.lockForm(document.getElementById(formId))||(()=>{});}
 function loadLocal(){return draftStore.read()?.data||null}
-const pages={overview:'管理總覽',gallery:'作品相簿管理',news:'公告管理',festivals:'節慶系列管理',settings:'網站設定',publish:'發布與備份'};
-function showPage(p){$$('.page').forEach(e=>e.hidden=e.id!=='page-'+p);$$('.side nav button').forEach(e=>e.classList.toggle('selected',e.dataset.page===p));$('#page-title').textContent=pages[p]||'';if(p==='gallery')renderWorks();if(p==='news')renderNews();if(p==='festivals')renderFestival();if(p==='settings')renderSettings();if(p==='publish')renderPublishChecks();}
-function render(){const w=site.gallery||[],n=site.news||[];$('#stat-works').textContent=w.length;$('#stat-published').textContent=w.filter(x=>x.published!==false).length;$('#stat-news').textContent=n.length;$('#stat-categories').textContent=new Set(w.map(x=>x.category).filter(Boolean)).size;$('#mini-gallery').innerHTML=w.slice(0,18).map(x=>`<img src="${safeImg(x.image)}" alt="${clean(x.title)}">`).join('');renderWorks();renderNews();renderSettings();renderFestival();}
+const pages={overview:'管理總覽',gallery:'作品相簿管理',products:'LINE 貼圖作品管理',characters:'人物夥伴管理',news:'公告管理',festivals:'節慶系列管理',settings:'網站設定',publish:'發布與備份'};
+function showPage(p){if(window.TutuFormDrafts?.canLeave()===false)return false;$$('.page').forEach(e=>e.hidden=e.id!=='page-'+p);$$('.side nav button').forEach(e=>e.classList.toggle('selected',e.dataset.page===p));$('#page-title').textContent=pages[p]||'';if(p==='gallery')renderWorks();if(p==='news')renderNews();if(p==='festivals')renderFestival();if(p==='settings')renderSettings();if(p==='publish')renderPublishChecks();window.TutuCollectionsAdmin?.open(p);return true;}
+function render(){const w=site.gallery||[],n=site.news||[];$('#stat-works').textContent=w.length;$('#stat-published').textContent=w.filter(x=>x.published!==false).length;$('#stat-news').textContent=n.length;$('#stat-categories').textContent=new Set(w.map(x=>x.category).filter(Boolean)).size;$('#mini-gallery').innerHTML=w.slice(0,18).map(x=>`<img src="${safeImg(x.image)}" alt="${clean(x.title)}">`).join('');renderWorks();renderNews();renderSettings();renderFestival();window.TutuCollectionsAdmin?.render();}
 function renderWorks(){const q=($('#admin-work-search')?.value||'').trim().toLowerCase();const rows=(site.gallery||[]).filter(x=>(x.title||'').toLowerCase().includes(q));$('#works-table').innerHTML=rows.map(x=>`<tr><td><img src="${safeImg(x.image)}" alt=""></td><td>${clean(x.title)}<small style="display:block;color:#8798ad">${clean(x.series)}</small></td><td>${clean(x.category)}</td><td><span class="status ${x.published===false?'off':''}">${x.published===false?'已隱藏':'展示中'}</span></td><td><button data-work-edit="${clean(x.id)}">編輯</button><button data-work-delete="${clean(x.id)}">刪除</button></td></tr>`).join('');$$('[data-work-edit]').forEach(b=>b.onclick=()=>editWork(b.dataset.workEdit));$$('[data-work-delete]').forEach(b=>b.onclick=()=>askDelete('works',b.dataset.workDelete));}
-function editWork(id){const w=(site.gallery||[]).find(x=>x.id===id);$('#work-id').value=w?.id||'';$('#work-existing-image').value=w?.image||'';$('#work-title').value=w?.title||'';$('#work-category').value=w?.category||'萬聖節';$('#work-series').value=w?.series||'塗塗的日常';$('#work-description').value=w?.description||'';$('#work-published').checked=w?.published!==false;$('#work-featured').checked=w?.featured===true;$('#work-file').value='';$('#work-form-heading').textContent=w?'編輯作品':'新增作品';$('#work-form').hidden=false;$('#work-form').scrollIntoView({behavior:'smooth',block:'start'});}
+function editWork(id){
+ if(window.TutuFormDrafts?.canOpen('work-form')===false)return false;
+ const w=(site.gallery||[]).find(x=>x.id===id);
+ $('#work-id').value=w?.id||'';$('#work-existing-image').value=w?.image||'';$('#work-title').value=w?.title||'';$('#work-category').value=w?.category||'萬聖節';$('#work-series').value=w?.series||'塗塗的日常';$('#work-description').value=w?.description||'';$('#work-published').checked=w?.published!==false;$('#work-featured').checked=w?.featured===true;$('#work-file').value='';
+ const preview=$('#work-image-preview');if(preview){preview.src=safeImg(w?.image||'');preview.hidden=!w?.image;}
+ $('#work-form-heading').textContent=w?'編輯作品':'新增作品';$('#work-form').hidden=false;window.TutuFormDrafts?.begin('work-form',w?.id||'');$('#work-form').scrollIntoView({behavior:'smooth',block:'start'});return true;
+}
 function renderNews(){$('#news-table').innerHTML=(site.news||[]).map(x=>`<tr><td>${clean(x.date)}</td><td>${clean(x.title)}</td><td>${clean(x.category)}</td><td><span class="status ${x.published===false?'off':''}">${x.published===false?'已隱藏':'展示中'}</span></td><td><button data-news-edit="${clean(x.id)}">編輯</button><button data-news-delete="${clean(x.id)}">刪除</button></td></tr>`).join('');$$('[data-news-edit]').forEach(b=>b.onclick=()=>editNews(b.dataset.newsEdit));$$('[data-news-delete]').forEach(b=>b.onclick=()=>askDelete('news',b.dataset.newsDelete));}
-function editNews(id){const n=(site.news||[]).find(x=>x.id===id);$('#news-id').value=n?.id||'';$('#news-title').value=n?.title||'';$('#news-date').value=n?.date||new Date().toISOString().slice(0,10);$('#news-category').value=n?.category||'網站公告';$('#news-body').value=n?.body||'';$('#news-published').checked=n?.published!==false;$('#news-form-heading').textContent=n?'編輯公告':'新增公告';$('#news-form').hidden=false;$('#news-form').scrollIntoView({behavior:'smooth',block:'start'});}
-function renderSettings(){const s=site.settings||{};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>$('#settings-'+k).value=s[k]||'');}
+function editNews(id){
+ if(window.TutuFormDrafts?.canOpen('news-form')===false)return false;
+ const n=(site.news||[]).find(x=>x.id===id);$('#news-id').value=n?.id||'';$('#news-title').value=n?.title||'';$('#news-date').value=n?.date||new Date().toLocaleDateString('en-CA');$('#news-category').value=n?.category||'網站公告';$('#news-body').value=n?.body||'';$('#news-published').checked=n?.published!==false;$('#news-form-heading').textContent=n?'編輯公告':'新增公告';$('#news-form').hidden=false;window.TutuFormDrafts?.begin('news-form',n?.id||'');$('#news-form').scrollIntoView({behavior:'smooth',block:'start'});return true;
+}
+function renderSettings(){const s=site.settings||{};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>$('#settings-'+k).value=s[k]||'');window.TutuFormDrafts?.begin('settings-form','');}
 const festivalFields={festivalTitle:'title',festivalSubtitle:'subtitle',festivalDescription:'description',festivalTags:'tags',festivalImageAlt:'image-alt',festivalButtonText:'button-text',festivalButtonLink:'button-link'};
 let festivalPreviewUrl=null;
 function releaseFestivalPreview(){if(festivalPreviewUrl){URL.revokeObjectURL(festivalPreviewUrl);festivalPreviewUrl=null;}}
@@ -35,6 +50,7 @@ function renderFestival(){
  $('#festival-current-image').value=image;$('#festival-image-preview').src=safeImg(image);$('#festival-file').value='';
  const select=$('#festival-gallery-image');select.replaceChildren(new Option('保留目前圖片',''));
  (site.gallery||[]).filter(w=>w.published!==false).forEach(w=>select.add(new Option(w.title,w.id)));
+ window.TutuFormDrafts?.begin('festival-form','');
 }
 function checkFestivalFile(file){if(!['image/png','image/jpeg','image/webp'].includes(file.type))throw new Error('只支援 PNG、JPG、WEBP');if(file.size>15*1024*1024)throw new Error('原始圖片請勿超過 15 MB');}
 function askDelete(kind,id){pendingDelete={kind,id};$('#confirm-dialog').showModal();}
@@ -45,12 +61,31 @@ function exportJS(){download('site-data.js','window.TUTU_BOOTSTRAP = '+JSON.stri
 function exportJSON(){download('teacher-tutu-backup.json',JSON.stringify(site,null,2),'application/json;charset=utf-8');}
 function parseImported(text,name){if(name.toLowerCase().endsWith('.json'))return JSON.parse(text);const m=text.match(/window\.TUTU_BOOTSTRAP\s*=\s*([\s\S]*?)\s*;?\s*$/);if(!m)throw new Error('找不到 TUTU_BOOTSTRAP 資料');return JSON.parse(m[1].replace(/;\s*$/,''));}
 $$('.side nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
-$$('[data-jump]').forEach(b=>b.onclick=()=>{showPage(b.dataset.jump);if(b.dataset.jump==='gallery')editWork();if(b.dataset.jump==='news')editNews();});
-$('#new-work').onclick=()=>editWork();$('#cancel-work').onclick=()=>$('#work-form').hidden=true;$('#admin-work-search').addEventListener('input',renderWorks);
-$('#work-form').addEventListener('submit',async e=>{e.preventDefault();const file=$('#work-file').files[0];if(file&&!['image/png','image/jpeg','image/webp'].includes(file.type)){toast('只支援 PNG、JPG、WEBP',true);return;}if(file&&file.size>15*1024*1024){toast('原始圖片請勿超過 15 MB',true);return;}const list=site.gallery||(site.gallery=[]);const id=$('#work-id').value||uniqueId('w',list);let image=$('#work-existing-image').value||'';try{if(file)image=await compressImage(file);if(!image)throw new Error('新增作品必須選擇圖片');const obj={id,title:$('#work-title').value.trim(),category:$('#work-category').value,series:$('#work-series').value.trim(),image,description:$('#work-description').value.trim(),published:$('#work-published').checked,featured:$('#work-featured').checked};const idx=list.findIndex(x=>x.id===id);if(idx>=0)list[idx]=obj;else list.unshift(obj);saveLocal();$('#work-form').hidden=true;render();toast('作品已儲存在本機草稿。可先預覽，再到「發布與備份」更新官網。');}catch(err){toast(err.message,true)}});
-$('#new-news').onclick=()=>editNews();$('#cancel-news').onclick=()=>$('#news-form').hidden=true;
-$('#news-form').addEventListener('submit',e=>{e.preventDefault();const list=site.news||(site.news=[]);const id=$('#news-id').value||uniqueId('n',list);const obj={...(list.find(item=>item.id===id)||{}),id,title:$('#news-title').value.trim(),date:$('#news-date').value,category:$('#news-category').value,body:$('#news-body').value.trim(),published:$('#news-published').checked};const idx=list.findIndex(x=>x.id===id);if(idx>=0)list[idx]=obj;else list.unshift(obj);saveLocal();$('#news-form').hidden=true;render();toast('公告已儲存在本機草稿。');});
-$('#settings-form').addEventListener('submit',e=>{e.preventDefault();site.settings=site.settings||{};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>site.settings[k]=$('#settings-'+k).value.trim());saveLocal();render();toast('網站設定已儲存在本機草稿。');});
+$$('[data-jump]').forEach(b=>b.onclick=()=>{if(!showPage(b.dataset.jump))return;if(b.dataset.jump==='gallery')editWork();if(b.dataset.jump==='news')editNews();});
+$('#new-work').onclick=()=>editWork();$('#cancel-work').onclick=()=>{if(window.TutuFormDrafts?.canOpen('work-form')!==false)$('#work-form').hidden=true;};$('#admin-work-search').addEventListener('input',renderWorks);
+$('#work-form').addEventListener('submit',async e=>{
+ e.preventDefault();const button=$('#work-form button[type="submit"]');if(button.disabled)return;button.disabled=true;let release=()=>{};
+ try{
+  release=beginEditorSave('work-form');
+  const id=$('#work-id').value||uniqueId('w',site.gallery||[]),fields={id,title:$('#work-title').value.trim(),category:$('#work-category').value,series:$('#work-series').value.trim(),description:$('#work-description').value.trim(),published:$('#work-published').checked,featured:$('#work-featured').checked};
+  const file=$('#work-file').files[0];let image=$('#work-existing-image').value;
+  if(file){checkFestivalFile(file);image=await (window.TutuFormDrafts?.imageFor(file)||compressImage(file));}if(!image)throw new Error('新增作品必須選擇圖片');fields.image=image;
+  const list=(site.gallery||[]).slice(),index=list.findIndex(x=>x.id===id),obj={...(index>=0?list[index]:{}),...fields};if(index>=0)list[index]=obj;else list.unshift(obj);
+  window.TutuGitHub.validateData({...site,gallery:list});site.gallery=list;$('#work-id').value=id;$('#work-existing-image').value=image;$('#work-file').value='';
+  const saved=saveFormDraft('work-form');if(saved)$('#work-form').hidden=true;render();toast(saved?'作品已儲存在草稿。預覽後可發布到官網。':'修改目前只保留於此頁面，請先下載備份或完成發布。',!saved);
+ }catch(err){toast(err.message,true);}finally{release();button.disabled=false;}
+});
+$('#new-news').onclick=()=>editNews();$('#cancel-news').onclick=()=>{if(window.TutuFormDrafts?.canOpen('news-form')!==false)$('#news-form').hidden=true;};
+$('#news-form').addEventListener('submit',e=>{
+ e.preventDefault();try{
+  const list=(site.news||[]).slice(),id=$('#news-id').value||uniqueId('n',list),obj={...(list.find(item=>item.id===id)||{}),id,title:$('#news-title').value.trim(),date:$('#news-date').value,category:$('#news-category').value,body:$('#news-body').value.trim(),published:$('#news-published').checked};
+  const index=list.findIndex(x=>x.id===id);if(index>=0)list[index]=obj;else list.unshift(obj);window.TutuGitHub.validateData({...site,news:list});site.news=list;$('#news-id').value=id;
+  const saved=saveFormDraft('news-form');if(saved)$('#news-form').hidden=true;render();toast(saved?'公告已儲存在草稿。':'公告目前只保留於此頁面，請先下載備份或完成發布。',!saved);
+ }catch(err){toast(err.message,true);}
+});
+$('#settings-form').addEventListener('submit',e=>{
+ e.preventDefault();try{const settings={...(site.settings||{})};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>settings[k]=$('#settings-'+k).value.trim());window.TutuGitHub.validateData({...site,settings});site.settings=settings;const saved=saveFormDraft('settings-form');render();toast(saved?'網站設定已儲存在草稿。':'設定目前只保留於此頁面，請先下載備份或完成發布。',!saved);}catch(err){toast(err.message,true);}
+});
 $('#festival-gallery-image')?.addEventListener('change',e=>{
  const w=(site.gallery||[]).find(w=>w.id===e.target.value);if(!w)return;
  releaseFestivalPreview();$('#festival-file').value='';$('#festival-current-image').value=w.image;$('#festival-image-preview').src=safeImg(w.image);$('#festival-image-alt').value=w.title;
@@ -62,26 +97,27 @@ $('#festival-file')?.addEventListener('change',e=>{
  catch(err){e.target.value='';$('#festival-image-preview').src=safeImg($('#festival-current-image').value);toast(err.message,true);}
 });
 $('#festival-form')?.addEventListener('submit',async e=>{
- e.preventDefault();const button=$('#save-festival');if(button.disabled)return;button.disabled=true;
+ e.preventDefault();const button=$('#save-festival');if(button.disabled)return;button.disabled=true;let release=()=>{};
  try{
+  release=beginEditorSave('festival-form');
   let settings={};
   Object.entries(festivalFields).forEach(([key,id])=>settings[key]=$('#festival-'+id).value.trim());
   settings.festivalTags=settings.festivalTags.split(/\r?\n/).map(t=>t.trim()).filter(Boolean).join('\n');
   settings.festivalImage=$('#festival-current-image').value;
-  const file=$('#festival-file').files[0];if(file){checkFestivalFile(file);settings.festivalImage=await compressImage(file);}
+  const file=$('#festival-file').files[0];if(file){checkFestivalFile(file);settings.festivalImage=await (window.TutuFormDrafts?.imageFor(file)||compressImage(file));}
   settings={...(site.settings||{}),...settings};
   window.TutuGitHub.validateData({...site,settings});site.settings=settings;
-  const saved=saveLocal();renderFestival();toast(saved?'節慶系列已儲存為草稿。預覽後可前往「發布與備份」。':'節慶系列目前只保留於此頁面，請先下載備份。',!saved);
- }catch(err){toast(err.message,true);}finally{button.disabled=false;}
+  $('#festival-current-image').value=settings.festivalImage;$('#festival-file').value='';const saved=saveFormDraft('festival-form');renderFestival();toast(saved?'節慶系列已儲存為草稿。預覽後可前往「發布與備份」。':'節慶系列目前只保留於此頁面，請先下載備份。',!saved);
+ }catch(err){toast(err.message,true);}finally{release();button.disabled=false;}
 });
 $('#cancel-delete').onclick=()=>{$('#confirm-dialog').close();pendingDelete=null;};
 $('#confirm-delete').onclick=()=>{if(!pendingDelete)return;const {kind,id}=pendingDelete;const key=kind==='works'?'gallery':'news';site[key]=(site[key]||[]).filter(x=>x.id!==id);saveLocal();render();toast('已從本機草稿刪除。');$('#confirm-dialog').close();pendingDelete=null;};
 $('#export-js').onclick=exportJS;$('#export-json').onclick=exportJSON;
-$('#import-data').onclick=async()=>{const f=$('#import-file').files[0];if(!f){toast('請先選擇 site-data.js 或備份 JSON',true);return;}try{const data=parseImported(await f.text(),f.name);if(!data||!Array.isArray(data.gallery)||!Array.isArray(data.news)||typeof data.settings!=='object')throw new Error('資料格式不正確');site=data;saveLocal();render();toast('資料已匯入並存成本機草稿。');}catch(err){toast('匯入失敗：'+err.message,true)}};
+$('#import-data').onclick=async()=>{const f=$('#import-file').files[0];if(!f){toast('請先選擇 site-data.js 或備份 JSON',true);return;}try{const data=parseImported(await f.text(),f.name);if(window.TutuFormDrafts?.importBackup(data))return;window.TutuGitHub.validateData(data);if(!data||!Array.isArray(data.gallery)||!Array.isArray(data.news)||typeof data.settings!=='object')throw new Error('資料格式不正確');site=data;saveLocal();render();toast('資料已匯入並存成本機草稿。');}catch(err){toast('匯入失敗：'+err.message,true)}};
 $('#reset-bootstrap').onclick=()=>{site=structuredClone(BOOTSTRAP);saveLocal();render();toast('已還原為目前網站內建資料。');};
 $('#clear-local').onclick=()=>{if(confirm('確定清除這台裝置的本機草稿？')){draftStore.clear();draftBaseBlob=null;site=structuredClone(BOOTSTRAP);render();window.dispatchEvent(new CustomEvent('tutu:draft',{detail:{saved:true}}));toast('本機草稿已清除。');}};
 render();
-if(location.hash==='#festivals')showPage('festivals');
+if(pages[location.hash.slice(1)])showPage(location.hash.slice(1));
 
 function renderPublishChecks(){
  const checks=[
@@ -94,7 +130,7 @@ function renderPublishChecks(){
  ];
  const el=document.querySelector('#publish-checks');if(el)el.innerHTML=checks.map(([t,ok])=>`<div class="check-item ${ok?'ok':'warn'}"><b>${ok?'✓':'!'}</b><span>${t}</span></div>`).join('');
 }
-function previewDraft(){saveLocal();window.open('index.html?draft=1','_blank','noopener');}
+function previewDraft(){if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1','_blank','noopener');}
 document.querySelector('#preview-draft')?.addEventListener('click',previewDraft);
 document.querySelector('#preview-publish')?.addEventListener('click',previewDraft);
-document.querySelector('#preview-festival')?.addEventListener('click',()=>{saveLocal();window.open('index.html?draft=1#series','_blank','noopener');});
+document.querySelector('#preview-festival')?.addEventListener('click',()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1#series','_blank','noopener');});

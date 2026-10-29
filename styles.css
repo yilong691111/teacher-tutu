@@ -24,3 +24,5 @@
 @media(max-width:760px){.idiom-promo{padding:23px 18px}.idiom-audiences{grid-template-columns:1fr}.idiom-audiences article{padding:20px}.idiom-promo-action{align-items:stretch;flex-direction:column}.idiom-promo h3{font-size:17px}}
 
 #festival-description{white-space:pre-line}
+
+.line-product-body .line-product-description{font-size:14px;line-height:1.8;color:#536582;white-space:pre-line}.char-card .underlink{display:inline-block;margin-top:8px;font-size:12px}.characters-empty{grid-column:1/-1;text-align:center;color:#7183a2}

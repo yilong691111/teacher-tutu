@@ -17,14 +17,17 @@
   $('#github-disconnect').hidden=!client.connected;
   $('#github-token').disabled=client.connected||busy;
   $('#github-connection-message').textContent=client.connected?'已連線：yilong691111。可以將這份草稿提交到官網專案。':'尚未連線。你仍可編輯、預覽與備份草稿。';
-  $('#github-publish').disabled=busy||!client.connected||!baseBlob||needsAdoption||conflicted||!!pending?.uncertain||!dirty();
+  const formPending=window.TutuFormDrafts?.hasPending()||false;
+  $('#github-publish').disabled=busy||!client.connected||!baseBlob||needsAdoption||conflicted||!!pending?.uncertain||!dirty()||formPending;
   $('#github-publish').textContent=busy?'處理中…':'↗ 發布到官網';
   $('#github-adopt-local').hidden=!needsAdoption;
   $('#github-check-submission').hidden=!pending?.uncertain;
   $('#draft-state').textContent=needsAdoption?'本機草稿需要與官網對照':conflicted?'官網已有新版，請先同步':baseline===null?'尚未確認官網版本':dirty()?'● 有尚未發布的修改':'✓ 草稿與目前 GitHub 內容一致';
   const all=site.gallery||[],shown=all.filter(w=>w.published!==false).length;
   const festival=site.settings?.festivalSubtitle||site.settings?.festivalTitle||api.FESTIVAL_DEFAULTS?.festivalSubtitle||'羊年賀歲祝福';
-  $('#publish-summary').textContent=`這份草稿：${all.length} 件作品（展示 ${shown} 件、隱藏 ${all.length-shown} 件），${(site.news||[]).length} 則公告。節慶系列：${festival}。`;
+  const products=site.lineProducts||[],characters=window.TutuContent?.charactersFor(site)||[];
+  $('#publish-summary').textContent=`這份草稿：${all.length} 件作品（展示 ${shown} 件、隱藏 ${all.length-shown} 件），${(site.news||[]).length} 則公告。LINE 貼圖 ${products.filter(p=>p.published!==false).length}／${products.length} 款、人物夥伴 ${characters.filter(c=>c.published!==false).length}／${characters.length} 位。節慶系列：${festival}。`;
+  if(formPending)$('#publish-summary').textContent+=' 尚有未儲存的編輯，請先在上方繼續編輯或放棄暫存。';
  }
  async function run(fn){
   if(busy)return;
@@ -83,6 +86,7 @@
   $('#draft-saved').textContent=e.detail.saved?'草稿儲存於此裝置 · '+displayTime():'草稿目前只保留於此頁面';
   renderState();
  });
+ window.addEventListener('tutu:form-buffer',renderState);
  $('#github-connect-form').addEventListener('submit',e=>{
   e.preventDefault();
   run(async()=>{
@@ -107,6 +111,7 @@
   recordBase(remote);saveLocal();status('已採用本機草稿。發布前仍會再次檢查官網版本。');renderState();
  };
  $('#github-publish').onclick=()=>{
+  window.TutuFormDrafts?.flush();if(window.TutuFormDrafts?.hasPending()){status('還有未儲存的編輯，請先儲存或放棄暫存。','failed');return;}
   try{api.validateData(site);}catch(e){status(e.message,'failed');return;}
   $('#publish-confirm-summary').textContent=$('#publish-summary').textContent;
   $('#publish-confirm').showModal();

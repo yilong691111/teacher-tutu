@@ -160,3 +160,15 @@ test('festival content survives the existing atomic publish with other collectio
  d.settings.festivalImage='data:image/png;base64,iVBORw0KGgo=';
  assert.doesNotThrow(()=>cms.validateData(d));
 });
+
+test('publishing validates optional product and character collections',()=>{
+ const bad=data();bad.lineProducts[0].url='https://example.com/';assert.throws(()=>cms.validateData(bad),/貼圖/);
+ const duplicate=data();duplicate.characters=[{id:'friend',name:'朋友',image:'assets/tutu-boy.webp'},{id:'friend',name:'朋友二',image:'assets/tutu-boy.webp'}];assert.throws(()=>cms.validateData(duplicate),/角色.*重複/);
+});
+
+test('product visibility and character edits use the same atomic publication',async()=>{
+ const d=data();d.lineProducts[0].published=false;d.characters=[{id:'friend',name:'新夥伴',description:'一起畫畫',image:'assets/tutu-boy.webp',published:true}];
+ const s=server(),client=new cms.Client({fetch:s.fetch});await client.connect('test-token');await client.publish(d,'base');
+ const blobs=s.calls.filter(c=>c.path.endsWith('/git/blobs')&&c.method==='POST');const parsed=cms.parseData(blobs[0].body.content);
+ assert.equal(parsed.lineProducts[0].published,false);assert.equal(parsed.characters[0].name,'新夥伴');assert.deepEqual(JSON.parse(blobs[1].body.content),parsed);
+});

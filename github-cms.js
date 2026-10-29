@@ -1,10 +1,11 @@
 /* GitHub is the write authorization boundary. Credentials remain in memory. */
 (function(root,factory){
  'use strict';
- const api=factory();
+ const content=typeof module==='object'&&module.exports?require('./content-models.js'):root.TutuContent;
+ const api=factory(content);
  if(typeof module==='object'&&module.exports)module.exports=api;
  else root.TutuGitHub=api;
-})(typeof window==='undefined'?globalThis:window,function(){
+})(typeof window==='undefined'?globalThis:window,function(content){
  'use strict';
  const REPO='yilong691111/teacher-tutu',BRANCH='main';
  const REPO_URL='https://github.com/'+REPO;
@@ -27,6 +28,7 @@
  function validateData(data){
   if(!data||typeof data.settings!=='object'||!data.settings||Array.isArray(data.settings)||!Array.isArray(data.gallery)||!Array.isArray(data.news))throw error('網站資料格式不正確。');
   if(!String(data.settings.brand||'').trim())throw error('請填寫品牌名稱。');
+  if(content)content.validateCollections(data);
   try{const u=new URL(data.settings.lineUrl);if(u.protocol!=='https:'||u.username||u.password)throw 0;}catch{throw error('LINE 商店網址必須是完整的 HTTPS 網址。');}
   for(const [key,label,max,required] of [
    ['festivalTitle','主標題',90,true],['festivalSubtitle','系列名稱',90,false],

@@ -12,7 +12,31 @@ const safeImage=s=>/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|jpe?g|png)$/.test
 const formatDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')?s.replace(/-/g,'.'):safe(s);
 const toast=msg=>{const el=$('#site-toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)};
 function renderLinks(){const url=site.settings?.lineUrl||'https://store.line.me/stickershop/author/5947333/zh-Hant';const valid=/^https:\/\//.test(url)?url:'https://store.line.me/stickershop/author/5947333/zh-Hant';['header-line','quick-line','main-line','footer-line'].forEach(id=>{const el=document.getElementById(id);if(el)el.href=valid})}
-function initSettings(){document.title=(site.settings.brand||'塗塗老師')+' Teacher Tutu｜官方網站';$('#notice-text').textContent=draftMode?'草稿預覽模式｜'+(site.settings.siteNotice||''):site.settings.siteNotice||'';$('#hero-description').textContent=site.settings.heroDescription||'';$('#story-description').textContent=site.settings.storyText||'';$('#year').textContent=new Date().getFullYear();renderLinks();renderLineProduct();initSeries();renderFestival();}
+function initSettings(){document.title=(site.settings.brand||'塗塗老師')+' Teacher Tutu｜官方網站';$('#notice-text').textContent=draftMode?'草稿預覽模式｜'+(site.settings.siteNotice||''):site.settings.siteNotice||'';$('#hero-description').textContent=site.settings.heroDescription||'';$('#story-description').textContent=site.settings.storyText||'';$('#year').textContent=new Date().getFullYear();renderLinks();renderLineProduct();initSeries();renderFestival();renderCharacters();}
+function renderCharacters(){
+ const model=window.TutuContent,container=$('#character-cards');if(!model||!container)return;
+ const list=model.charactersFor(site),visible=(Array.isArray(list)?list:[]).filter(c=>c&&c.published!==false&&typeof c.name==='string');
+ const cards=visible.map((c,index)=>{
+  const card=document.createElement('article');card.className='char-card';card.id='character-'+c.id;
+  const deco=document.createElement('span');deco.className='char-deco';deco.textContent='塗塗角色 '+String(index+1).padStart(2,'0');
+  const cover=document.createElement('div');cover.className='char-image '+(c.tone==='pink'?'pink':'ice');
+  const img=document.createElement('img');img.src=safeImage(c.image);img.alt=c.imageAlt||c.name;img.loading='lazy';img.style.width='92%';img.style.height='92%';cover.append(img);
+  const title=document.createElement('h3');title.textContent=c.name;const description=document.createElement('p');description.textContent=c.description||'';
+  card.append(deco,cover,title,description);
+  if(c.linkText&&model.safeLink(c.link)){
+   const link=document.createElement('a');link.className='underlink';link.textContent=c.linkText;link.href=c.link;
+   if(!c.link.startsWith('#')){link.target='_blank';link.rel='noopener noreferrer';}
+   if(c.link==='#gallery'&&c.gallerySeries)link.addEventListener('click',()=>{
+    currentCat='全部';currentSeries=(site.gallery||[]).some(w=>w.published!==false&&w.series===c.gallerySeries)?c.gallerySeries:'全部';currentQuery='';shown=12;
+    $('#series-filter').value=currentSeries;$('#gallery-search').value='';$$('#gallery-filters button').forEach(b=>b.classList.toggle('on',b.dataset.cat==='全部'));renderGallery();
+   });
+   card.append(link);
+  }
+  return card;
+ });
+ if(!cards.length){const empty=document.createElement('p');empty.className='characters-empty';empty.textContent='新夥伴準備中，敬請期待。';cards.push(empty);}
+ container.replaceChildren(...cards);
+}
 function renderFestival(){
  if(!window.TutuGitHub||!$('#festival-title'))return;
  const defaults=window.TutuGitHub.FESTIVAL_DEFAULTS,s=site.settings||{};
@@ -27,9 +51,8 @@ function renderFestival(){
 }
 function renderLineProduct(){
  const catalog=$('#line-catalog');if(!catalog)return;
- const products=(Array.isArray(site.lineProducts)?site.lineProducts:[]).filter(p=>p&&/^\d+$/.test(p.id||'')&&p.url===`https://store.line.me/stickershop/product/${p.id}/zh-Hant`&&typeof p.title==='string'&&p.title.trim());
- if(!products.length)return;
- catalog.hidden=false;$('#line-product-count').textContent=products.length;
+ const products=(Array.isArray(site.lineProducts)?site.lineProducts:[]).filter(p=>p&&p.published!==false&&/^\d+$/.test(p.id||'')&&p.url===`https://store.line.me/stickershop/product/${p.id}/zh-Hant`&&typeof p.title==='string'&&p.title.trim());
+ catalog.hidden=!products.length;$('#line-product-count').textContent=products.length;if(!products.length)return;
  const categories=['全部',...new Set(products.map(p=>p.category||'日常'))];
  let category='全部';
  const renderProducts=()=>{
@@ -41,13 +64,14 @@ function renderLineProduct(){
    const card=document.createElement('article');card.className='line-product-card';
    const link=document.createElement('a');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',`前往《${p.title}》LINE 商品頁`);
    const cover=document.createElement('div');cover.className='line-product-image';
-   const img=document.createElement('img');img.src=safeImage(p.image);img.alt=p.title+' 官方封面';img.loading='lazy';img.width=240;img.height=240;cover.append(img);
+   const img=document.createElement('img');img.src=safeImage(p.image);img.alt=p.title+' 貼圖封面';img.loading='lazy';img.width=240;img.height=240;cover.append(img);
    const body=document.createElement('div');body.className='line-product-body';
    const tag=document.createElement('span');tag.className='line-product-category';tag.textContent=p.category||'日常';
    const title=document.createElement('h3');title.textContent=p.title;
    const author=document.createElement('p');author.textContent=p.author?`作者：${p.author}`:'';
+   const description=document.createElement('p');description.className='line-product-description';description.textContent=p.description||'';
    const action=document.createElement('span');action.className='line-product-action';action.textContent='前往 LINE STORE ↗';
-   body.append(tag,title,author,action);link.append(cover,body);card.append(link);return card;
+   body.append(tag,title,author);if(p.description)body.append(description);body.append(action);link.append(cover,body);card.append(link);return card;
   });
   $('#line-product-grid').replaceChildren(...cards);
  };
