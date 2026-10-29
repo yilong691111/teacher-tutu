@@ -106,72 +106,12 @@ window.TUTU_BOOTSTRAP = {
       "published": true
     },
     {
-      "id": "w009",
-      "title": "開春納福",
-      "category": "賀新年",
-      "series": "新春祝福",
-      "image": "assets/works/009.webp",
-      "description": "開春納福｜新春祝福。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "published": true,
-      "featured": true
-    },
-    {
-      "id": "w028",
-      "title": "鴻圖大展",
-      "category": "成語",
-      "series": "新春成語篇",
-      "image": "assets/works/028.webp",
-      "description": "鴻圖大展｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "published": true,
-      "featured": true
-    },
-    {
-      "id": "w030",
-      "title": "財源廣進",
-      "category": "成語",
-      "series": "新春成語篇",
-      "image": "assets/works/030.webp",
-      "description": "財源廣進｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
-    },
-    {
       "id": "w031",
       "title": "業績長紅",
       "category": "成語",
       "series": "新春成語篇",
       "image": "assets/works/031.webp",
       "description": "業績長紅｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "w032",
-      "title": "步步高升",
-      "category": "成語",
-      "series": "新春成語篇",
-      "image": "assets/works/032.webp",
-      "description": "步步高升｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "w033",
-      "title": "福壽安康",
-      "category": "成語",
-      "series": "新春成語篇",
-      "image": "assets/works/033.webp",
-      "description": "福壽安康｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "w034",
-      "title": "五福臨門",
-      "category": "成語",
-      "series": "新春成語篇",
-      "image": "assets/works/034.webp",
-      "description": "五福臨門｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
       "featured": false,
       "published": true
     },
