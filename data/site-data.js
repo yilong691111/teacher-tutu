@@ -130,98 +130,106 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "37506154",
       "title": "塗塗的日常  七年級成語篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37506154/zh-Hant",
       "image": "assets/line-product-37506154.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37506154/LINEStorePC/main.png?v=1",
-      "category": "12年國教七年級常用成語"
+      "category": "12年國教七年級常用成語",
+      "published": true
     },
     {
       "id": "37520435",
       "title": "塗塗的日常 七年級成語篇2",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37520435/zh-Hant",
       "image": "assets/line-product-37520435.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37520435/LINEStorePC/main.png?v=1",
-      "category": "12年國教七年級常用成語"
+      "category": "12年國教七年級常用成語",
+      "published": true
     },
     {
       "id": "37533150",
       "title": "塗塗的日常 七年級成語篇3",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37533150/zh-Hant",
       "image": "assets/line-product-37533150.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37533150/LINEStorePC/main.png?v=1",
-      "category": "12年國教七年級常用成語"
+      "category": "12年國教七年級常用成語",
+      "published": true
     },
     {
       "id": "37540330",
       "title": "塗塗的日常  七年級成語篇4",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37540330/zh-Hant",
       "image": "assets/line-product-37540330.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37540330/LINEStorePC/main.png?v=1",
-      "category": "12年國教七年級常用成語"
+      "category": "12年國教七年級常用成語",
+      "published": true
     },
     {
       "id": "37564448",
       "title": "塗塗的日常 七年級成語篇5",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37564448/zh-Hant",
       "image": "assets/line-product-37564448.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37564448/LINEStorePC/main.png?v=1",
-      "category": "12年國教七年級常用成語"
+      "category": "12年國教七年級常用成語",
+      "published": true
     },
     {
       "id": "37268227",
       "title": "塗塗的日常",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37268227/zh-Hant",
       "image": "assets/line-product-37268227.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37268227/LINEStorePC/main.png?v=1",
-      "category": "日常"
+      "category": "日常",
+      "published": true
     },
     {
       "id": "37332619",
       "title": "塗塗的日常3",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37332619/zh-Hant",
       "image": "assets/line-product-37332619.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37332619/LINEStorePC/main.png?v=1",
-      "category": "日常"
+      "category": "日常",
+      "published": true
     },
     {
       "id": "37335808",
       "title": "塗塗的日常 校園篇1",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37335808/zh-Hant",
       "image": "assets/line-product-37335808.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37335808/LINEStorePC/main.png?v=1",
-      "category": "校園與教學"
+      "category": "校園與教學",
+      "published": true
     },
     {
       "id": "37336030",
@@ -298,146 +306,158 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "37392398",
       "title": "塗塗的日常 熬夜加班篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37392398/zh-Hant",
       "image": "assets/line-product-37392398.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37392398/LINEStorePC/main.png?v=1",
-      "category": "日常"
+      "category": "日常",
+      "published": true
     },
     {
       "id": "37421034",
       "title": "塗塗的日常 2027農曆新年篇2",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37421034/zh-Hant",
       "image": "assets/line-product-37421034.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37421034/LINEStorePC/main.png?v=1",
-      "category": "新年與跨年"
+      "category": "新年與跨年",
+      "published": true
     },
     {
       "id": "37421043",
       "title": "塗塗的日常 2027農曆新年篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37421043/zh-Hant",
       "image": "assets/line-product-37421043.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37421043/LINEStorePC/main.png?v=1",
-      "category": "新年與跨年"
+      "category": "新年與跨年",
+      "published": true
     },
     {
       "id": "37421102",
       "title": "塗塗的日常 2027跨年篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37421102/zh-Hant",
       "image": "assets/line-product-37421102.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37421102/LINEStorePC/main.png?v=1",
-      "category": "新年與跨年"
+      "category": "新年與跨年",
+      "published": true
     },
     {
       "id": "37439051",
       "title": "塗塗的日常 單字主題篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37439051/zh-Hant",
       "image": "assets/line-product-37439051.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37439051/LINEStorePC/main.png?v=1",
-      "category": "校園與教學"
+      "category": "校園與教學",
+      "published": true
     },
     {
       "id": "37439058",
       "title": "塗塗的日常 單字主題篇2",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37439058/zh-Hant",
       "image": "assets/line-product-37439058.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37439058/LINEStorePC/main.png?v=1",
-      "category": "校園與教學"
+      "category": "校園與教學",
+      "published": true
     },
     {
       "id": "37454198",
       "title": "塗塗的日常 颱風來襲篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37454198/zh-Hant",
       "image": "assets/line-product-37454198.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37454198/LINEStorePC/main.png?v=1",
-      "category": "日常"
+      "category": "日常",
+      "published": true
     },
     {
       "id": "37468349",
       "title": "塗塗的日常 班導師篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37468349/zh-Hant",
       "image": "assets/line-product-37468349.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37468349/LINEStorePC/main.png?v=1",
-      "category": "校園與教學"
+      "category": "校園與教學",
+      "published": true
     },
     {
       "id": "37488930",
       "title": "塗塗的日常 英文課篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37488930/zh-Hant",
       "image": "assets/line-product-37488930.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37488930/LINEStorePC/main.png?v=1",
-      "category": "校園與教學"
+      "category": "校園與教學",
+      "published": true
     },
     {
       "id": "37496417",
       "title": "塗塗的日常 感恩節篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37496417/zh-Hant",
       "image": "assets/line-product-37496417.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37496417/LINEStorePC/main.png?v=1",
-      "category": "其他節慶"
+      "category": "其他節慶",
+      "published": true
     },
     {
       "id": "37496902",
       "title": "塗塗的日常 光復節篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37496902/zh-Hant",
       "image": "assets/line-product-37496902.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37496902/LINEStorePC/main.png?v=1",
-      "category": "其他節慶"
+      "category": "其他節慶",
+      "published": true
     },
     {
       "id": "37513322",
       "title": "塗塗的日常 聖誕節篇",
-      "author": "瀧ir.",
+      "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
       "url": "https://store.line.me/stickershop/product/37513322/zh-Hant",
       "image": "assets/line-product-37513322.png",
-      "description": "用LINE拍貼製作的貼圖。",
+      "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37513322/LINEStorePC/main.png?v=1",
-      "category": "其他節慶"
+      "category": "其他節慶",
+      "published": true
     }
   ],
   "festivals": [
