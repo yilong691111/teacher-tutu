@@ -76,26 +76,6 @@ window.TUTU_BOOTSTRAP = {
       "published": true
     },
     {
-      "id": "lantian-32041",
-      "title": "藍田老師｜認真！",
-      "category": "角色",
-      "series": "藍田老師的教學日常",
-      "image": "assets/works/lantian-32041.png",
-      "description": "雙手交叉，提醒大家認真上課。",
-      "featured": false,
-      "published": true
-    },
-    {
-      "id": "lantian-32039",
-      "title": "藍田老師｜作業太多！",
-      "category": "角色",
-      "series": "藍田老師的教學日常",
-      "image": "assets/works/lantian-32039.png",
-      "description": "抱著一大疊作業本，記錄老師忙碌的教學日常。",
-      "featured": false,
-      "published": true
-    },
-    {
       "id": "w001",
       "title": "塗塗誕生的第一張畫",
       "category": "日常",
@@ -114,16 +94,6 @@ window.TUTU_BOOTSTRAP = {
       "description": "業績長紅｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
       "featured": false,
       "published": true
-    },
-    {
-      "id": "w039",
-      "title": "名揚四海",
-      "category": "成語",
-      "series": "塗塗賀歲創作",
-      "image": "assets/works/039.webp",
-      "description": "名揚四海｜塗塗賀歲創作。保留塗塗的藍色蠟筆線條與童趣表情。",
-      "published": true,
-      "featured": true
     },
     {
       "id": "w062",
