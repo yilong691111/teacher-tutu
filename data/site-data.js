@@ -442,7 +442,7 @@ window.TUTU_BOOTSTRAP = {
       "image": "assets/works/031.webp",
       "imageAlt": "業績長紅",
       "buttonText": "看看羊年系列 →",
-      "buttonLink": "#gallery",
+      "buttonLink": "https://store.line.me/stickershop/product/37631556/zh-Hant?from=sticker",
       "workIds": [
         "w031",
         "w039"
