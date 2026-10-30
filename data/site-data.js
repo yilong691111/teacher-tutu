@@ -496,5 +496,52 @@ window.TUTU_BOOTSTRAP = {
       "coverWorkId": "",
       "published": true
     }
+  ],
+  "characters": [
+    {
+      "id": "boy",
+      "name": "藍寶",
+      "description": "活潑、好奇，總想第一個探索新鮮事。",
+      "image": "assets/tutu-boy.webp",
+      "imageAlt": "男塗塗",
+      "tone": "ice",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
+    },
+    {
+      "id": "girl",
+      "name": "桃寶",
+      "description": "開朗、熱情，喜歡把祝福送給每個人。",
+      "image": "assets/tutu-girl.webp",
+      "imageAlt": "女塗塗",
+      "tone": "pink",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
+    },
+    {
+      "id": "xiaolan",
+      "name": "小藍姐姐",
+      "description": "藍色雙馬尾、藍色洋裝，帶著笑容加入塗塗的夥伴。",
+      "image": "assets/xiaolan-sister.png",
+      "imageAlt": "小藍姐姐，藍色雙馬尾與藍色洋裝的蠟筆角色",
+      "tone": "ice",
+      "published": true
+    },
+    {
+      "id": "lantian",
+      "name": "藍田老師",
+      "description": "戴著藍框眼鏡，陪大家上課、點名，一起認真學習。",
+      "image": "assets/works/lantian-32044.png",
+      "imageAlt": "藍田老師，戴著藍框眼鏡、舉手提醒上課的蠟筆角色",
+      "link": "#gallery",
+      "linkText": "看看老師的教學日常　↗",
+      "gallerySeries": "藍田老師的教學日常",
+      "tone": "ice",
+      "published": true
+    }
   ]
 };
