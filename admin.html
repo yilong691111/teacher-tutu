@@ -6,17 +6,19 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261029-festival-calendar">
+<link rel="stylesheet" href="admin.css?v=20261030-category-batch">
 <script defer src="data/site-data.js"></script>
-<script defer src="content-models.js?v=20261029-festival-calendar"></script>
-<script defer src="form-drafts.js?v=20261029-festival-calendar"></script>
-<script defer src="festival-model.js?v=20261029-festival-calendar"></script>
-<script defer src="github-cms.js?v=20261029-festival-calendar"></script>
-<script defer src="admin.js?v=20261029-festival-calendar"></script>
-<script defer src="admin-collections.js?v=20261029-festival-calendar"></script>
-<script defer src="admin-festivals.js?v=20261029-festival-calendar"></script>
-<script defer src="admin-drafts.js?v=20261029-festival-calendar"></script>
-<script defer src="admin-publish.js?v=20261029-festival-calendar"></script>
+<script defer src="content-models.js?v=20261030-category-batch"></script>
+<script defer src="form-drafts.js?v=20261030-category-batch"></script>
+<script defer src="festival-model.js?v=20261030-category-batch"></script>
+<script defer src="category-model.js?v=20261030-category-batch"></script>
+<script defer src="github-cms.js?v=20261030-category-batch"></script>
+<script defer src="admin.js?v=20261030-category-batch"></script>
+<script defer src="admin-collections.js?v=20261030-category-batch"></script>
+<script defer src="admin-batch.js?v=20261030-category-batch"></script>
+<script defer src="admin-festivals.js?v=20261030-category-batch"></script>
+<script defer src="admin-drafts.js?v=20261030-category-batch"></script>
+<script defer src="admin-publish.js?v=20261030-category-batch"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -25,6 +27,7 @@
     <nav>
       <button class="selected" data-page="overview">◈　總覽</button>
       <button data-page="gallery">▣　作品相簿</button>
+      <button data-page="categories">▤　分類管理</button>
       <button data-page="products">▦　LINE 貼圖</button>
       <button data-page="characters">☺　人物夥伴</button>
       <button data-page="news">☷　最新消息</button>
@@ -74,6 +77,7 @@
       <div class="panel"><h2>圖片展示</h2><div class="mini-gallery" id="mini-gallery"></div></div>
     </section>
 
+    <section id="page-categories" class="page" hidden><div class="panel"><h2>分類管理</h2><p>作品相簿與 LINE 貼圖分開管理。更名、合併會同步調整所有使用該分類的資料，包括隱藏作品；儲存草稿後再預覽與發布。</p><label>管理對象<select id="category-collection"><option value="gallery">作品相簿分類</option><option value="lineProducts">LINE 貼圖分類</option></select></label><form id="category-add-form" class="category-add"><label>新增分類名稱<input id="category-new-name" required maxlength="100" placeholder="例如：世界兒童節"></label><button type="submit" id="category-add" class="primary">新增分類</button></form><div class="table-scroll"><table><thead><tr><th>分類名稱</th><th>使用筆數</th><th>管理與順序</th></tr></thead><tbody id="category-list"></tbody></table></div><p id="category-empty" hidden>尚無分類，請先新增。</p><div class="actions"><button type="button" class="secondary" data-bulk-undo>復原最近一次草稿操作</button></div><p id="bulk-history-message" class="muted"></p></div></section>
     <section id="page-gallery" class="page" hidden>
       <div class="panel"><div class="panel-head"><div><h2>作品相簿管理</h2><p>新增圖片會在瀏覽器中自動縮放並轉成 WEBP，嵌入匯出的資料檔。建議單次新增少量作品。</p></div><button id="new-work" class="primary">＋ 新增作品</button></div>
       <label class="filter-row">搜尋現有作品　<input id="admin-work-search" type="search" placeholder="輸入作品名稱"></label>

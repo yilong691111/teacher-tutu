@@ -148,5 +148,5 @@
   const snapshot=await client.loadSnapshot();reconcile(snapshot);
   if(pending?.uncertain)status('上次提交結果尚未確認，請先按「確認提交結果」。','uncertain');
   else if(pending)await checkDeployment();
- });
+ }).finally(()=>{window.TutuPublishReady=true;window.dispatchEvent(new CustomEvent('tutu:publish-ready'));});
 })();

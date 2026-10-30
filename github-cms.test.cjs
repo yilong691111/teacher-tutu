@@ -180,3 +180,9 @@ test('dated festival collections are validated and atomically published with the
  const blobs=s.calls.filter(c=>c.path.endsWith('/git/blobs')&&c.method==='POST');const parsed=cms.parseData(blobs[0].body.content);
  assert.deepEqual(parsed.festivals,d.festivals);assert.deepEqual(JSON.parse(blobs[1].body.content),parsed);assert.deepEqual(parsed.settings,d.settings);
 });
+test('category registry validation and batch changes share atomic publication without losing other content',async()=>{
+ const model=require('./category-model.js'),source=data();let d=model.categoryAction(source,'gallery','add','兒童節');d=model.batch(d,'gallery',[d.gallery[0].id],{category:'兒童節',published:false});
+ const bad=structuredClone(d);bad.categoryLists.gallery.push('兒童節');assert.throws(()=>cms.validateData(bad),/重複/);
+ const s=server(),client=new cms.Client({fetch:s.fetch});await client.connect('test-token');await client.publish(d,'base');const blobs=s.calls.filter(c=>c.path.endsWith('/git/blobs')&&c.method==='POST'),parsed=cms.parseData(blobs[0].body.content);
+ assert.equal(parsed.gallery[0].category,'兒童節');assert.equal(parsed.gallery[0].published,false);assert.deepEqual(parsed.categoryLists,d.categoryLists);assert.deepEqual(parsed.lineProducts,source.lineProducts);assert.deepEqual(JSON.parse(blobs[1].body.content),parsed);
+});
