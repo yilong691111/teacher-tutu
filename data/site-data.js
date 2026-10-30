@@ -454,7 +454,6 @@ window.TUTU_BOOTSTRAP = {
       "buttonText": "看看羊年系列 →",
       "buttonLink": "https://store.line.me/stickershop/product/37631556/zh-Hant?from=sticker",
       "workIds": [
-        "w031",
         "w039"
       ],
       "published": true,
