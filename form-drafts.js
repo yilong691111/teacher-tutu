@@ -4,6 +4,7 @@
  const PREFIX='teacher-tutu-form-buffer-v1:';
  const FORM_FIELDS=Object.freeze({
   'work-form':['work-id','work-existing-image','work-title','work-category','work-series','work-description','work-published','work-featured','work-image-error'],
+  'report-form':["report-id", "report-origin-id", "report-title", "report-subtitle", "report-label", "report-summary", "report-body", "report-closing", "report-button-text", "report-button-link", "report-published", "report-section-1-label", "report-section-1-title", "report-section-1-body", "report-section-2-label", "report-section-2-title", "report-section-2-body", "report-section-3-label", "report-section-3-title", "report-section-3-body"],
   'news-form':['news-id','news-title','news-date','news-category','news-body','news-published'],
   'settings-form':['settings-brand','settings-brandEn','settings-tagline','settings-lineUrl','settings-heroDescription','settings-storyText','settings-siteNotice'],
   'festival-form':['festival-id','festival-origin-id','festival-cover-work-id','festival-date','festival-holiday-name','festival-work-ids','festival-published','festival-title','festival-subtitle','festival-description','festival-tags','festival-current-image','festival-image-alt','festival-button-text','festival-button-link','festival-image-error'],

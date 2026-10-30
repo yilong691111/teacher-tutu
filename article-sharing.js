@@ -3,7 +3,7 @@
  'use strict';
  function mount(article,options={}){
   const doc=options.document||document,nav=options.navigator||navigator,$=id=>doc.getElementById(id);
-  const share=$('share-report'),copy=$('copy-report-link'),status=$('report-share-status'),fallback=$('report-share-fallback'),input=$('report-share-url');
+  const {share,copy,status,fallback,input}=options.elements||{share:$('share-report'),copy:$('copy-report-link'),status:$('report-share-status'),fallback:$('report-share-fallback'),input:$('report-share-url')};
   if(!share||!copy||!status||!fallback||!input)return;
   const data={title:article.title,text:article.text,url:article.url};let busy=false;
   const announce=message=>{status.textContent=message;status.hidden=!message;};

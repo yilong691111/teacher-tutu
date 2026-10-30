@@ -75,3 +75,5 @@
 .report-share-fallback input{min-width:0;width:100%;padding:10px;border:1px solid #cbd9ed;border-radius:8px;color:var(--ink);background:#fff;font-size:14px}
 .report-share-fallback p{font-size:13px;color:#62728e;margin:0}
 @media(max-width:700px){#idiom-story>.section-title{align-items:flex-start;flex-direction:column;gap:12px}.report-share-controls{gap:14px}}
+
+.report-article{scroll-margin-top:90px;margin-bottom:36px}.report-article:last-child{margin-bottom:0}.report-article>.report-share-controls{justify-content:flex-end;margin-bottom:12px}.report-article>.report-share-status:empty{display:none}.report-body,.idiom-audiences p{white-space:pre-wrap;overflow-wrap:anywhere}.idiom-promo h3.idiom-headline{font-size:clamp(25px,3vw,36px);color:var(--blue);line-height:1.4}.reports-empty{color:#62728e;padding:24px 0}

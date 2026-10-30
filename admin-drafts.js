@@ -3,9 +3,9 @@
  'use strict';
  const api=window.TutuFormBuffers;if(!api||!$('#form-recovery'))return;
  const store=new api.Store(localStorage),states=new Map(),imageCache=new WeakMap(),pendingImages=new Set(),pendingSaves=new Set();
- const pages={'work-form':'gallery','news-form':'news','settings-form':'settings','festival-form':'festivals','line-product-form':'products','character-form':'characters'};
- const labels={'work-form':'作品','news-form':'公告','settings-form':'網站設定','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
- const idFields={'festival-form':'festival-id','work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
+ const pages={'report-form':'reports','work-form':'gallery','news-form':'news','settings-form':'settings','festival-form':'festivals','line-product-form':'products','character-form':'characters'};
+ const labels={'report-form':'特別報導','work-form':'作品','news-form':'公告','settings-form':'網站設定','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
+ const idFields={'report-form':'report-id','festival-form':'festival-id','work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
  const imageFields={
   'work-form':{file:'work-file',value:'work-existing-image',preview:'work-image-preview',error:'work-image-error',warning:'work-image-warning',cancel:'work-cancel-image'},
   'festival-form':{file:'festival-file',value:'festival-current-image',preview:'festival-image-preview',gallery:'festival-gallery-image',error:'festival-image-error',warning:'festival-image-warning',cancel:'festival-cancel-image',source:'festival-cover-work-id'},
@@ -18,7 +18,7 @@
  const activeDirty=()=>[...states.values()].some(s=>s.dirty&&!s.parked&&visible(s.formId));
  const hasImageError=()=>[...states.values()].some(s=>s.imageError&&!s.committed);
  const hasPending=()=>pendingSaves.size>0||pendingImages.size>0||hasImageError()||[...states.values()].some(s=>s.dirty)||store.all().length>0;
- function title(record){const values=record.values;return values['work-title']||values['news-title']||values['line-product-title']||values['character-name']||values['festival-subtitle']||values['settings-brand']||'尚未命名';}
+ function title(record){const values=record.values;return values['report-title']||values['work-title']||values['news-title']||values['line-product-title']||values['character-name']||values['festival-subtitle']||values['settings-brand']||'尚未命名';}
  function paint(){
   const records=store.all(),count=records.length;
   $('#form-recovery').hidden=!count;
@@ -108,6 +108,7 @@
   suppress=true;
   try{
    if(formId==='work-form')editWork((site.gallery||[]).some(x=>x.id===identity)?identity:undefined);
+   else if(formId==='report-form')window.TutuReportsAdmin.edit(window.TutuReports.reportsFor(site).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='news-form')editNews((site.news||[]).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='line-product-form')window.TutuCollectionsAdmin.editProduct((site.lineProducts||[]).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='character-form')window.TutuCollectionsAdmin.editCharacter(window.TutuContent.charactersFor(site).some(x=>x.id===identity)?identity:undefined);
@@ -123,7 +124,7 @@
   suppress=true;try{showPage(pages[record.formId]);reloadForm(record.formId,restoreIdentity);}finally{suppress=false;}
   const formId=record.formId,idField=idFields[formId],targetIdentity=idField?document.getElementById(idField).value:'';
   for(const [id,value] of Object.entries(latest.values)){
-   const el=document.getElementById(id);if(!el||id===idField||id==='festival-origin-id')continue;
+   const el=document.getElementById(id);if(!el||id===idField||id==='festival-origin-id'||id==='report-origin-id')continue;
    if(el.type==='checkbox')el.checked=value===true;else el.value=String(value);
   }
   if(formId==='festival-form')window.TutuFestivalsAdmin.syncSelection();

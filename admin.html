@@ -6,22 +6,24 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261030-media-library">
+<link rel="stylesheet" href="admin.css?v=20261030-report-editor">
 <script defer src="data/site-data.js"></script>
-<script defer src="content-models.js?v=20261030-media-library"></script>
-<script defer src="form-drafts.js?v=20261030-media-library"></script>
-<script defer src="festival-model.js?v=20261030-media-library"></script>
-<script defer src="category-model.js?v=20261030-media-library"></script>
-<script defer src="media-model.js?v=20261030-media-library"></script>
-<script defer src="media-editor.js?v=20261030-media-library"></script>
-<script defer src="github-cms.js?v=20261030-media-library"></script>
-<script defer src="admin.js?v=20261030-media-library"></script>
-<script defer src="admin-collections.js?v=20261030-media-library"></script>
-<script defer src="admin-batch.js?v=20261030-media-library"></script>
-<script defer src="admin-festivals.js?v=20261030-media-library"></script>
-<script defer src="admin-drafts.js?v=20261030-media-library"></script>
-<script defer src="admin-publish.js?v=20261030-media-library"></script>
-<script defer src="admin-media.js?v=20261030-media-library"></script>
+<script defer src="content-models.js?v=20261030-report-editor"></script>
+<script defer src="form-drafts.js?v=20261030-report-editor"></script>
+<script defer src="festival-model.js?v=20261030-report-editor"></script>
+<script defer src="category-model.js?v=20261030-report-editor"></script>
+<script defer src="media-model.js?v=20261030-report-editor"></script>
+<script defer src="media-editor.js?v=20261030-report-editor"></script>
+<script defer src="report-model.js?v=20261030-report-editor"></script>
+<script defer src="github-cms.js?v=20261030-report-editor"></script>
+<script defer src="admin.js?v=20261030-report-editor"></script>
+<script defer src="admin-collections.js?v=20261030-report-editor"></script>
+<script defer src="admin-batch.js?v=20261030-report-editor"></script>
+<script defer src="admin-festivals.js?v=20261030-report-editor"></script>
+<script defer src="admin-reports.js?v=20261030-report-editor"></script>
+<script defer src="admin-drafts.js?v=20261030-report-editor"></script>
+<script defer src="admin-publish.js?v=20261030-report-editor"></script>
+<script defer src="admin-media.js?v=20261030-report-editor"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -34,6 +36,7 @@
       <button data-page="categories">▤　分類管理</button>
       <button data-page="products">▦　LINE 貼圖</button>
       <button data-page="characters">☺　人物夥伴</button>
+      <button data-page="reports">▤　特別報導</button>
       <button data-page="news">☷　最新消息</button>
       <button data-page="festivals">✿　節慶系列</button>
       <button data-page="settings">✎　網站設定</button>
@@ -111,6 +114,21 @@
         <div class="media-batch"><label class="bulk-check"><input id="media-select-all" type="checkbox">全選目前顯示</label><strong id="media-selected-count">已勾選 0 張</strong><button id="media-clear" class="secondary" type="button">取消勾選</button><label>批次分類<input id="media-batch-category" maxlength="80" list="media-category-options" placeholder="留空可清除分類"></label><button id="media-batch-apply" class="secondary" type="button">套用分類</button><button id="media-delete" class="secondary" type="button">移除未使用素材</button></div>
         <p id="media-count" class="muted"></p><p class="muted">使用中與網站固定圖片受到保護。移除只刪除素材庫紀錄；不刪除 GitHub 圖檔。所有變更先儲存為草稿，預覽後再發布。</p><div id="media-grid" class="media-grid"></div><p id="media-empty" hidden>沒有符合條件的素材。</p>
       </div><datalist id="media-category-options"></datalist>
+    </section>
+
+    <section id="page-reports" class="page" hidden>
+      <div class="panel"><div class="panel-head"><div><h2>特別報導管理</h2><p>編輯文章、調整順序或新增報導，儲存後可預覽並一鍵發布。</p></div><div class="actions"><button id="preview-reports" class="secondary" type="button">預覽特別報導</button><button id="new-report" class="primary" type="button">＋ 新增文章</button></div></div>
+      <p id="reports-count" class="muted"></p><div class="table-scroll"><table><thead><tr><th>文章標題</th><th>展示狀態</th><th>管理</th></tr></thead><tbody id="reports-table"></tbody></table></div><p id="reports-empty" hidden>還沒有文章，可按「新增文章」建立。刪除所有文章並發布後，官網會顯示尚無公開報導。</p></div>
+      <form id="report-form" class="panel" hidden><h2 id="report-form-heading">編輯特別報導</h2><input id="report-id" type="hidden"><input id="report-origin-id" type="hidden">
+      <label>文章標題 *<input id="report-title" maxlength="150" required></label>
+      <div class="form-grid"><label>副標題<input id="report-subtitle" maxlength="150" placeholder="例如：12年國教七年級常用成語"></label><label>文章標籤<input id="report-label" maxlength="80" placeholder="例如：七年級成語篇 1–5"></label></div>
+      <label>摘要<textarea id="report-summary" rows="3" maxlength="1500"></textarea></label>
+      <label>文章內文 *<textarea id="report-body" rows="10" maxlength="30000" required></textarea></label><p class="muted">內文可直接換行、分段。文字會照原樣顯示，不需輸入 HTML。</p>
+      <details class="report-extra"><summary>補充段落（選填，最多三段）</summary><p class="muted">可用來介紹不同讀者、重點或教學用途；整組留空就不顯示。填寫時請一併填入段落標題與內容。</p>
+      <fieldset><legend>補充段落 1</legend><div class="form-grid"><label>段落標籤<input id="report-section-1-label" maxlength="80" placeholder="例如：給家長"></label><label>段落標題<input id="report-section-1-title" maxlength="150"></label></div><label>段落內容<textarea id="report-section-1-body" rows="5" maxlength="5000"></textarea></label></fieldset>
+      <fieldset><legend>補充段落 2</legend><div class="form-grid"><label>段落標籤<input id="report-section-2-label" maxlength="80" placeholder="例如：給家長"></label><label>段落標題<input id="report-section-2-title" maxlength="150"></label></div><label>段落內容<textarea id="report-section-2-body" rows="5" maxlength="5000"></textarea></label></fieldset>
+      <fieldset><legend>補充段落 3</legend><div class="form-grid"><label>段落標籤<input id="report-section-3-label" maxlength="80" placeholder="例如：給家長"></label><label>段落標題<input id="report-section-3-title" maxlength="150"></label></div><label>段落內容<textarea id="report-section-3-body" rows="5" maxlength="5000"></textarea></label></fieldset>
+      </details><label>結尾文字<textarea id="report-closing" rows="3" maxlength="1500"></textarea></label><div class="form-grid"><label>按鈕文字<input id="report-button-text" maxlength="80" placeholder="可留空"></label><label>按鈕連結<input id="report-button-link" maxlength="2000" placeholder="#line-catalog 或 https://…"></label></div><label class="check-label"><input id="report-published" type="checkbox" checked> 在官網顯示這篇文章</label><div class="actions"><button id="save-report" class="primary" type="submit">儲存文章草稿</button><button id="cancel-report" class="secondary" type="button">取消編輯</button></div></form>
     </section>
 
     <section id="page-news" class="page" hidden>
