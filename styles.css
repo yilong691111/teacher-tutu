@@ -62,3 +62,16 @@
 
 /* Report uses the shared section title and original article format. */
 #idiom-readers{scroll-margin-top:85px}
+
+/* Report sharing controls keep the original article layout. */
+.report-share-controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.report-share-controls .button{min-height:44px;padding:9px 17px;font-size:14px}
+.report-share-controls .text-button{min-height:44px;font-size:14px}
+.report-share-controls button:disabled{cursor:wait;opacity:.6;transform:none}
+.report-share-status{color:var(--blue);font-size:14px;margin:0 0 18px}
+.report-share-fallback{display:grid;gap:8px;border:1px solid #d8e3f1;background:#f5f8ff;border-radius:12px;padding:16px;margin-bottom:20px}
+.report-share-fallback[hidden]{display:none}
+.report-share-fallback label{font-size:14px;font-weight:800;color:var(--deep)}
+.report-share-fallback input{min-width:0;width:100%;padding:10px;border:1px solid #cbd9ed;border-radius:8px;color:var(--ink);background:#fff;font-size:14px}
+.report-share-fallback p{font-size:13px;color:#62728e;margin:0}
+@media(max-width:700px){#idiom-story>.section-title{align-items:flex-start;flex-direction:column;gap:12px}.report-share-controls{gap:14px}}
