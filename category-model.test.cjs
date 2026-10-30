@@ -38,3 +38,6 @@ test('mutation gate fails closed until form protection and initial synchronizati
  for(const state of [{},{formsReady:true},{publishReady:true},{formsReady:true,publishReady:true,busy:true},{formsReady:true,publishReady:true,pending:true}])assert.equal(m.mutationReady(state),false);
  assert.equal(m.mutationReady({formsReady:true,publishReady:true,busy:false,pending:false}),true);
 });
+test('public categories hide all empty and hidden-only entries while admin lists retain configured order and empty categories',()=>{
+ const s={gallery:[{id:'a',category:'角色'},{id:'b',category:'日常',published:false}],categoryLists:{gallery:['空分類','日常','角色']}};assert.deepEqual(m.publicNames(s,'gallery'),['角色']);assert.deepEqual(m.names(s,'gallery'),['空分類','日常','角色']);assert.deepEqual(m.publicNames({gallery:[]},'gallery'),[]);
+});

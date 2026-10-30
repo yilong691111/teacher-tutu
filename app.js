@@ -39,43 +39,7 @@ function renderCharacters(){
  container.replaceChildren(...cards);
 }
 function renderFestival(){window.TutuFestivalPlayer?.mount(site,window.TutuGitHub?.FESTIVAL_DEFAULTS);}
-function renderLineProduct(){
- const catalog=$('#line-catalog');if(!catalog)return;
- const products=(Array.isArray(site.lineProducts)?site.lineProducts:[]).filter(p=>p&&p.published!==false&&/^\d+$/.test(p.id||'')&&p.url===`https://store.line.me/stickershop/product/${p.id}/zh-Hant`&&typeof p.title==='string'&&p.title.trim());
- catalog.hidden=!products.length;$('#line-product-count').textContent=products.length;if(!products.length)return;
- const categories=['全部',...(window.TutuCategories?window.TutuCategories.publicNames(site,'lineProducts'):[...new Set(products.map(p=>p.category||'日常'))])];
- let category='全部';
- const renderProducts=()=>{
-  const query=$('#line-product-search').value.trim().toLocaleLowerCase();
-  const visible=products.filter(p=>(category==='全部'||categoryOf(p,'lineProducts')===category)&&p.title.toLocaleLowerCase().includes(query));
-  $('#line-product-result').textContent=`顯示 ${visible.length} / ${products.length} 款貼圖`;
-  $('#line-product-empty').hidden=visible.length>0;
-  const cards=visible.map(p=>{
-   const card=document.createElement('article');card.className='line-product-card';
-   const link=document.createElement('a');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',`前往《${p.title}》LINE 商品頁`);
-   const cover=document.createElement('div');cover.className='line-product-image';
-   const img=document.createElement('img');img.src=safeImage(p.image);img.alt=p.title+' 貼圖封面';img.loading='lazy';img.width=240;img.height=240;cover.append(img);
-   const body=document.createElement('div');body.className='line-product-body';
-   const tag=document.createElement('span');tag.className='line-product-category';tag.textContent=categoryOf(p,'lineProducts');
-   const title=document.createElement('h3');title.textContent=p.title;
-   const author=document.createElement('p');author.textContent=p.author?`作者：${p.author}`:'';
-   const description=document.createElement('p');description.className='line-product-description';description.textContent=p.description||'';
-   const action=document.createElement('span');action.className='line-product-action';action.textContent='前往 LINE STORE ↗';
-   body.append(tag,title,author);if(p.description)body.append(description);body.append(action);link.append(cover,body);card.append(link);return card;
-  });
-  $('#line-product-grid').replaceChildren(...cards);
- };
- $('#line-product-filters').replaceChildren(...categories.map(value=>{
-  const button=document.createElement('button');button.type='button';button.textContent=value==='全部'?'全部貼圖':value;button.classList.toggle('on',value===category);button.setAttribute('aria-pressed',String(value===category));
-  button.addEventListener('click',()=>{category=value;$('#line-product-filters').querySelectorAll('button').forEach(b=>{const active=b===button;b.classList.toggle('on',active);b.setAttribute('aria-pressed',String(active));});renderProducts();});return button;
- }));
- const idiomButton=$('#show-grade7-idioms');
- if(idiomButton)idiomButton.onclick=()=>{
-  const filter=Array.from($('#line-product-filters').querySelectorAll('button')).find(button=>button.textContent==='12年國教七年級常用成語');
-  if(filter){$('#line-product-search').value='';filter.click();$('#line-product-filters').scrollIntoView({behavior:'smooth',block:'center'});}
- };
- $('#line-product-search').addEventListener('input',renderProducts);renderProducts();
-}
+function renderLineProduct(){window.TutuCatalogBrowser?.mount(site,{safeImage,onNavigate:syncPrimaryNav});}
 const lantianWorksLink=$('#lantian-works-link');
 if(lantianWorksLink)lantianWorksLink.addEventListener('click',()=>{
  currentCat='全部';currentSeries='藍田老師的教學日常';currentQuery='';shown=12;
@@ -86,7 +50,11 @@ function renderGalleryCategories(){
  const model=window.TutuCategories;if(!model)return;const labels={'日常':'塗塗日常','成語':'成語篇'};
  $('#gallery-filters').replaceChildren(...['全部',...model.publicNames(site,'gallery')].map(value=>{const b=document.createElement('button');b.type='button';b.dataset.cat=value;b.textContent=value==='全部'?'全部作品':labels[value]||value;b.classList.toggle('on',value===currentCat);return b;}));
 }
-function initSeries(){const select=$('#series-filter');const vals=[...new Set((site.gallery||[]).map(w=>w.series).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant'));select.innerHTML='<option value="全部">全部系列</option>'+vals.map(v=>`<option value="${safe(v)}">${safe(v)}</option>`).join('')}
+function initSeries(){
+ const select=$('#series-filter'),state=window.TutuCatalogNavigation.seriesState(site,currentCat,currentSeries);currentSeries=state.value;select.replaceChildren(new Option('全部系列','全部'),...state.options.map(v=>new Option(v,v)));select.value=currentSeries;
+}
+function syncPrimaryNav(){const hash=location.hash.slice(1),aliases={characters:'about',line:'line-catalog','grade7-idioms':'line-catalog'};const target=aliases[hash]||hash||'top';$$('.nav-item').forEach(a=>{const active=a.dataset.navTarget===target;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}
+
 function renderNews(){let news=(site.news||[]).filter(n=>n.published!==false&&(newsCat==='全部'||n.category===newsCat)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const list=$('#news-list');list.textContent='';if(!news.length){list.innerHTML='<p style="padding:24px;color:#8193aa">目前沒有這一類的公告。</p>';return}news.slice(0,5).forEach(n=>{const b=document.createElement('button');b.className='news-row';b.type='button';b.innerHTML=`<time>${formatDate(n.date)}</time><span class="category">${safe(n.category)}</span><strong>${safe(n.title)}</strong><span class="arrow">→</span>`;b.addEventListener('click',()=>openNews(n));list.appendChild(b)})}
 function openNews(n){
  $('#news-dialog-title').textContent=n.title;$('#news-dialog-category').textContent=n.category;$('#news-dialog-date').textContent=formatDate(n.date);
@@ -100,7 +68,7 @@ function openNews(n){
  $('#news-dialog').showModal();
 }
 function filteredWorks(){let list=(site.gallery||[]).filter(w=>w.published!==false&&(currentCat==='全部'||categoryOf(w,'gallery')===currentCat)&&(currentSeries==='全部'||w.series===currentSeries)&&(`${w.title} ${w.category} ${w.series}`.toLowerCase().includes(currentQuery)));if(currentSort==='title')list.sort((a,b)=>(a.title||'').localeCompare(b.title||'','zh-Hant'));else if(currentSort==='newest')list.sort((a,b)=>String(b.id||'').localeCompare(String(a.id||''),undefined,{numeric:true}));else list.sort((a,b)=>Number(b.featured===true)-Number(a.featured===true));return list}
-function renderGallery(){visibleWorks=filteredWorks();const total=(site.gallery||[]).filter(w=>w.published!==false).length;$('#gallery-count').textContent=total;$('#gallery-result').textContent=`目前顯示 ${Math.min(shown,visibleWorks.length)}／${visibleWorks.length} 件作品${favorites.size?` · 已收藏 ${favorites.size} 件`:''}`;const grid=$('#gallery-grid');grid.textContent='';visibleWorks.slice(0,shown).forEach((w,i)=>{const card=document.createElement('article');card.className='work-card';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',`查看作品 ${w.title}`);card.innerHTML=`<button type="button" class="fav-dot ${favorites.has(w.id)?'on':''}" aria-label="${favorites.has(w.id)?'取消收藏':'收藏'} ${safe(w.title)}" data-fav="${safe(w.id)}">${favorites.has(w.id)?'♥':'♡'}</button><div class="work-img"><img loading="lazy" decoding="async" src="${safeImage(w.image)}" alt="${safe(w.title)}"><span class="work-badge">${safe(categoryOf(w,'gallery'))}</span></div><div class="work-meta"><div><strong>${safe(w.title)}</strong><small>${safe(w.series)}</small></div><span class="view" aria-hidden="true">↗</span></div>`;card.addEventListener('click',e=>{if(e.target.closest('[data-fav]'))return;openWork(i)});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('[data-fav]')){e.preventDefault();openWork(i)}});card.querySelector('[data-fav]').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggleFavorite(w.id);renderGallery()});grid.appendChild(card)});$('#gallery-empty').hidden=!!visibleWorks.length;$('#load-more').hidden=shown>=visibleWorks.length}
+function renderGallery(){initSeries();$$('#gallery-filters button').forEach(b=>{const active=b.dataset.cat===currentCat;b.classList.toggle('on',active);b.setAttribute('aria-pressed',String(active));});visibleWorks=filteredWorks();const total=(site.gallery||[]).filter(w=>w.published!==false).length;$('#gallery-count').textContent=total;$('#gallery-result').textContent=`目前顯示 ${Math.min(shown,visibleWorks.length)}／${visibleWorks.length} 件作品${favorites.size?` · 已收藏 ${favorites.size} 件`:''}`;const grid=$('#gallery-grid');grid.textContent='';visibleWorks.slice(0,shown).forEach((w,i)=>{const card=document.createElement('article');card.className='work-card';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',`查看作品 ${w.title}`);card.innerHTML=`<button type="button" class="fav-dot ${favorites.has(w.id)?'on':''}" aria-label="${favorites.has(w.id)?'取消收藏':'收藏'} ${safe(w.title)}" data-fav="${safe(w.id)}">${favorites.has(w.id)?'♥':'♡'}</button><div class="work-img"><img loading="lazy" decoding="async" src="${safeImage(w.image)}" alt="${safe(w.title)}"><span class="work-badge">${safe(categoryOf(w,'gallery'))}</span></div><div class="work-meta"><div><strong>${safe(w.title)}</strong><small>${safe(w.series)}</small></div><span class="view" aria-hidden="true">↗</span></div>`;card.addEventListener('click',e=>{if(e.target.closest('[data-fav]'))return;openWork(i)});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('[data-fav]')){e.preventDefault();openWork(i)}});card.querySelector('[data-fav]').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggleFavorite(w.id);renderGallery()});grid.appendChild(card)});$('#gallery-empty').hidden=!!visibleWorks.length;$('#load-more').hidden=shown>=visibleWorks.length}
 function toggleFavorite(id){favorites.has(id)?favorites.delete(id):favorites.add(id);localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favorites]));toast(favorites.has(id)?'已加入收藏':'已取消收藏')}
 function openWork(index,push=true){if(!visibleWorks.length)return;activeWorkIndex=(index+visibleWorks.length)%visibleWorks.length;const w=visibleWorks[activeWorkIndex];$('#dialog-image').src=safeImage(w.image);$('#dialog-image').alt=w.title;$('#dialog-title').textContent=w.title;$('#dialog-series').textContent=w.series||w.category;$('#dialog-desc').textContent=w.description||'';$('#favorite-work').classList.toggle('active',favorites.has(w.id));$('#favorite-work').textContent=favorites.has(w.id)?'♥ 已收藏':'♡ 收藏作品';if(push){const u=new URL(location.href);u.searchParams.set('work',w.id);history.replaceState(null,'',u)}if(!$('#work-dialog').open)$('#work-dialog').showModal()}
 function closeWork(){if($('#work-dialog').open)$('#work-dialog').close();const u=new URL(location.href);u.searchParams.delete('work');history.replaceState(null,'',u)}
@@ -109,7 +77,7 @@ function showSlide(idx){heroIdx=(idx+3)%3;$$('.hero-slide').forEach((e,i)=>e.cla
 function clearGallery(){currentCat='全部';currentSeries='全部';currentQuery='';currentSort='featured';shown=12;$('#gallery-search').value='';$('#series-filter').value='全部';$('#gallery-sort').value='featured';$$('#gallery-filters button').forEach(b=>b.classList.toggle('on',b.dataset.cat==='全部'));renderGallery()}
 function initEvents(){
 $$('.tabs button').forEach(b=>b.addEventListener('click',()=>{$$('.tabs button').forEach(e=>{e.classList.remove('selected');e.setAttribute('aria-selected','false')});b.classList.add('selected');b.setAttribute('aria-selected','true');newsCat=b.dataset.news;renderNews()}));
-$('#gallery-filters').addEventListener('click',e=>{const b=e.target.closest('button[data-cat]');if(!b)return;$$('#gallery-filters button').forEach(e=>e.classList.remove('on'));b.classList.add('on');currentCat=b.dataset.cat;shown=12;renderGallery();});
+$('#gallery-filters').addEventListener('click',e=>{const b=e.target.closest('button[data-cat]');if(!b)return;$$('#gallery-filters button').forEach(e=>e.classList.remove('on'));b.classList.add('on');currentCat=b.dataset.cat;currentSeries='全部';shown=12;renderGallery();});
 $('#gallery-search').addEventListener('input',e=>{currentQuery=e.target.value.trim().toLowerCase();shown=12;renderGallery()});$('#series-filter').addEventListener('change',e=>{currentSeries=e.target.value;shown=12;renderGallery()});$('#gallery-sort').addEventListener('change',e=>{currentSort=e.target.value;shown=12;renderGallery()});$('#clear-gallery').addEventListener('click',clearGallery);$('#load-more').addEventListener('click',()=>{shown+=12;renderGallery()});
 $('#featured-go').addEventListener('click',()=>{if($('#featured-go').getAttribute('href')==='#gallery')clearGallery();});
 $('#hero-prev').addEventListener('click',()=>showSlide(heroIdx-1));$('#hero-next').addEventListener('click',()=>showSlide(heroIdx+1));$$('#hero-dots button').forEach(b=>b.addEventListener('click',()=>showSlide(Number(b.dataset.go))));$('#hero-pause').addEventListener('click',()=>{heroRunning=!heroRunning;$('#hero-pause').textContent=heroRunning?'Ⅱ':'▶';$('#hero-pause').ariaLabel=heroRunning?'暫停輪播':'播放輪播'});setInterval(()=>{if(heroRunning&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)showSlide(heroIdx+1)},6500);
@@ -119,5 +87,6 @@ $('#back-top').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}))
 addEventListener('keydown',e=>{if(!$('#work-dialog').open)return;if(e.key==='ArrowLeft')openWork(activeWorkIndex-1);if(e.key==='ArrowRight')openWork(activeWorkIndex+1)});
 }
 function deepLink(){const id=new URLSearchParams(location.search).get('work');if(!id)return;const i=visibleWorks.findIndex(w=>w.id===id);if(i>=0){setTimeout(()=>openWork(i,false),120)}}
-function loadSite(){initSettings();renderNews();renderGallery();deepLink();if(draftMode)toast('正在預覽後台草稿')}
+function loadSite(){initSettings();renderNews();renderGallery();syncPrimaryNav();deepLink();if(draftMode)toast('正在預覽後台草稿')}
+addEventListener('hashchange',syncPrimaryNav);
 initEvents();loadSite();

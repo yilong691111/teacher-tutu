@@ -52,7 +52,7 @@
  function publicNames(site,key){
   const items=(site[key]||[]).filter(x=>x.published!==false);let list=names(site,key);
   if(key==='lineProducts'){if(site.categoryLists?.[key]===undefined)list=[...new Set(items.map(x=>category(x,key)))];return list.filter(n=>items.some(x=>category(x,key)===n));}
-  return site.categoryLists?.[key]===undefined?list.filter(n=>n!=='其他'||items.some(x=>category(x,key)==='其他')):list;
+  return list.filter(n=>items.some(x=>category(x,key)===n));
  }
  const mutationReady=state=>state.formsReady===true&&state.publishReady===true&&!state.busy&&!state.pending;
  return {names,category,validate,categoryAction,batch,checkpoint,undo,visibleSelection,publicNames,mutationReady};
