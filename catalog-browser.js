@@ -25,7 +25,6 @@
   for(const link of doc.querySelectorAll('[data-catalog-topic]')){const topic=validTopic(link.dataset.catalogTopic);link.hidden=link.dataset.catalogTopic!=='all'&&!topics.some(t=>t.id===link.dataset.catalogTopic);link.href=topicUrl(topic);link.addEventListener('click',event=>{if(event.button>0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();setTopic(topic,{scroll:true});});}
   if($('show-grade7-idioms'))$('show-grade7-idioms').onclick=()=>setTopic('idioms',{scroll:true});
   win.addEventListener('popstate',()=>setTopic(new URL(win.location.href).searchParams.get('topic'),{url:false}));
-  $('featured-stickers').hidden=items.length===0;$('featured-sticker-grid').replaceChildren(...items.slice(0,6).map(p=>productCard(p,true)));
   $('load-more-line-products').onclick=()=>{const previous=$('line-product-grid').children.length;limit+=9;render();$('line-product-grid').children[previous]?.children[0]?.focus({preventScroll:true});};
   render();return {setTopic,reset:()=>setTopic('all'),render,get state(){return {...state};}};
  }
