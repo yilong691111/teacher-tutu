@@ -34,7 +34,7 @@ function renderCharacters(){
 }
 function renderFestival(){window.TutuFestivalPlayer?.mount(site,window.TutuGitHub?.FESTIVAL_DEFAULTS);}
 function renderLineProduct(){window.TutuCatalogBrowser?.mount(site,{safeImage,onNavigate:syncPrimaryNav});}
-function syncPrimaryNav(){const hash=location.hash.slice(1),aliases={characters:'about',line:'line-catalog',gallery:'line-catalog','featured-stickers':'line-catalog','grade7-idioms':'news'};const target=aliases[hash]||hash||'top';$$('.nav-item').forEach(a=>{const active=a.dataset.navTarget===target;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}
+function syncPrimaryNav(){const hash=location.hash.slice(1),aliases={characters:'about',line:'line-catalog',gallery:'line-catalog','featured-stickers':'line-catalog','grade7-idioms':'news','idiom-story':'news'};const target=aliases[hash]||hash||'top';$$('.nav-item').forEach(a=>{const active=a.dataset.navTarget===target;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}
 
 function renderNews(){let news=(site.news||[]).filter(n=>n.published!==false&&(newsCat==='全部'||n.category===newsCat)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const list=$('#news-list');list.textContent='';if(!news.length){list.innerHTML='<p style="padding:24px;color:#8193aa">目前沒有這一類的公告。</p>';return}news.slice(0,5).forEach(n=>{const b=document.createElement('button');b.className='news-row';b.type='button';b.innerHTML=`<time>${formatDate(n.date)}</time><span class="category">${safe(n.category)}</span><strong>${safe(n.title)}</strong><span class="arrow">→</span>`;b.addEventListener('click',()=>openNews(n));list.appendChild(b)})}
 function openNews(n){
@@ -56,7 +56,6 @@ const toggle=$('.mobile-toggle');toggle.addEventListener('click',()=>{const isOp
 $('#news-dialog-close').addEventListener('click',()=>$('#news-dialog').close());$('#news-dialog').addEventListener('click',e=>{if(e.target===$('#news-dialog'))$('#news-dialog').close()});
 $('#back-top').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;const p=max>0?scrollY/max*100:0;$('#scroll-progress').style.width=p+'%';$('#back-top').classList.toggle('show',scrollY>600)},{passive:true});
 }
-function openLegacyNews(){if(location.hash!=='#grade7-idioms')return;const item=(site.news||[]).find(n=>n.id==='n20261029-idiom-copy'&&n.published!==false);if(item)openNews(item);}
-function loadSite(){initSettings();renderNews();syncPrimaryNav();openLegacyNews();if(draftMode)toast('正在預覽後台草稿')}
-addEventListener('hashchange',()=>{syncPrimaryNav();openLegacyNews();});
+function loadSite(){initSettings();renderNews();syncPrimaryNav();if(draftMode)toast('正在預覽後台草稿')}
+addEventListener('hashchange',syncPrimaryNav);
 initEvents();loadSite();

@@ -55,3 +55,7 @@
 /* Legacy destinations stay usable after public section consolidation. */
 .legacy-anchor{display:block;height:0;overflow:hidden;scroll-margin-top:85px}
 #news-dialog-body{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9}
+
+/* Restored full idiom article directly after latest news. */
+.idiom-story{padding-top:28px;padding-bottom:28px}
+.idiom-story .idiom-promo{margin:0}
