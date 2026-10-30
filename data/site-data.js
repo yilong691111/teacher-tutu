@@ -473,7 +473,10 @@ window.TUTU_BOOTSTRAP = {
       "imageAlt": "業績長紅",
       "buttonText": "看看羊年系列 →",
       "buttonLink": "#gallery",
-      "workIds": [],
+      "workIds": [
+        "w031",
+        "w039"
+      ],
       "published": true,
       "coverWorkId": ""
     },
