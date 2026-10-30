@@ -466,7 +466,7 @@ window.TUTU_BOOTSTRAP = {
       "title": "塗塗的日常",
       "subtitle": "羊年賀歲祝福",
       "holidayName": "羊年賀歲祝福",
-      "eventDate": "",
+      "eventDate": "2007-02-04",
       "description": "紅色賀年服裝、藍色蠟筆祝福字、童趣的喜怒哀樂——這是一份來自塗塗的暖心新年禮物。",
       "tags": "喜氣羊羊\n吉羊迎春\n羊年大吉\n福星高照",
       "image": "assets/works/031.webp",
@@ -474,7 +474,8 @@ window.TUTU_BOOTSTRAP = {
       "buttonText": "看看羊年系列 →",
       "buttonLink": "#gallery",
       "workIds": [],
-      "published": true
+      "published": true,
+      "coverWorkId": ""
     },
     {
       "id": "world-childrens-day-20261120",
