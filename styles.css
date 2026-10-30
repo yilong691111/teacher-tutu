@@ -29,3 +29,4 @@
 .line-product-body .line-product-description{font-size:14px;line-height:1.8;color:#536582;white-space:pre-line}.char-card .underlink{display:inline-block;margin-top:8px;font-size:12px}.characters-empty{grid-column:1/-1;text-align:center;color:#7183a2}
 
 .festival-calendar [hidden]{display:none!important}
+.festival-calendar #festival-ticker,.festival-calendar #festival-result{display:none!important}
