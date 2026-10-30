@@ -62,7 +62,7 @@
  function capture(formId,targetId){
   let s=states.get(formId);if(!s){begin(formId);s=states.get(formId);}if(!s)return;
   const spec=imageFields[formId],file=spec?document.getElementById(spec.file).files[0]:null;s.parked=false;
-  if(spec&&((file&&s.file!==file)||(targetId===spec.gallery&&document.getElementById(spec.gallery).value))){s.imageError=false;document.getElementById(spec.error).value='';}
+  if(spec&&((file&&s.file!==file)||(targetId===spec.gallery&&document.getElementById(spec.gallery).value)||targetId===spec.value)){s.imageError=false;document.getElementById(spec.error).value='';}
   if(!file&&s.file){pendingImages.delete(s.promise);s.file=null;s.imagePending=false;}
   s.values=readValues(formId);s.dirty=JSON.stringify(s.values)!==s.baseline||!!file||s.imagePending||s.imageError;
   if(file&&s.file!==file){

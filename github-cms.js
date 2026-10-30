@@ -4,10 +4,11 @@
  const content=typeof module==='object'&&module.exports?require('./content-models.js'):root.TutuContent;
  const festivals=typeof module==='object'&&module.exports?require('./festival-model.js'):root.TutuFestivals;
  const categories=typeof module==='object'&&module.exports?require('./category-model.js'):root.TutuCategories;
- const api=factory(content,festivals,categories);
+ const media=typeof module==='object'&&module.exports?require('./media-model.js'):root.TutuMedia;
+ const api=factory(content,festivals,categories,media);
  if(typeof module==='object'&&module.exports)module.exports=api;
  else root.TutuGitHub=api;
-})(typeof window==='undefined'?globalThis:window,function(content,festivals,categories){
+})(typeof window==='undefined'?globalThis:window,function(content,festivals,categories,media){
  'use strict';
  const REPO='yilong691111/teacher-tutu',BRANCH='main';
  const REPO_URL='https://github.com/'+REPO;
@@ -33,6 +34,7 @@
   if(content)content.validateCollections(data);
   if(festivals)festivals.validate(data);
   if(categories)categories.validate(data);
+  if(media)media.validate(data);
   try{const u=new URL(data.settings.lineUrl);if(u.protocol!=='https:'||u.username||u.password)throw 0;}catch{throw error('LINE 商店網址必須是完整的 HTTPS 網址。');}
   for(const [key,label,max,required] of [
    ['festivalTitle','主標題',90,true],['festivalSubtitle','系列名稱',90,false],

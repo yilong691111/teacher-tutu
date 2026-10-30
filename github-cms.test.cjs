@@ -186,3 +186,8 @@ test('category registry validation and batch changes share atomic publication wi
  const s=server(),client=new cms.Client({fetch:s.fetch});await client.connect('test-token');await client.publish(d,'base');const blobs=s.calls.filter(c=>c.path.endsWith('/git/blobs')&&c.method==='POST'),parsed=cms.parseData(blobs[0].body.content);
  assert.equal(parsed.gallery[0].category,'兒童節');assert.equal(parsed.gallery[0].published,false);assert.deepEqual(parsed.categoryLists,d.categoryLists);assert.deepEqual(parsed.lineProducts,source.lineProducts);assert.deepEqual(JSON.parse(blobs[1].body.content),parsed);
 });
+test('media library validates before publish and survives the same atomic data-file commit',async()=>{
+ const d=data();d.mediaLibrary=[{image:'data:image/png;base64,AAAA',name:'新素材',category:'節慶',alt:'原創圖',width:370,height:320}];
+ assert.throws(()=>cms.validateData({...d,mediaLibrary:[{...d.mediaLibrary[0],image:'https://evil.example/unsafe.png'}]}),/素材|圖片/);
+ const s=server(),client=new cms.Client({fetch:s.fetch});await client.connect('test-token');await client.publish(d,'base');const bodies=s.calls.filter(x=>x.path.endsWith('/git/blobs')).map(x=>x.body.content);const json=JSON.parse(bodies.find(x=>x.trim().startsWith('{')));assert.deepEqual(json.mediaLibrary,d.mediaLibrary);assert.deepEqual(json.gallery,d.gallery);assert.deepEqual(json.lineProducts,d.lineProducts);
+});

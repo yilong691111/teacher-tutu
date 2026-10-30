@@ -78,3 +78,7 @@ test('successful independent festival uploads clear gallery provenance in recove
  assert.equal(h.el('festival-cover-work-id').value,'');assert.equal(new buffers.Store(h.storage).get('festival-form','festival-a').values['festival-cover-work-id'],'');
  const bad=draftHarness(()=>Promise.reject(new Error('broken')));bad.el('festival-cover-work-id').value='cover';bad.manager.begin('festival-form','festival-b');bad.el('festival-file').files=[{name:'broken.png'}];bad.events.change({target:bad.el('festival-file')});await Promise.resolve();await Promise.resolve();bad.el('festival-cancel-image').onclick();assert.equal(bad.el('festival-cover-work-id').value,'cover');
 });
+test('choosing a library image clears a failed upload and saves the replacement in unfinished recovery',async()=>{
+ const h=draftHarness(()=>Promise.reject(new Error('broken')));h.el('work-file').files=[{name:'bad.png'}];h.events.change({target:h.el('work-file')});await new Promise(r=>setImmediate(r));assert.equal(h.el('work-image-warning').hidden,false);
+ h.el('work-file').files=[];h.el('work-existing-image').value='assets/works/replacement.png';h.el('work-image-error').value='';h.events.input({target:h.el('work-existing-image')});h.manager.flush();assert.equal(h.el('work-image-warning').hidden,true);assert.equal(new buffers.Store(h.storage).get('work-form','w1').values['work-existing-image'],'assets/works/replacement.png');assert.equal(new buffers.Store(h.storage).get('work-form','w1').values['work-image-error'],'');
+});
