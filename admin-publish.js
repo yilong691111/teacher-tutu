@@ -44,10 +44,12 @@
   }
  }
  function recordBase(snapshot){
+  window.TutuReportsAdmin?.setPublished?.(snapshot.data);
   remote=snapshot;baseBlob=snapshot.baseBlob;baseline=JSON.stringify(snapshot.data);
   needsAdoption=false;conflicted=false;draftBaseBlob=baseBlob;
  }
  function reconcile(snapshot,local=loadLocal(),metadata={baseBlob:draftStore.read()?.baseBlob}){
+  window.TutuReportsAdmin?.setPublished?.(snapshot.data);
   const result=api.resolveDraft(local,snapshot,metadata);
   remote=snapshot;baseline=JSON.stringify(snapshot.data);site=result.data;
   baseBlob=result.baseBlob;needsAdoption=result.needsAdoption;conflicted=false;

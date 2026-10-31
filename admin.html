@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
 <link rel="stylesheet" href="admin.css?v=20261030-report-editor">
-<script defer src="data/site-data.js?v=20261101-report-editor-pages"></script>
+<script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
 <script defer src="form-drafts.js?v=20261030-report-editor"></script>
 <script defer src="festival-model.js?v=20261030-report-editor"></script>
@@ -20,9 +20,9 @@
 <script defer src="admin-collections.js?v=20261030-report-editor"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
-<script defer src="admin-reports.js?v=20261101-report-editor-pages"></script>
+<script defer src="admin-reports.js?v=20261101-missing-reports"></script>
 <script defer src="admin-drafts.js?v=20261030-report-editor"></script>
-<script defer src="admin-publish.js?v=20261030-report-editor"></script>
+<script defer src="admin-publish.js?v=20261101-missing-reports"></script>
 <script defer src="admin-media.js?v=20261030-report-editor"></script>
 </head>
 <body>
@@ -118,7 +118,7 @@
 
     <section id="page-reports" class="page" hidden>
       <div class="panel"><div class="panel-head"><div><h2>特別報導管理</h2><p>每頁一篇報導，可分別編輯與預覽。新增其它頁報導會排在最後，儲存後可預覽並一鍵發布。</p></div><div class="actions"><button id="preview-reports" class="secondary" type="button">預覽特別報導</button><button id="new-report" class="primary" type="button">＋ 新增其它頁報導</button></div></div>
-      <p id="reports-count" class="muted"></p><div class="table-scroll"><table><thead><tr><th>文章標題</th><th>展示狀態</th><th>管理</th></tr></thead><tbody id="reports-table"></tbody></table></div><p id="reports-empty" hidden>還沒有文章，可按「新增其它頁報導」建立。刪除所有文章並發布後，官網會顯示尚無公開報導。</p></div>
+      <div id="reports-sync" class="publish-summary" hidden><p id="reports-sync-message"></p><button id="sync-published-reports" class="secondary" type="button">載入官網缺少的報導</button></div><p id="reports-count" class="muted"></p><div class="table-scroll"><table><thead><tr><th>文章標題</th><th>展示狀態</th><th>管理</th></tr></thead><tbody id="reports-table"></tbody></table></div><p id="reports-empty" hidden>還沒有文章，可按「新增其它頁報導」建立。刪除所有文章並發布後，官網會顯示尚無公開報導。</p></div>
       <form id="report-form" class="panel" hidden><h2 id="report-form-heading">編輯特別報導</h2><input id="report-id" type="hidden"><input id="report-origin-id" type="hidden">
       <label>文章標題 *<input id="report-title" maxlength="150" required></label>
       <div class="form-grid"><label>副標題<input id="report-subtitle" maxlength="150" placeholder="例如：12年國教七年級常用成語"></label><label>文章標籤<input id="report-label" maxlength="80" placeholder="例如：七年級成語篇 1–5"></label></div>
