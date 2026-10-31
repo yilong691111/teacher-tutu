@@ -45,6 +45,6 @@
   if(Boolean(r.buttonText?.trim())!==Boolean(r.buttonLink?.trim())||(r.buttonLink&&!safeLink(r.buttonLink)))throw new Error('特別報導按鈕文字與安全連結請一起填寫，或一起留空。');
  }
  function validate(site){if(site.reports===undefined)return site;if(!Array.isArray(site.reports))throw new Error('特別報導資料必須是清單。');const ids=new Set();for(const report of site.reports){validateReport(report);if(ids.has(report.id))throw new Error('特別報導識別碼重複。');ids.add(report.id);}return site;}
- function save(list,originalId,fields){const index=originalId?list.findIndex(r=>r.id===originalId):-1;if(originalId&&index<0)throw new Error('特別報導已不存在，請重新開啟。');if(originalId&&fields.id!==originalId)throw new Error('特別報導識別碼不可更換。');if(list.some((r,i)=>r.id===fields.id&&i!==index))throw new Error('特別報導識別碼重複。');const report={...(list[index]||{}),...fields};validateReport(report);const next=list.slice();if(index<0)next.unshift(report);else next[index]=report;return next;}
+ function save(list,originalId,fields){const index=originalId?list.findIndex(r=>r.id===originalId):-1;if(originalId&&index<0)throw new Error('特別報導已不存在，請重新開啟。');if(originalId&&fields.id!==originalId)throw new Error('特別報導識別碼不可更換。');if(list.some((r,i)=>r.id===fields.id&&i!==index))throw new Error('特別報導識別碼重複。');const report={...(list[index]||{}),...fields};validateReport(report);const next=list.slice();if(index<0)next.push(report);else next[index]=report;return next;}
  return {reportsFor,anchor,safeLink,safeImage:content.safeImage,validate,save};
 });
