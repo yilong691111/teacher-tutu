@@ -547,6 +547,30 @@ window.TUTU_BOOTSTRAP = {
       "gallerySeries": "藍田老師的教學日常",
       "tone": "ice",
       "published": true
+    },
+    {
+      "id": "youyou",
+      "name": "佑佑",
+      "description": "熱心行動派｜勇敢、直率，喜歡幫助朋友。看到同學搬不動書、遊戲少了一位隊友，他總會笑著說：「我來幫你！」偶爾太心急，還沒聽完就衝出去；但他也在練習先問一句：「你需要什麼？」對佑佑來說，善良就是把關心變成小小的行動，陪大家一起試、一起進步。口頭禪：「我來幫你！」",
+      "image": "assets/youyou.webp",
+      "imageAlt": "佑佑，藍色短髮、藍白制服與短褲，笑著揮手的蠟筆男孩",
+      "tone": "ice",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
+    },
+    {
+      "id": "nuannuan",
+      "name": "暖暖",
+      "description": "溫柔陪伴者｜開朗、細心，擅長發現別人的心情。當朋友失落或不敢開口，她會安靜聽完，再說：「有你真好！」她喜歡分享，也會為不起眼的小進步開心鼓掌。偶爾太在意別人，會忘了照顧自己；她正學著勇敢說出自己的感受。對暖暖來說，善良就是讓每個人都覺得：我被看見，也值得被喜歡。口頭禪：「有你真好！」",
+      "image": "assets/nuannuan.webp",
+      "imageAlt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩",
+      "tone": "pink",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
     }
   ],
   "mediaLibrary": [
@@ -561,6 +585,22 @@ window.TUTU_BOOTSTRAP = {
       "name": "桃寶",
       "category": "人物夥伴",
       "alt": "女塗塗"
+    },
+    {
+      "image": "assets/youyou.webp",
+      "name": "佑佑｜個人角色照",
+      "category": "人物夥伴",
+      "alt": "佑佑，藍色短髮、藍白制服與短褲，笑著揮手的蠟筆男孩",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "image": "assets/nuannuan.webp",
+      "name": "暖暖｜個人角色照",
+      "category": "人物夥伴",
+      "alt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩",
+      "width": 1254,
+      "height": 1254
     }
   ]
 };
