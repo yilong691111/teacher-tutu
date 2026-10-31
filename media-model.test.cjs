@@ -44,3 +44,8 @@ test('festival usage and search include selected works and the current linked co
 test('manifest large app icon is a protected fixed public usage even when it has saved metadata',()=>{
  const s={gallery:[],characters:[],festivals:[],mediaLibrary:[{image:'assets/icon-512.png',name:'圖示',category:'',alt:''}]};assert.ok(m.catalog(s).find(x=>x.image==='assets/icon-512.png').uses.some(x=>x.kind==='fixed'));assert.throws(()=>m.remove(s,['assets/icon-512.png']),/保護/);
 });
+
+test('report illustrations remain protected usages even when the report is hidden',()=>{
+ const s={...fixture(),reports:[{id:'kindness',title:'世界善良日',published:false,images:[{image:'assets/works/kindness-cover.webp',alt:'擁抱地球',caption:'用善良分享愛'}]}],mediaLibrary:[{image:'assets/works/kindness-cover.webp',name:'善良日封面',category:'節慶',alt:'擁抱地球'}]};
+ const row=m.catalog(s).find(x=>x.image==='assets/works/kindness-cover.webp');assert.ok(row.uses.some(x=>x.kind==='reports'&&x.id==='kindness'&&x.label.includes('已隱藏')));assert.throws(()=>m.remove(s,[row.image]),/保護/);
+});

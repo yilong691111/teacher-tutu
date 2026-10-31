@@ -20,3 +20,10 @@ test('GitHub validation and serialization include reports and preserve unrelated
 test('unfinished report buffers preserve per-article identities and only allowed fields',()=>{
  const disk=new Map(),storage={get length(){return disk.size},key:i=>[...disk.keys()][i],getItem:k=>disk.get(k)||null,setItem:(k,v)=>disk.set(k,v),removeItem:k=>disk.delete(k)};const store=new buffers.Store(storage);store.put('report-form','new-a',{'report-id':'new-a','report-title':'第一篇','report-section-1-body':'原文','github-token':'secret'});store.put('report-form','new-b',{'report-id':'new-b','report-title':'第二篇'});assert.equal(new buffers.Store(storage).all().length,2);assert.equal(store.get('report-form','new-a').values['report-section-1-body'],'原文');assert.equal(store.get('report-form','new-a').values['github-token'],undefined);
 });
+
+test('report images reject unsafe sources and preserve illustrations through text edits',()=>{
+ const images=[{image:'assets/works/kindness-cover.webp',alt:'孩子擁抱地球',caption:'用善良讓世界更美好'}];
+ reports.validate({reports:[{...article(),images}]});
+ assert.deepEqual(reports.save([{...article(),images}],'a',{...article(),title:'新標題'})[0].images,images);
+ for(const bad of [null,{},[null],[{image:'https://evil.example/x.png',alt:'圖'}],[{image:'assets/works/a.png',alt:''}],[{image:'assets/works/a.png',alt:'圖',caption:'長'.repeat(1501)}],Array(13).fill(images[0])])assert.throws(()=>reports.validate({reports:[{...article(),images:bad}]}),/報導/);
+});

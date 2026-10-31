@@ -40,9 +40,10 @@
   for(const [key,max] of [['label',80],['subtitle',150],['summary',1500],['closing',1500],['buttonText',80],['buttonLink',2000]])text(r,key,max);
   if(r.published!==undefined&&typeof r.published!=='boolean')throw new Error('特別報導展示狀態不正確。');
   if(r.sections!==undefined){if(!Array.isArray(r.sections)||r.sections.length>3)throw new Error('特別報導補充段落最多三段。');for(const section of r.sections){if(!section||typeof section!=='object'||Array.isArray(section))throw new Error('特別報導補充段落格式不正確。');text(section,'label',80);text(section,'title',150,true);text(section,'body',5000,true);}}
+  if(r.images!==undefined){if(!Array.isArray(r.images)||r.images.length>12)throw new Error('特別報導圖片最多十二張。');for(const image of r.images){if(!image||!content.safeImage(image.image))throw new Error('特別報導圖片必須是網站內圖片或上傳的圖片。');text(image,'alt',200,true);text(image,'caption',1500);}}
   if(Boolean(r.buttonText?.trim())!==Boolean(r.buttonLink?.trim())||(r.buttonLink&&!safeLink(r.buttonLink)))throw new Error('特別報導按鈕文字與安全連結請一起填寫，或一起留空。');
  }
  function validate(site){if(site.reports===undefined)return site;if(!Array.isArray(site.reports))throw new Error('特別報導資料必須是清單。');const ids=new Set();for(const report of site.reports){validateReport(report);if(ids.has(report.id))throw new Error('特別報導識別碼重複。');ids.add(report.id);}return site;}
  function save(list,originalId,fields){const index=originalId?list.findIndex(r=>r.id===originalId):-1;if(originalId&&index<0)throw new Error('特別報導已不存在，請重新開啟。');if(originalId&&fields.id!==originalId)throw new Error('特別報導識別碼不可更換。');if(list.some((r,i)=>r.id===fields.id&&i!==index))throw new Error('特別報導識別碼重複。');const report={...(list[index]||{}),...fields};validateReport(report);const next=list.slice();if(index<0)next.unshift(report);else next[index]=report;return next;}
- return {reportsFor,anchor,safeLink,validate,save};
+ return {reportsFor,anchor,safeLink,safeImage:content.safeImage,validate,save};
 });
