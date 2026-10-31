@@ -1,8 +1,10 @@
 /* Public reports: safe text and illustration rendering and independent, canonical article sharing. */
 (function(root,factory){const model=typeof module==='object'&&module.exports?require('./report-model.js'):root.TutuReports;const api=factory(model,root);if(typeof module==='object'&&module.exports)module.exports=api;else root.TutuReportRenderer=api;})(typeof window==='undefined'?globalThis:window,function(model,root){
  'use strict';
+ const cleanups=new WeakMap();
  function mount(site,options={}){
-  const doc=options.document||document,sharing=options.sharing||root.TutuArticleSharing,list=doc.getElementById('report-list');if(!list)return;
+  const doc=options.document||document,sharing=options.sharing||root.TutuArticleSharing,list=doc.getElementById('report-list');if(!list)return;cleanups.get(list)?.();
+  const location=options.location||root.location,eventTarget=options.eventTarget||root;
   const node=(tag,cls,text)=>{const el=doc.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;};
   const records=model.reportsFor(site),visible=(Array.isArray(records)?records:[]).filter(r=>r&&r.published!==false&&typeof r.title==='string');
   const cards=visible.map(r=>{
@@ -14,14 +16,27 @@
    const body=node('div','idiom-promo'),head=node('div','idiom-promo-heading');
    if(r.label)head.append(node('span','idiom-label',r.label));if(r.subtitle)head.append(node('h3',null,r.subtitle));
    head.append(node(r.subtitle?'p':'h3','idiom-headline',r.title));if(r.summary)head.append(node('p','idiom-lead',r.summary));head.append(node('p','report-body',r.body||''));body.append(head);
-   if(Array.isArray(r.images)&&r.images.length){const images=node('div','report-images');for(const item of r.images){if(!item||!model.safeImage(item.image))continue;const figure=node('figure','report-image'),image=node('img');image.src=item.image;image.alt=item.alt||'';image.loading='lazy';image.decoding='async';figure.append(image);if(item.caption)figure.append(node('figcaption',null,item.caption));images.append(figure);}if(images.children.length)body.append(images);}
+   if(r.showImages!==false&&Array.isArray(r.images)&&r.images.length){const images=node('div','report-images');for(const item of r.images){if(!item||!model.safeImage(item.image))continue;const figure=node('figure','report-image'),image=node('img');image.src=item.image;image.alt=item.alt||'';image.loading='lazy';image.decoding='async';figure.append(image);if(item.caption)figure.append(node('figcaption',null,item.caption));images.append(figure);}if(images.children.length)body.append(images);}
    if(Array.isArray(r.sections)&&r.sections.length){const sections=node('div','idiom-audiences');if(r.id==='grade7-idioms')sections.id='idiom-readers';for(const section of r.sections){const box=node('article');if(section.label)box.append(node('span','idiom-audience-label',section.label));box.append(node('h4',null,section.title),node('p',null,section.body));sections.append(box);}body.append(sections);}
    if(r.closing||(r.buttonText&&model.safeLink(r.buttonLink))){const actions=node('div','idiom-promo-action');if(r.closing)actions.append(node('p',null,r.closing));if(r.buttonText&&model.safeLink(r.buttonLink)){let button;if(r.id==='grade7-idioms'&&r.buttonLink==='?topic=idioms#line-catalog'){button=node('button','button blue',r.buttonText);button.id='show-grade7-idioms';button.type='button';}else{button=node('a','button blue',r.buttonText);button.href=r.buttonLink;if(r.buttonLink.startsWith('https://')){button.target='_blank';button.rel='noopener noreferrer';}}actions.append(button);}body.append(actions);}
    card.append(toolbar,status,fallback,body);
    sharing?.mount({title:r.title+'｜'+(site.settings?.brand||'塗塗老師'),text:r.summary||'',url:'https://yilong691111.github.io/teacher-tutu/#'+anchor},{document:doc,elements:{share,copy,status,fallback,input}});
    return card;
   });
-  if(!cards.length)cards.push(node('p','reports-empty','目前沒有公開的特別報導，敬請期待。'));list.replaceChildren(...cards);
+  if(!cards.length){list.replaceChildren(node('p','reports-empty','目前沒有公開的特別報導，敬請期待。'));return;}
+  const pages=node('nav','report-pages');pages.setAttribute('aria-label','特別報導分頁');
+  const controls=node('div','report-page-controls'),previous=node('button','button outline','← 上一篇'),next=node('button','button outline','下一篇 →'),status=node('p','report-page-status');previous.type=next.type='button';status.setAttribute('role','status');status.setAttribute('aria-live','polite');controls.append(previous,status,next);
+  let current=0;
+  const buttons=visible.map((r,index)=>{const button=node('button','report-page-button',`第 ${index+1} 頁｜${r.title}`);button.type='button';button.setAttribute('aria-controls',cards[index].id);button.addEventListener('click',()=>select(index,true));pages.append(button);return button;});
+  function select(index,navigate=false){
+   current=index;cards.forEach((card,i)=>{card.hidden=i!==index;});buttons.forEach((button,i)=>button.setAttribute('aria-current',i===index?'page':'false'));
+   previous.disabled=index===0;next.disabled=index===cards.length-1;status.textContent=`第 ${index+1} 頁，共 ${cards.length} 頁`;
+   if(navigate){if(location)location.hash='#'+cards[index].id;cards[index].scrollIntoView?.({block:'start'});}
+  }
+  function syncHash(){const hash=(location?.hash||'').slice(1),index=hash==='idiom-story'?0:visible.findIndex(r=>model.anchor(r)===hash||(hash==='idiom-readers'&&r.id==='grade7-idioms'));if(index>=0){select(index);(doc.getElementById(hash)||cards[index]).scrollIntoView?.({block:'start'});}}
+  previous.addEventListener('click',()=>{if(current>0)select(current-1,true);});next.addEventListener('click',()=>{if(current<cards.length-1)select(current+1,true);});
+  list.replaceChildren(...(cards.length>1?[pages,...cards,controls]:cards));select(0);syncHash();
+  eventTarget.addEventListener?.('hashchange',syncHash);cleanups.set(list,()=>eventTarget.removeEventListener?.('hashchange',syncHash));
  }
  return {mount};
 });

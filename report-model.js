@@ -38,6 +38,7 @@
   if(!r||typeof r.id!=='string'||!/^[\w-]{1,80}$/.test(r.id))throw new Error('特別報導識別碼不正確。');
   text(r,'title',150,true);text(r,'body',30000,true);
   for(const [key,max] of [['label',80],['subtitle',150],['summary',1500],['closing',1500],['buttonText',80],['buttonLink',2000]])text(r,key,max);
+  if(r.showImages!==undefined&&typeof r.showImages!=='boolean')throw new Error('特別報導圖片展示狀態不正確。');
   if(r.published!==undefined&&typeof r.published!=='boolean')throw new Error('特別報導展示狀態不正確。');
   if(r.sections!==undefined){if(!Array.isArray(r.sections)||r.sections.length>3)throw new Error('特別報導補充段落最多三段。');for(const section of r.sections){if(!section||typeof section!=='object'||Array.isArray(section))throw new Error('特別報導補充段落格式不正確。');text(section,'label',80);text(section,'title',150,true);text(section,'body',5000,true);}}
   if(r.images!==undefined){if(!Array.isArray(r.images)||r.images.length>12)throw new Error('特別報導圖片最多十二張。');for(const image of r.images){if(!image||!content.safeImage(image.image))throw new Error('特別報導圖片必須是網站內圖片或上傳的圖片。');text(image,'alt',200,true);text(image,'caption',1500);}}

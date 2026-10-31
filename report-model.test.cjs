@@ -27,3 +27,7 @@ test('report images reject unsafe sources and preserve illustrations through tex
  assert.deepEqual(reports.save([{...article(),images}],'a',{...article(),title:'新標題'})[0].images,images);
  for(const bad of [null,{},[null],[{image:'https://evil.example/x.png',alt:'圖'}],[{image:'assets/works/a.png',alt:''}],[{image:'assets/works/a.png',alt:'圖',caption:'長'.repeat(1501)}],Array(13).fill(images[0])])assert.throws(()=>reports.validate({reports:[{...article(),images:bad}]}),/報導/);
 });
+
+test('report image display preference validates booleans and survives ordinary text edits',()=>{
+ const r={...article(),showImages:false,images:[{image:'assets/works/a.png',alt:'原圖'}]};reports.validate({reports:[r]});assert.equal(reports.save([r],'a',{...article(),title:'改標題'})[0].showImages,false);assert.throws(()=>reports.validate({reports:[{...r,showImages:'false'}]}),/報導/);
+});
