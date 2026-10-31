@@ -89,7 +89,7 @@
 
 /* Read one special report at a time, preserving individual share destinations. */
 .report-article[hidden]{display:none}
-.report-pages{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px}
+.report-pages{display:none}
 .report-page-button{font:inherit;font-size:14px;line-height:1.6;text-align:left;min-height:44px;padding:11px 18px;border:1px solid #cedcf0;border-radius:12px;background:#fff;color:var(--deep);cursor:pointer}
 .report-page-button[aria-current="page"]{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:800}
 .report-page-button:focus-visible{outline:3px solid #e6b944;outline-offset:3px}
@@ -97,4 +97,4 @@
 .report-page-controls .button{min-height:44px;font-size:14px;padding:10px 18px}
 .report-page-controls .button:disabled{opacity:.4;cursor:default;transform:none}
 .report-page-status{margin:0;color:#62728e;font-size:14px;text-align:center}
-@media(max-width:700px){.report-pages{display:grid;grid-template-columns:1fr}.report-page-button{width:100%}.report-page-controls{gap:8px}.report-page-controls .button{padding:10px 12px}.report-page-status{font-size:12px}}
+@media(max-width:700px){.report-page-button{width:100%}.report-page-controls{gap:8px}.report-page-controls .button{padding:10px 12px}.report-page-status{font-size:12px}}
