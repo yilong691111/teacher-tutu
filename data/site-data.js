@@ -748,8 +748,8 @@ window.TUTU_BOOTSTRAP = {
         }
       ],
       "closing": "11/13，把善良傳出去；接下來的每一天，也留一點溫柔給自己與身邊的人。你今天想先謝謝誰？",
-      "buttonText": "逛逛塗塗老師的 LINE 貼圖商店 →",
-      "buttonLink": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "buttonText": "世界善良日的 LINE 貼圖 →",
+      "buttonLink": "https://store.line.me/stickershop/product/37675366/zh-Hant",
       "published": true,
       "showImages": false
     }
