@@ -98,3 +98,11 @@
 .report-page-controls .button:disabled{opacity:.4;cursor:default;transform:none}
 .report-page-status{margin:0;color:#62728e;font-size:14px;text-align:center}
 @media(max-width:700px){.report-page-button{width:100%}.report-page-controls{gap:8px}.report-page-controls .button{padding:10px 12px}.report-page-status{font-size:12px}}
+
+/* Official Instagram sits directly before the header sticker shop. */
+.instagram-link{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#7451c8,#d83f7e,#ef983f);color:#fff;box-shadow:0 5px 14px #b8468726;transition:transform .2s,box-shadow .2s}
+.instagram-link:hover{transform:translateY(-2px);box-shadow:0 7px 18px #b8468738}
+.instagram-link:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.instagram-link svg{display:block;flex-shrink:0}
+@media(max-width:480px){.mast-inner{flex-wrap:wrap;gap:12px;padding-top:12px;padding-bottom:12px}.header-right{margin-left:auto}}
+
