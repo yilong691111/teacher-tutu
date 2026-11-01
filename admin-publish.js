@@ -83,6 +83,44 @@
    else status('內容已提交。GitHub Pages 仍在處理中，可稍後按「重新確認發布狀態」。','building');
   }catch(e){status('內容已提交，但暫時無法取得部署狀態。請稍後重新確認，無需重複發布。','building');}
  }
+ function renderVersionHistory(versions){
+  const list=$('#version-history-list');list.replaceChildren();
+  if(!versions.length){const empty=document.createElement('p');empty.className='muted';empty.textContent='目前沒有可顯示的版本紀錄。';list.append(empty);}
+  for(const item of versions){
+   const row=document.createElement('article');row.className='version-history-item';
+   const info=document.createElement('div');info.className='version-history-info';
+   const title=document.createElement('strong');title.textContent=item.message||'（無提交說明）';
+   const meta=document.createElement('small');meta.textContent=(item.date?new Date(item.date).toLocaleString('zh-TW'):'日期未知')+' · '+item.author+' · '+item.sha.slice(0,7);
+   info.append(title,meta);
+   const actions=document.createElement('div');actions.className='version-history-actions';
+   const view=document.createElement('a');view.className='text-link';view.href=item.url;view.target='_blank';view.rel='noopener noreferrer';view.textContent='查看提交';
+   const restore=document.createElement('button');restore.type='button';restore.className='secondary';restore.textContent='載入為草稿';restore.dataset.versionSha=item.sha;
+   actions.append(view,restore);row.append(info,actions);list.append(row);
+  }
+  $('#version-history-status').textContent='已載入 '+versions.length+' 筆資料版本。載入舊版只會建立本機草稿，不會直接發布。';
+ }
+ $('#version-history-refresh').onclick=()=>run(async()=>{
+  if(!client.connected)throw new Error('請先連線 GitHub，再讀取版本紀錄。');
+  $('#version-history-status').textContent='正在讀取 GitHub 版本紀錄…';
+  const versions=await client.listHistory(25);renderVersionHistory(versions);
+ });
+ $('#version-history-list').addEventListener('click',e=>{
+  const button=e.target.closest('button[data-version-sha]');if(!button)return;
+  if(pending?.uncertain){toast('請先確認上一次 GitHub 提交結果，再載入舊版本。',true);return;}
+  if(dirty()&&!confirm('載入舊版本會取代目前本機草稿。請先下載完整 JSON 備份。確定繼續？'))return;
+  const commit=button.dataset.versionSha;
+  run(async()=>{
+   $('#version-history-status').textContent='正在安全載入指定版本…';
+   const latest=await client.loadSnapshot();
+   const historical=await client.loadVersion(commit);
+   recordBase(latest);
+   site=structuredClone(historical.data);
+   saveLocal();render();
+   $('#version-history-status').textContent='已將 '+commit.slice(0,7)+' 載入為本機草稿；尚未發布。';
+   status('已載入歷史版本為本機草稿。請先預覽、檢查內容，再按「發布到官網」才會生效。');
+   showPage('publish');
+  });
+ });
  $('#header-publish').onclick=()=>showPage('publish');
  window.addEventListener('tutu:draft',e=>{
   $('#draft-saved').textContent=e.detail.saved?'草稿儲存於此裝置 · '+displayTime():'草稿目前只保留於此頁面';

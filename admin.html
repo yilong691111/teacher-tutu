@@ -15,14 +15,14 @@
 <script defer src="media-model.js?v=20261113-kindness"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
-<script defer src="github-cms.js?v=20261030-report-editor"></script>
+<script defer src="github-cms.js?v=20261102-cms2-history"></script>
 <script defer src="admin.js?v=20261030-report-editor"></script>
 <script defer src="admin-collections.js?v=20261030-report-editor"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
 <script defer src="admin-reports.js?v=20261101-missing-reports"></script>
 <script defer src="admin-drafts.js?v=20261030-report-editor"></script>
-<script defer src="admin-publish.js?v=20261101-missing-reports"></script>
+<script defer src="admin-publish.js?v=20261102-cms2-history"></script>
 <script defer src="admin-media.js?v=20261030-report-editor"></script>
 </head>
 <body>
@@ -233,6 +233,7 @@
           </form>
           <p id="github-connection-message" role="status">尚未連線。你仍可編輯、預覽與備份草稿。</p>
           <small class="security-note">授權碼只用於向 GitHub 驗證，不會存入網站、備份檔或瀏覽器儲存空間。重新整理頁面後需再次連線。</small>
+          <small class="security-note">安全說明：此管理頁目前部署於 GitHub Pages，屬公開靜態頁面；GitHub Token 可限制發布權限，但不能取代獨立管理員登入。真正的帳號登入與角色權限需另接伺服器端驗證，不能用前端密碼冒充安全登入。</small>
           <details class="setup-guide"><summary>第一次使用：建立授權碼</summary>
             <ol><li>使用 <b>yilong691111</b> 登入 GitHub，開啟下方授權設定。</li><li>Repository access 選 <b>Only select repositories</b>，只選 <b>teacher-tutu</b>。</li><li>確認 Repository permissions 的 <b>Contents</b> 為 <b>Read and write</b>；其他權限維持預設。</li><li>確認有效期限後按 <b>Generate token</b>，複製產生的授權碼並貼回上方欄位。</li></ol>
             <a class="text-link" href="https://github.com/settings/personal-access-tokens/new?name=Teacher%20Tutu%20CMS&amp;target_name=yilong691111&amp;expires_in=30&amp;contents=write" target="_blank" rel="noopener noreferrer">開啟 GitHub 授權設定 ↗</a>
@@ -250,6 +251,12 @@
           <div class="actions"><button id="github-reload" class="secondary">重新讀取官網</button><button id="github-adopt-local" class="secondary" hidden>採用本機草稿</button></div>
           <small class="security-note">本網站的 GitHub 專案為公開。關閉「在官網展示」只會隱藏前台項目，內容仍會提交至公開專案，請勿放入私密資料。</small>
         </div>
+      </div>
+      <div class="panel version-history-panel">
+        <div class="panel-head"><div><span class="studio-label">03 / RESTORE</span><h2>版本紀錄與還原</h2><p>讀取 GitHub 中曾發布的網站資料版本。載入舊版只會建立本機草稿，不會立即覆蓋官網。</p></div><button id="version-history-refresh" type="button" class="secondary">讀取版本紀錄</button></div>
+        <p id="version-history-status" class="muted" role="status" aria-live="polite">連線 GitHub 後，可讀取最近 25 筆資料版本。</p>
+        <div id="version-history-list" class="version-history-list"></div>
+        <small class="security-note">還原流程：選擇版本 → 載入為草稿 → 預覽及檢查 → 確認發布。發布前仍會檢查官網最新版本，避免覆蓋其他人的新修改。</small>
       </div>
       <div class="panel publish-check"><h2>內容檢查</h2><div id="publish-checks" class="check-grid"></div></div>
       <div class="panel"><h2>備份與手動發布</h2><p>保留一份自己的備份。需要手動更新時，下載 site-data.js，再覆蓋 GitHub 專案的 data/site-data.js。</p><div class="actions"><button id="export-js" class="secondary">⇩ 下載 site-data.js</button><button id="export-json" class="secondary">⇩ 下載完整備份 JSON</button></div></div>

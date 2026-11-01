@@ -138,6 +138,26 @@
     const snapshot=await this.loadSnapshot();return {...snapshot,login:user.login};
    }catch(e){this.disconnect();throw e;}
   }
+  async listHistory(limit=20){
+   if(!this.connected)throw error('請先連線 GitHub。','auth');
+   const count=Math.max(1,Math.min(50,Number(limit)||20));
+   const commits=await this.request('/repos/'+REPO+'/commits?path='+encodeURIComponent('data/site-data.js')+'&per_page='+count);
+   if(!Array.isArray(commits))throw error('GitHub 回傳的版本紀錄格式不正確。');
+   return commits.map(item=>({
+    sha:item.sha,
+    message:String(item.commit?.message||'').split('\\n')[0].slice(0,180),
+    date:item.commit?.committer?.date||item.commit?.author?.date||'',
+    author:item.commit?.author?.name||item.author?.login||'GitHub 使用者',
+    url:item.html_url||REPO_URL+'/commit/'+item.sha
+   })).filter(item=>/^[a-f0-9]{40}$/i.test(item.sha));
+  }
+  async loadVersion(commit){
+   if(!this.connected)throw error('請先連線 GitHub。','auth');
+   if(typeof commit!=='string'||!/^[a-f0-9]{40}$/i.test(commit))throw error('版本編號不正確。');
+   const file=await this.request('/repos/'+REPO+'/contents/data/site-data.js?ref='+encodeURIComponent(commit));
+   const blob=file.encoding==='base64'?file:await this.request('/repos/'+REPO+'/git/blobs/'+file.sha);
+   return {data:parseData(decodeBase64(blob.content)),baseBlob:file.sha,head:commit};
+  }
   async publish(data,baseBlob){
    if(!this.connected)throw error('請先連線 GitHub。','auth');
    if(!baseBlob)throw error('請先讀取官網最新版本。','conflict');
