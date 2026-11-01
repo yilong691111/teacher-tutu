@@ -22,3 +22,14 @@ button:disabled{opacity:.5;cursor:not-allowed}.header-actions{display:flex;align
 @media(max-width:700px){.media-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.media-thumb{height:130px}.media-detail-layout{grid-template-columns:1fr}.media-large-preview{min-height:180px;max-height:300px}.media-large-preview img{max-height:280px}.media-dialog{padding:18px}.media-dialog-head{gap:10px}.media-batch{align-items:stretch}.media-batch label,.media-batch button{flex:1 1 140px}.media-batch input{max-width:none}}
 
 .report-extra{margin:20px 0}.report-extra summary{cursor:pointer;font-weight:800;color:#254d85;padding:12px 0}.report-extra fieldset{border:1px solid #dce5ef;border-radius:12px;padding:18px;margin:16px 0}.report-extra legend{padding:0 8px;font-weight:700}#report-form textarea{white-space:pre-wrap}#reports-table .muted{display:block;margin-top:4px}
+
+/* CMS 2.0: version history and safe restore */
+.version-history-panel{margin-top:22px}
+.version-history-list{display:grid;gap:10px;margin:14px 0}
+.version-history-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid #dce6f4;border-radius:12px;background:linear-gradient(135deg,#fff,#f7faff)}
+.version-history-info{display:grid;gap:6px;min-width:0}
+.version-history-info strong{font-size:13px;color:#203d6b;overflow-wrap:anywhere}
+.version-history-info small{font-size:11px;color:#7889a2}
+.version-history-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.version-history-actions button{margin:0;white-space:nowrap}
+@media(max-width:650px){.version-history-item{align-items:stretch;flex-direction:column}.version-history-actions{justify-content:space-between}.version-history-actions button{flex:1}}
