@@ -9,19 +9,19 @@
 <link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
 <script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
-<script defer src="form-drafts.js?v=20261030-report-editor"></script>
-<script defer src="festival-model.js?v=20261030-report-editor"></script>
+<script defer src="form-drafts.js?v=20261102-line-festival"></script>
+<script defer src="festival-model.js?v=20261102-line-festival"></script>
 <script defer src="category-model.js?v=20261030-report-editor"></script>
 <script defer src="media-model.js?v=20261113-kindness"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
 <script defer src="github-cms.js?v=20261030-report-editor"></script>
 <script defer src="admin.js?v=20261030-report-editor"></script>
-<script defer src="admin-collections.js?v=20261030-report-editor"></script>
+<script defer src="admin-collections.js?v=20261102-line-festival"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
 <script defer src="admin-reports.js?v=20261101-missing-reports"></script>
-<script defer src="admin-drafts.js?v=20261030-report-editor"></script>
+<script defer src="admin-drafts.js?v=20261102-line-festival"></script>
 <script defer src="admin-publish.js?v=20261101-missing-reports"></script>
 <script defer src="admin-media.js?v=20261102-media-drop"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
@@ -158,6 +158,14 @@
         <button type="button" class="secondary media-picker-trigger" data-media-picker="line-product">▧ 從素材庫選擇貼圖封面</button>
         <input id="line-product-image-error" type="hidden" value=""><div id="line-product-image-warning" class="image-edit-warning" role="alert" hidden><p>圖片無法自動暫存，請重新選擇圖片，或取消本次換圖。</p><button id="line-product-cancel-image" type="button" class="secondary">取消本次換圖</button></div>
         <div class="checks"><label><input id="line-product-published" type="checkbox" checked> 在官網展示</label></div>
+        <fieldset><legend>同步展示</legend>
+          <label class="check-label"><input id="line-product-festival-enabled" type="checkbox"> 同步展示於節慶系列</label>
+          <p>勾選後，同一張封面會同時加入節慶系列，按鈕連到這組 LINE 貼圖。儲存並發布後，兩個區塊一起更新；取消勾選並儲存，會移除此貼圖建立的節慶項目。</p>
+          <div id="line-product-festival-fields" class="form-grid" hidden>
+            <label>節日名稱 *<input id="line-product-festival-holiday" maxlength="90" placeholder="例如：聖誕節"></label>
+            <label>節慶日期 *<input id="line-product-festival-date" type="date" min="0001-01-01" max="9999-12-31"><small>填入該年度國曆日期，供節慶系列排序。</small></label>
+          </div>
+        </fieldset>
         <div class="actions"><button id="save-product" class="primary" type="submit">儲存 LINE 貼圖</button><button id="cancel-product" class="secondary" type="button">收起編輯</button><button id="preview-products" class="secondary" type="button">預覽已儲存貼圖</button></div>
       </form>
     </section>
@@ -274,4 +282,5 @@
 <dialog id="media-picker-dialog" class="media-dialog" aria-labelledby="media-picker-title"><div class="media-dialog-head"><div><h2 id="media-picker-title">從素材庫選圖</h2><p>選取後先保留在編輯表單，儲存並發布後才會更新官網。</p></div><button id="media-picker-close" class="secondary" type="button">取消選圖</button></div><div class="media-filters"><label>搜尋圖片<input id="media-picker-search" type="search" placeholder="名稱、分類或說明"></label><label>圖片分類<select id="media-picker-category"><option value="">全部分類</option></select></label></div><p id="media-picker-count" class="muted"></p><div id="media-picker-grid" class="media-grid"></div></dialog>
 
 </body></html>
+
 

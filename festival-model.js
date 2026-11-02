@@ -44,7 +44,14 @@
    if(!f.coverWorkId||cover)add(cover?.image||f.image,f.imageAlt,f.subtitle||f.holidayName);for(const id of f.workIds||[]){const w=works.get(id);if(w)add(w.image,w.title,w.title,w.id);}return result;
   });
  }
+ function syncProduct(site,product,options){
+  const list=festivalsFor(site),id='line-product-'+product.id,existing=list.find(f=>f.id===id);
+  if(!options.enabled)return list.filter(f=>f.id!==id);
+  const item={...existing,id,title:product.title.slice(0,90),subtitle:product.title.slice(0,90),holidayName:options.holidayName.trim(),eventDate:options.eventDate,description:(product.description||'').slice(0,1500),tags:existing?.tags||'',image:product.image,imageAlt:product.title.slice(0,200),buttonText:'前往 LINE 貼圖商店 →',buttonLink:product.url,coverWorkId:'',workIds:existing?.workIds||[],published:product.published!==false};
+  return saveFestival(list,existing?id:null,item);
+ }
  const step=(index,length,delta)=>length?((index+delta)%length+length)%length:0;
  const recoveryId=(site,record)=>record.identity===''&&!Object.hasOwn(record.values,'festival-id')&&site.festivals===undefined?'legacy-festival':record.identity;
- return {festivalsFor,validDate,validate,saveFestival,ordered,select,frames,step,recoveryId};
+ return {festivalsFor,validDate,validate,saveFestival,syncProduct,ordered,select,frames,step,recoveryId};
 });
+

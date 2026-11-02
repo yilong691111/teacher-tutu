@@ -39,7 +39,7 @@ test('async product save locks the form before waiting for image conversion',asy
  const {el}=dom();let resolve;const pending=new Promise(r=>resolve=r),savedForms=[];
  el('line-product-form').controls.push(el('save-product'));
  const site={lineProducts:[],gallery:[],characters:[]};
- const context={window:{TutuContent:models,TutuGitHub:{validateData(){}},TutuFormDrafts:{imageFor:()=>pending}},$:s=>el(s.slice(1)),site,URL,Option:function(){},clean:String,safeImg:String,checkFestivalFile(){},saveFormDraft:id=>(savedForms.push(id),true),saveLocal:()=>true,beginEditorSave:id=>buffers.lockForm(el(id)),toast(){},uniqueId:()=> 'new'};
+ const context={window:{TutuContent:models,TutuFestivals:require('./festival-model.js'),TutuGitHub:{validateData(){}},TutuFormDrafts:{imageFor:()=>pending}},$:s=>el(s.slice(1)),site,URL,Option:function(){},clean:String,safeImg:String,checkFestivalFile(){},saveFormDraft:id=>(savedForms.push(id),true),saveLocal:()=>true,beginEditorSave:id=>buffers.lockForm(el(id)),toast(){},uniqueId:()=> 'new'};
  vm.runInNewContext(fs.readFileSync(__dirname+'/admin-collections.js','utf8'),context);
  el('line-product-url').value='https://line.me/S/sticker/123';el('line-product-title').value='Before Save';el('line-product-file').files=[{name:'first.png'}];
  const operation=el('line-product-form').handlers.submit({preventDefault(){}});
@@ -47,6 +47,18 @@ test('async product save locks the form before waiting for image conversion',asy
  if(!wasLocked)el('line-product-title').value='Newer input during save';
  resolve('assets/works/009.webp');await operation;
  assert.equal(wasLocked,true);assert.equal(site.lineProducts[0].title,'Before Save');assert.equal(el('line-product-title').value,'Before Save');assert.equal(el('line-product-title').disabled,false);assert.deepEqual(savedForms,['line-product-form']);
+});
+
+test('saving a LINE cover also saves its festival in the same validated draft',async()=>{
+ const {el}=dom(),site={...JSON.parse(fs.readFileSync(__dirname+'/data/site.json','utf8')),lineProducts:[],gallery:[],characters:[],festivals:[]},snapshots=[];
+ const context={window:{TutuContent:models,TutuFestivals:require('./festival-model.js'),TutuGitHub:{validateData:require('./github-cms.js').validateData}},$:s=>el(s.slice(1)),site,URL,Option:function(){},clean:String,safeImg:String,checkFestivalFile(){},saveFormDraft:()=>{snapshots.push(JSON.parse(JSON.stringify(site)));return true;},saveLocal:()=>true,beginEditorSave:id=>buffers.lockForm(el(id)),toast(message,error){if(error)throw Error(message);},uniqueId:()=> 'new'};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/admin-collections.js','utf8'),context);
+ el('line-product-url').value='https://line.me/S/sticker/123';el('line-product-title').value='聖誕快樂';el('line-product-existing-image').value='assets/works/009.webp';el('line-product-published').checked=true;
+ el('line-product-festival-enabled').checked=true;el('line-product-festival-holiday').value='聖誕節';el('line-product-festival-date').value='2026-12-25';
+ await el('line-product-form').handlers.submit({preventDefault(){}});
+ assert.equal(snapshots.length,1);assert.equal(snapshots[0].lineProducts.length,1);assert.equal(snapshots[0].festivals.length,1);assert.equal(snapshots[0].festivals[0].image,snapshots[0].lineProducts[0].image);
+ context.window.TutuCollectionsAdmin.syncFestivalFields();assert.equal(el('line-product-festival-date').required,true);
+ el('line-product-festival-enabled').checked=false;context.window.TutuCollectionsAdmin.syncFestivalFields();assert.equal(el('line-product-festival-date').required,false);
 });
 
 test('failed replacement image stays visibly pending and blocks leaving until explicitly cancelled',async()=>{
@@ -82,3 +94,4 @@ test('choosing a library image clears a failed upload and saves the replacement 
  const h=draftHarness(()=>Promise.reject(new Error('broken')));h.el('work-file').files=[{name:'bad.png'}];h.events.change({target:h.el('work-file')});await new Promise(r=>setImmediate(r));assert.equal(h.el('work-image-warning').hidden,false);
  h.el('work-file').files=[];h.el('work-existing-image').value='assets/works/replacement.png';h.el('work-image-error').value='';h.events.input({target:h.el('work-existing-image')});h.manager.flush();assert.equal(h.el('work-image-warning').hidden,true);assert.equal(new buffers.Store(h.storage).get('work-form','w1').values['work-existing-image'],'assets/works/replacement.png');assert.equal(new buffers.Store(h.storage).get('work-form','w1').values['work-image-error'],'');
 });
+

@@ -128,6 +128,7 @@
    if(el.type==='checkbox')el.checked=value===true;else el.value=String(value);
   }
   if(formId==='festival-form')window.TutuFestivalsAdmin.syncSelection();
+  if(formId==='line-product-form')window.TutuCollectionsAdmin.syncFestivalFields();
   const spec=imageFields[formId];if(spec){document.getElementById(spec.file).value='';const image=document.getElementById(spec.value).value,preview=document.getElementById(spec.preview);if(preview){preview.src=safeImg(image);preview.hidden=!image;}}
   const s=states.get(formId);s.identity=record.identity;s.dirty=true;s.imageError=!!spec&&document.getElementById(spec.error).value==='1';s.values=readValues(formId);persistState(s);paint();
   document.getElementById(formId).scrollIntoView({behavior:'smooth',block:'start'});
@@ -157,3 +158,4 @@
  for(const formId of Object.keys(api.FORM_FIELDS))begin(formId);
  paint();
 })();
+

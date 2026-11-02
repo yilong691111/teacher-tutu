@@ -31,6 +31,8 @@
   clearPreview('line-product');$('#line-product-form').reset();$('#line-product-id').value=p?.id||'';$('#line-product-existing-image').value=p?.image||'';
   for(const key of ['url','title','category','description'])$('#line-product-'+key).value=p?.[key]||'';
   $('#line-product-author').value=p?.author??'瀧ir.';$('#line-product-published').checked=p?.published!==false;
+  const festival=window.TutuFestivals.festivalsFor(site).find(f=>f.id==='line-product-'+p?.id);
+  $('#line-product-festival-enabled').checked=!!festival;$('#line-product-festival-holiday').value=festival?.holidayName||'';$('#line-product-festival-date').value=festival?.eventDate||'';syncFestivalFields();
   imageOptions('line-product');imagePreview('line-product',p?.image||'');$('#product-form-heading').textContent=p?'編輯 LINE 貼圖':'新增 LINE 貼圖';$('#line-product-form').hidden=false;
   window.TutuFormDrafts?.begin('line-product-form',p?.id||'');$('#line-product-form').scrollIntoView({behavior:'smooth',block:'start'});return true;
  }
@@ -70,7 +72,11 @@
    release=beginEditorSave('line-product-form');
    const id=$('#line-product-id').value,fields={};for(const key of ['url','title','author','category','description'])fields[key]=$('#line-product-'+key).value.trim();
    fields.published=$('#line-product-published').checked;fields.image=await editorImage('line-product');fields.category=fields.category||'日常';
-   const next=model.saveProduct(site.lineProducts||[],id||null,fields);$('#line-product-id').value=model.productFromUrl(fields.url).id;$('#line-product-existing-image').value=fields.image;$('#line-product-file').value='';finishSave('line-product-form','LINE 貼圖',persist('lineProducts',next,'line-product-form'));
+   const next=model.saveProduct(site.lineProducts||[],id||null,fields),productId=model.productFromUrl(fields.url).id;
+   const festivals=window.TutuFestivals.syncProduct(site,next.find(p=>p.id===productId),{enabled:$('#line-product-festival-enabled').checked,holidayName:$('#line-product-festival-holiday').value,eventDate:$('#line-product-festival-date').value});
+   window.TutuGitHub.validateData({...site,lineProducts:next,festivals});
+   site.lineProducts=next;site.festivals=festivals;$('#line-product-id').value=productId;$('#line-product-existing-image').value=fields.image;$('#line-product-file').value='';
+   finishSave('line-product-form',$('#line-product-festival-enabled').checked?'LINE 貼圖與節慶系列':'LINE 貼圖',saveFormDraft('line-product-form'));window.TutuFestivalsAdmin?.render();
   }catch(err){toast(err.message,true);}finally{release();button.disabled=false;}
  });
  $('#character-form').addEventListener('submit',async e=>{
@@ -102,6 +108,12 @@
  $('#cancel-character').onclick=()=>{if(window.TutuFormDrafts?.canOpen('character-form')!==false)$('#character-form').hidden=true;};
  $('#preview-products').onclick=()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1#line-catalog','_blank','noopener');};
  $('#preview-characters').onclick=()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1#characters','_blank','noopener');};
+ function syncFestivalFields(){
+  const enabled=$('#line-product-festival-enabled').checked;
+  $('#line-product-festival-fields').hidden=!enabled;$('#line-product-festival-holiday').required=enabled;$('#line-product-festival-date').required=enabled;
+ }
+ $('#line-product-festival-enabled').addEventListener('change',syncFestivalFields);
  bindImage('line-product');bindImage('character');
- window.TutuCollectionsAdmin={render,open,editProduct,editCharacter};render();
+ window.TutuCollectionsAdmin={render,open,editProduct,editCharacter,syncFestivalFields};render();
 })();
+
