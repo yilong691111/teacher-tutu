@@ -29,7 +29,7 @@
  function paint(){
   const lock=!ready(),visible=rows().filter(x=>model.matches(x,filters()));$('#media-selected-count').textContent=`已勾選 ${selection.size} 張`;
   const all=$('#media-select-all');all.checked=visible.length>0&&visible.every(x=>selection.has(x.image));all.indeterminate=selection.size>0&&!all.checked;all.disabled=busy()||!visible.length;
-  $('#media-upload').disabled=lock;$('#media-batch-apply').disabled=lock||!selection.size;$('#media-delete').disabled=lock||!selection.size||rows().filter(x=>selection.has(x.image)).some(x=>x.uses.length||!x.saved);$('#media-clear').disabled=busy()||!selection.size;
+  $('#media-upload').disabled=lock;$('#media-files').disabled=lock;$('#media-dropzone')?.setAttribute('aria-disabled',String(lock));if(lock)$('#media-dropzone')?.setAttribute('data-drag-active','false');$('#media-batch-apply').disabled=lock||!selection.size;$('#media-delete').disabled=lock||!selection.size||rows().filter(x=>selection.has(x.image)).some(x=>x.uses.length||!x.saved);$('#media-clear').disabled=busy()||!selection.size;
   $('#media-save').disabled=lock;let canUndo=false;if(last&&!lock){try{model.undo(site,last);canUndo=true;}catch{}}$('#media-undo').disabled=!canUndo;
   $$('[data-media-picker]').forEach(b=>b.disabled=busy()||!window.TutuFormDrafts||window.TutuPublishReady!==true);$$('[data-media-choose]').forEach(b=>b.disabled=busy());$$('[data-media-select]').forEach(b=>b.disabled=busy());
  }
@@ -54,8 +54,8 @@
  $('#media-delete').onclick=()=>{if(!ready()||!selection.size)return;if(confirm(`確定移除這 ${selection.size} 張未使用素材的素材庫紀錄？不會刪除 GitHub 圖檔；可復原最近一次素材操作。`))perform(()=>model.remove(site,[...selection]),'未使用素材移除');};
  $('#media-undo').onclick=()=>{if(!last||!ready())return;try{const next=model.undo(site,last);window.TutuGitHub.validateData(next);site=next;last=null;const saved=saveLocal();render();toast(saved?'已復原最近一次素材操作。':'復原只留在此頁，請先備份。',!saved);}catch(err){toast(err.message,true);paint();}};
  function dimensions(image){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve({width:img.naturalWidth,height:img.naturalHeight});img.onerror=()=>reject(new Error('無法讀取圖片尺寸'));img.src=image;});}
- $('#media-upload-form').onsubmit=async e=>{
-  e.preventDefault();if(!ready()){toast('請先完成未儲存的編輯，並等待同步結束。',true);return;}const files=[...$('#media-files').files];if(!files.length||files.length>10){toast('請選擇 1–10 張圖片。',true);return;}
+ async function uploadFiles(files){
+  if(!ready()){toast('請先完成未儲存的編輯，並等待同步結束。',true);return;}if(!files.length||files.length>10){toast('請選擇或拖入 1–10 張圖片；不支援資料夾。',true);return;}
   const category=$('#media-upload-category').value.trim(),before=JSON.stringify(site.mediaLibrary),records=[],failures=[];let duplicates=0;const known=new Set(rows().map(x=>x.image));uploading=true;const root=$('#dashboard'),oldInert=root.inert,oldBusy=$('.content').getAttribute('aria-busy');root.inert=true;$('.content').setAttribute('aria-busy','true');paint();
   try{for(const [index,file] of files.entries()){
     $('#media-upload-status').textContent=`正在處理 ${index+1}／${files.length}：${file.name}`;
@@ -64,7 +64,27 @@
   }finally{uploading=false;root.inert=oldInert;if(oldBusy===null)$('.content').removeAttribute('aria-busy');else $('.content').setAttribute('aria-busy',oldBusy);paint();}
   let applied=false;if(before!==JSON.stringify(site.mediaLibrary))failures.push('素材庫已變更，這批圖片尚未加入，請重新操作。');else if(records.length)applied=perform(()=>model.add(site,records),'上傳素材');
   if(applied)$('#media-files').value='';$('#media-upload-status').textContent=`${applied?'已加入 '+records.length+' 張素材草稿':'本次沒有加入新素材'}；略過 ${duplicates} 張重複圖片。${failures.length?'\n未完成：\n'+failures.join('\n'):''}${records.length&&!applied?'\n圖片尚未加入，請檢查頁面提示後重新操作。':''}`;
+ }
+ $('#media-upload-form').onsubmit=e=>{e.preventDefault();return uploadFiles([...$('#media-files').files]);};
+ const dropzone=$('#media-dropzone');if(dropzone){let dragDepth=0;
+ const fileDrag=e=>Array.from(e.dataTransfer?.types||[]).includes('Files')||!!e.dataTransfer?.files?.length;
+ function resetDrag(){dragDepth=0;dropzone.setAttribute('data-drag-active','false');}
+ for(const type of ['dragenter','dragover'])dropzone.addEventListener(type,e=>{
+  if(!fileDrag(e))return;e.preventDefault();e.stopPropagation();if(type==='dragenter')dragDepth++;
+  const allowed=ready();dropzone.setAttribute('data-drag-active',String(allowed));if(e.dataTransfer)e.dataTransfer.dropEffect=allowed?'copy':'none';
+ });
+ dropzone.addEventListener('dragleave',e=>{if(!fileDrag(e))return;e.preventDefault();e.stopPropagation();dragDepth=Math.max(0,dragDepth-1);if(!dragDepth)resetDrag();});
+ dropzone.ondrop=e=>{
+  if(!fileDrag(e))return;e.preventDefault();e.stopPropagation();resetDrag();
+  return uploadFiles(Array.from(e.dataTransfer?.files||[]));
  };
+ // A misplaced file drop must not replace the admin page with a browser image preview.
+ for(const type of ['dragover','drop'])window.addEventListener(type,e=>{
+  if($('#page-media').hidden||!fileDrag(e))return;e.preventDefault();if(e.dataTransfer)e.dataTransfer.dropEffect='none';
+  if(type==='drop'){resetDrag();toast(uploading?'圖片正在處理，請稍候。':'請將圖片拖入「拖曳上傳區」。',true);}
+ });
+ window.addEventListener('dragend',resetDrag);window.addEventListener('blur',resetDrag);
+ }
  function renderPicker(){const all=rows();categories($('#media-picker-category'),all);const f={query:$('#media-picker-search').value,category:$('#media-picker-category').value},visible=all.filter(x=>model.matches(x,f));$('#media-picker-grid').replaceChildren(...visible.map(x=>card(x,true)));$('#media-picker-count').textContent=visible.length?`顯示 ${visible.length} 張，可選擇使用中的圖片。`:'沒有符合條件的圖片。';}
  function openPicker(prefix){
   if(busy()||!window.TutuFormDrafts||window.TutuPublishReady!==true)return;const spec=prefixes[prefix];if(!spec||$('#'+spec[0]).hidden)return;pickerTarget={prefix,identity:$('#'+spec[1]).value};$('#media-picker-search').value='';$('#media-picker-category').value='';renderPicker();$('#media-picker-dialog').showModal();
@@ -78,3 +98,4 @@
  window.addEventListener('tutu:form-buffer',paint);window.addEventListener('tutu:publish-ready',paint);new MutationObserver(paint).observe($('.content'),{attributes:true,attributeFilter:['aria-busy']});window.addEventListener('beforeunload',e=>{if(uploading||dirtyDetail()){e.preventDefault();e.returnValue='';}});
  window.TutuMediaAdmin={render,open:page=>{if(page==='media')render();}};render();
 })();
+

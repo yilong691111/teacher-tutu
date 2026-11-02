@@ -6,7 +6,7 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261030-report-editor">
+<link rel="stylesheet" href="admin.css?v=20261102-media-drop">
 <script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
 <script defer src="form-drafts.js?v=20261030-report-editor"></script>
@@ -23,7 +23,7 @@
 <script defer src="admin-reports.js?v=20261101-missing-reports"></script>
 <script defer src="admin-drafts.js?v=20261030-report-editor"></script>
 <script defer src="admin-publish.js?v=20261101-missing-reports"></script>
-<script defer src="admin-media.js?v=20261030-report-editor"></script>
+<script defer src="admin-media.js?v=20261102-media-drop"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -107,7 +107,7 @@
 
     <section id="page-media" class="page" hidden>
       <div class="panel"><div class="panel-head"><div><span class="studio-label">IMAGE LIBRARY</span><h2>圖片素材庫</h2><p>集中整理圖片，在作品、LINE 貼圖、人物與節慶重複選用。</p></div><button id="media-undo" type="button" class="secondary" disabled>復原最近一次素材操作</button></div>
-        <form id="media-upload-form"><div class="form-grid"><label>批次上傳圖片<input id="media-files" type="file" accept="image/png,image/jpeg,image/webp" multiple><small>每次最多 10 張，每張最大 15 MB；自動縮放並保留透明背景。</small></label><label>新圖片分類<input id="media-upload-category" maxlength="80" list="media-category-options" placeholder="例如：節慶、校園、人物"></label></div><button id="media-upload" type="submit" class="primary">加入素材庫草稿</button></form>
+        <form id="media-upload-form"><div class="form-grid media-upload-layout"><div id="media-dropzone" class="media-dropzone" role="group" aria-labelledby="media-drop-title" aria-describedby="media-drop-help" aria-disabled="true" data-drag-active="false"><strong id="media-drop-title">將圖片拖曳到這裡</strong><p id="media-drop-help">放開滑鼠後，直接加入素材庫草稿。支援 PNG、JPG、WEBP，每次最多 10 張、每張最大 15 MB；自動縮放並保留透明背景。</p><label for="media-files">也可以選擇圖片<input id="media-files" type="file" accept="image/png,image/jpeg,image/webp" multiple aria-describedby="media-drop-help"></label></div><label>新圖片分類<input id="media-upload-category" maxlength="80" list="media-category-options" placeholder="例如：節慶、校園、人物"><small>拖入圖片前可先填寫分類，之後也能在素材庫修改。</small></label></div><button id="media-upload" type="submit" class="primary">加入素材庫草稿</button><p class="media-upload-note">選擇檔案後請按上方按鈕加入；拖入圖片則會直接處理。素材存入草稿後，可於各編輯表單選用。</p></form>
         <p id="media-upload-status" role="status" aria-live="polite"></p><p id="media-storage" class="muted"></p>
       </div>
       <div class="panel"><div class="media-filters"><label>搜尋素材<input id="media-search" type="search" placeholder="名稱、分類、圖片說明或使用位置"></label><label>分類<select id="media-category"><option value="">全部分類</option></select></label><label>使用狀態<select id="media-usage"><option value="">全部狀態</option><option value="used">使用中（含隱藏作品）</option><option value="unused">尚未使用</option></select></label></div>
@@ -272,3 +272,4 @@
 <dialog id="media-picker-dialog" class="media-dialog" aria-labelledby="media-picker-title"><div class="media-dialog-head"><div><h2 id="media-picker-title">從素材庫選圖</h2><p>選取後先保留在編輯表單，儲存並發布後才會更新官網。</p></div><button id="media-picker-close" class="secondary" type="button">取消選圖</button></div><div class="media-filters"><label>搜尋圖片<input id="media-picker-search" type="search" placeholder="名稱、分類或說明"></label><label>圖片分類<select id="media-picker-category"><option value="">全部分類</option></select></label></div><p id="media-picker-count" class="muted"></p><div id="media-picker-grid" class="media-grid"></div></dialog>
 
 </body></html>
+
