@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>後台手機版預覽｜塗塗老師</title>
+<style>*{box-sizing:border-box}body{margin:0;padding:12px;background:#eaf0f8;color:#19345d;font-family:system-ui,sans-serif}header{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:12px}label{font-size:14px}select{font:inherit;padding:8px;border:1px solid #a5b7d4;border-radius:8px;background:#fff}iframe{display:block;margin:auto;width:390px;height:844px;max-width:100%;border:1px solid #a5b7d4;border-radius:14px;background:#fff}</style></head>
+<body><header><strong>後台手機版預覽</strong><label>螢幕寬度 <select id="preview-width"><option value="320">320 px</option><option value="360">360 px</option><option value="390" selected>390 px</option><option value="768">768 px</option></select></label></header><iframe id="admin-preview" src="../admin.html" title="塗塗老師手機版後台"></iframe>
+<script>document.getElementById('preview-width').addEventListener('change',function(){document.getElementById('admin-preview').style.width=this.value+'px';});</script></body></html>

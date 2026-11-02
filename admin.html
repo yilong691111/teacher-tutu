@@ -2,11 +2,11 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261102-media-drop">
+<link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
 <script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
 <script defer src="form-drafts.js?v=20261030-report-editor"></script>
@@ -24,11 +24,13 @@
 <script defer src="admin-drafts.js?v=20261030-report-editor"></script>
 <script defer src="admin-publish.js?v=20261101-missing-reports"></script>
 <script defer src="admin-media.js?v=20261102-media-drop"></script>
+<script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
 </head>
 <body>
 <div id="dashboard" class="dashboard">
   <aside class="side">
     <div class="side-brand">✳ 塗塗老師 <small>內容管理中心</small></div>
+    <label class="mobile-page-switch" for="admin-mobile-page">切換管理功能<select id="admin-mobile-page" aria-label="切換管理功能"><option value="overview">管理總覽</option></select></label>
     <nav>
       <button class="selected" data-page="overview">◈　總覽</button>
       <button data-page="gallery">▣　作品相簿</button>
