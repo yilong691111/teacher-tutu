@@ -21,9 +21,9 @@ test('unfinished fields survive reopening without becoming saved site data',()=>
 
 test('credential fields and unrelated form values never enter temporary storage',()=>{
  assert.equal(typeof f.Store,'function');const disk=storage(),store=new f.Store(disk);
- store.put('settings-form','',{'settings-brand':'塗塗老師','github-token':'never-store-this','password':'secret','news-title':'別的表單'});
+ store.put('settings-form','',{'settings-heroDescription':'塗塗介紹','github-token':'never-store-this','password':'secret','news-title':'別的表單'});
  const encoded=[...disk.values.values()].join('');assert.ok(!encoded.includes('never-store-this'));assert.ok(!encoded.includes('secret'));assert.ok(!encoded.includes('別的表單'));
- assert.deepEqual(store.get('settings-form','').values,{'settings-brand':'塗塗老師'});
+ assert.deepEqual(store.get('settings-form','').values,{'settings-heroDescription':'塗塗介紹'});
  assert.throws(()=>store.put('github-connect-form','',{'github-token':'secret'}));
 });
 
@@ -52,8 +52,8 @@ test('converted image buffers survive recovery and malformed stored entries are 
 
 test('reverting fields to their original values clears the obsolete unfinished buffer',()=>{
  const disk=storage(),store=new f.Store(disk);assert.equal(typeof store.capture,'function');
- const original={'settings-brand':'塗塗老師','settings-tagline':'原本的短句'};
- assert.equal(store.capture('settings-form','',{...original,'settings-tagline':'修改中的短句'},original).changed,true);
+ const original={'settings-heroDescription':'塗塗介紹','settings-hero2Description':'原本的介紹'};
+ assert.equal(store.capture('settings-form','',{...original,'settings-hero2Description':'修改中的介紹'},original).changed,true);
  assert.equal(store.all().length,1);
  assert.equal(store.capture('settings-form','',original,original).changed,false);
  assert.equal(store.all().length,0);assert.equal(new f.Store(disk).get('settings-form',''),null);

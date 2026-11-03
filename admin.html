@@ -9,24 +9,25 @@
 <link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
 <script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
-<script defer src="form-drafts.js?v=20261103-homepage-editor"></script>
+<script defer src="form-drafts.js?v=20261103-homepage-three"></script>
 <script defer src="festival-model.js?v=20261102-line-festival"></script>
 <script defer src="category-model.js?v=20261030-report-editor"></script>
-<script defer src="media-model.js?v=20261113-kindness"></script>
+<script defer src="media-model.js?v=20261103-homepage-three"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
-<script defer src="homepage-text.js?v=20261103-homepage-editor-2"></script>
+<script defer src="homepage-text.js?v=20261103-homepage-three"></script>
 <script defer src="github-cms.js?v=20261103-homepage-editor"></script>
-<script defer src="admin.js?v=20261103-editor-order"></script>
+<script defer src="admin.js?v=20261103-homepage-three"></script>
 <script defer src="admin-collections.js?v=20261102-line-festival"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
 <script defer src="admin-reports.js?v=20261101-missing-reports"></script>
 <script defer src="admin-drafts.js?v=20261103-editor-order"></script>
 <script defer src="admin-publish.js?v=20261101-missing-reports"></script>
+<script defer src="admin-homepage.js?v=20261103-homepage-three"></script>
 <script defer src="admin-media.js?v=20261102-media-drop"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
-<link rel="stylesheet" href="homepage-text.css?v=20261103-homepage-editor">
+<link rel="stylesheet" href="homepage-text.css?v=20261103-homepage-three">
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -228,25 +229,35 @@
     </section>
 
     <section id="page-settings" class="page" hidden>
-      <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依官網由上到下排列：頁首品牌 → 首頁介紹 → 公告跑馬文字 → 塗塗的故事。最新消息、特別報導、節慶系列、人物與 LINE 貼圖，請使用上方依網頁順序排列的編輯選單。</p><h3>01｜頁首品牌與貼圖商店入口</h3>
-        <div class="form-grid"><label>品牌中文名稱<input id="settings-brand" maxlength="80" required></label><label>品牌英文名稱<input id="settings-brandEn" maxlength="80"></label><label>品牌短句<input id="settings-tagline" maxlength="150"></label><label>LINE 貼圖商店網址<input id="settings-lineUrl" type="url" required></label></div>
-        <fieldset id="homepage-editor"><legend>02｜首頁介紹（第一張輪播）</legend>
-        <p>修改首頁英文小標、主標題與介紹文字，可調整顏色及字體大小。主標題可按 Enter 換行；手機會依比例縮放。儲存草稿後，先預覽再發布。</p>
-        <label>英文小標<input id="settings-heroKicker" maxlength="100"><small>留空可隱藏英文小標。</small></label>
-        <div class="form-grid"><label>英文小標顏色<input id="settings-heroKickerColor" type="color"></label><label>英文小標大小（px）<input id="settings-heroKickerSize" type="number" min="10" max="28" step="1" required></label></div>
-        <label>首頁主標題 *<textarea id="settings-heroTitle" rows="3" maxlength="160" required></textarea></label>
-        <div class="form-grid"><label>主標題顏色<input id="settings-heroTitleColor" type="color"></label><label>主標題大小（電腦 px）<input id="settings-heroTitleSize" type="number" min="24" max="84" step="1" required><small>手機依比例縮放；原始大小為 63 px。</small></label></div>
-        <div class="form-grid"><label>主標題強調文字<input id="settings-heroHighlight" maxlength="40" placeholder="例如：想像力"><small>填入標題中的文字，第一處符合的文字會使用強調色；留空不強調。</small></label><label>強調文字顏色<input id="settings-heroHighlightColor" type="color"></label></div>
-        <label>首頁介紹內文<textarea id="settings-heroDescription" rows="4" maxlength="1000"></textarea></label>
-        <div class="form-grid"><label>介紹內文顏色<input id="settings-heroDescriptionColor" type="color"></label><label>介紹內文大小（電腦 px）<input id="settings-heroDescriptionSize" type="number" min="12" max="28" step="1" required><small>原始大小為 16 px，手機依比例縮放。</small></label></div>
-        <h3>即時文字預覽</h3><small>此處只預覽文字與樣式；完整排版請使用「預覽目前草稿」。</small>
-        <div class="homepage-preview"><span id="homepage-preview-kicker" class="homepage-preview-kicker"></span><div id="homepage-preview-title" class="homepage-preview-title"></div><p id="homepage-preview-description" class="homepage-preview-description"></p></div>
+      <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依輪播順序編輯三組首頁介紹，每組只提供內文與搭配圖片修改。儲存後可預覽，再到「發布與備份」更新官網。</p>
+        <fieldset id="homepage-editor"><legend>首頁介紹 1</legend>
+          <label>介紹內文<textarea id="settings-heroDescription" rows="4" maxlength="1000"></textarea></label>
+          <input id="settings-heroImage" type="hidden">
+          <div class="form-grid"><div><img id="homepage-1-image-preview" class="collection-image-preview" alt="首頁介紹 1 搭配圖片" style="max-height:280px;object-fit:contain">
+          <label>上傳搭配圖片<input id="homepage-1-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB，會自動縮放並保留透明背景。</small></label>
+          <label>或從圖片素材庫選擇<select id="homepage-1-media"><option value="">選擇素材（保留目前圖片）</option></select></label>
+          <button id="homepage-1-reset" type="button" class="secondary">取消本次換圖</button><p id="homepage-1-status" role="status" aria-live="polite"></p></div>
+          <div><h3>內文預覽</h3><p id="homepage-preview-description" class="homepage-preview-description"></p></div></div>
         </fieldset>
-        <h3>03｜首頁介紹下方的公告跑馬文字</h3>
-        <label>公告跑馬文字<input id="settings-siteNotice" maxlength="500"></label>
-        <h3>04｜塗塗的故事</h3>
-        <label>故事內文<textarea id="settings-storyText" rows="8" maxlength="5000"></textarea></label>
-        <div class="actions"><button type="submit" class="primary">儲存首頁編輯</button></div>
+        <fieldset id="homepage-editor-2"><legend>首頁介紹 2</legend>
+          <label>介紹內文<textarea id="settings-hero2Description" rows="4" maxlength="1000"></textarea></label>
+          <input id="settings-hero2Image" type="hidden">
+          <div class="form-grid"><div><img id="homepage-2-image-preview" class="collection-image-preview" alt="首頁介紹 2 搭配圖片" style="max-height:280px;object-fit:contain">
+          <label>上傳搭配圖片<input id="homepage-2-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB，會自動縮放並保留透明背景。</small></label>
+          <label>或從圖片素材庫選擇<select id="homepage-2-media"><option value="">選擇素材（保留目前圖片）</option></select></label>
+          <button id="homepage-2-reset" type="button" class="secondary">取消本次換圖</button><p id="homepage-2-status" role="status" aria-live="polite"></p></div>
+          <div><h3>內文預覽</h3><p id="homepage-preview-description-2" class="homepage-preview-description"></p></div></div>
+        </fieldset>
+        <fieldset id="homepage-editor-3"><legend>首頁介紹 3</legend>
+          <label>介紹內文<textarea id="settings-hero3Description" rows="4" maxlength="1000"></textarea></label>
+          <input id="settings-hero3Image" type="hidden">
+          <div class="form-grid"><div><img id="homepage-3-image-preview" class="collection-image-preview" alt="首頁介紹 3 搭配圖片" style="max-height:280px;object-fit:contain">
+          <label>上傳搭配圖片<input id="homepage-3-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB，會自動縮放並保留透明背景。</small></label>
+          <label>或從圖片素材庫選擇<select id="homepage-3-media"><option value="">選擇素材（保留目前圖片）</option></select></label>
+          <button id="homepage-3-reset" type="button" class="secondary">取消本次換圖</button><p id="homepage-3-status" role="status" aria-live="polite"></p></div>
+          <div><h3>內文預覽</h3><p id="homepage-preview-description-3" class="homepage-preview-description"></p></div></div>
+        </fieldset>
+        <div class="actions"><button type="submit" class="primary">儲存首頁介紹</button><button type="button" class="secondary" data-jump="publish">前往預覽與發布</button></div>
       </form>
     </section>
 

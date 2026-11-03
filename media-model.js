@@ -22,6 +22,7 @@
   }
   for(const report of Array.isArray(site.reports)?site.reports:[])for(const item of Array.isArray(report?.images)?report.images:[])if(item)add(item.image,report.title,'特別報導',item.alt,{kind:'reports',id:report.id,label:`特別報導｜${report.title}${report.published===false?'（已隱藏）':''}`});
   if(site.settings?.festivalImage)add(site.settings.festivalImage,'節慶設定圖片','節慶系列',site.settings.festivalImageAlt,{kind:'settings',id:'festivalImage',label:'舊版節慶設定'});
+  for(const [index,key] of ['heroIntroImage','hero2Image','hero3Image'].entries())if(site.settings?.[key])add(site.settings[key],'首頁介紹 '+(index+1),'首頁', '首頁搭配圖片',{kind:'settings',id:key,label:'首頁介紹 '+(index+1)+'（圖片）'});
   for(const image of fixed)add(image,image.split('/').at(-1),'網站固定圖','',{kind:'fixed',id:image,label:'網站固定展示圖片'});
   for(const x of site.mediaLibrary||[]){add(x.image,x.name,x.category,x.alt);const row=map.get(x.image);Object.assign(row,x,{saved:true});}
   return [...map.values()];
