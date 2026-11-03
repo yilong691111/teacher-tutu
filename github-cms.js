@@ -34,6 +34,8 @@
   if(!data||typeof data.settings!=='object'||!data.settings||Array.isArray(data.settings)||!Array.isArray(data.gallery)||!Array.isArray(data.news))throw error('網站資料格式不正確。');
   if(!String(data.settings.brand||'').trim())throw error('請填寫品牌名稱。');
   if(homepage)homepage.validate(data.settings);
+  const imageAssets=typeof module==='object'&&module.exports?require('./image-assets.js'):window.TutuImageAssets;if(imageAssets)imageAssets.validate(data);
+  const taxonomy=typeof module==='object'&&module.exports?require('./taxonomy.js'):window.TutuTaxonomy;if(taxonomy)taxonomy.validate(data);
   if(content)content.validateCollections(data);
   if(reports)reports.validate(data);
   if(festivals)festivals.validate(data);
@@ -95,7 +97,7 @@
  }
  class Client{
   #token='';
-  constructor({fetch:fetcher=globalThis.fetch.bind(globalThis),timeout=30000}={}){this.fetch=fetcher;this.timeout=timeout;}
+  constructor({fetch:fetcher=globalThis.fetch.bind(globalThis),timeout=30000,assets=typeof window!=='undefined'?window.TutuImageStore:null}={}){this.fetch=fetcher;this.timeout=timeout;this.assets=assets;}
   disconnect(){this.#token='';}
   get connected(){return !!this.#token;}
   async request(path,{method='GET',body,publicOnly=false}={}){
@@ -143,15 +145,18 @@
   async publish(data,baseBlob){
    if(!this.connected)throw error('請先連線 GitHub。','auth');
    if(!baseBlob)throw error('請先讀取官網最新版本。','conflict');
-   const js=serializeData(data),json=JSON.stringify(data,null,2)+'\n';
+   validateData(data);
    const snapshot=await this.loadSnapshot();
    if(snapshot.baseBlob!==baseBlob)throw error('官網已有新的內容，已停止發布以保護其他修改。請先備份草稿，再讀取最新官網。','conflict');
+   const prepared=this.assets?await this.assets.prepare(data,snapshot.data):{data,files:[]};
+   const js=serializeData(prepared.data),json=JSON.stringify(prepared.data,null,2)+'\n';
    const head=await this.request('/repos/'+REPO+'/git/commits/'+snapshot.head);
+   const imageEntries=[];for(const file of prepared.files){const blob=await this.request('/repos/'+REPO+'/git/blobs',{method:'POST',body:{content:file.content,encoding:'base64'}});imageEntries.push({path:file.path,mode:'100644',type:'blob',sha:blob.sha});}
    const jsBlob=await this.request('/repos/'+REPO+'/git/blobs',{method:'POST',body:{content:js,encoding:'utf-8'}});
    const jsonBlob=await this.request('/repos/'+REPO+'/git/blobs',{method:'POST',body:{content:json,encoding:'utf-8'}});
    const tree=await this.request('/repos/'+REPO+'/git/trees',{method:'POST',body:{base_tree:head.tree.sha,tree:[
     {path:'data/site-data.js',mode:'100644',type:'blob',sha:jsBlob.sha},
-    {path:'data/site.json',mode:'100644',type:'blob',sha:jsonBlob.sha}
+    {path:'data/site.json',mode:'100644',type:'blob',sha:jsonBlob.sha},...imageEntries
    ]}});
    const commit=await this.request('/repos/'+REPO+'/git/commits',{method:'POST',body:{message:'Update Teacher Tutu content from admin',tree:tree.sha,parents:[snapshot.head]}});
    try{
@@ -160,7 +165,7 @@
     if(e.code==='network'||e.code==='api')throw Object.assign(error('GitHub 提交結果尚未確認。請按「確認提交結果」，確認前不要再次發布。','uncertain'),{commit:commit.sha,baseBlob:jsBlob.sha});
     throw e;
    }
-   return {commit:commit.sha,baseBlob:jsBlob.sha,url:REPO_URL+'/commit/'+commit.sha};
+   return {commit:commit.sha,baseBlob:jsBlob.sha,data:prepared.data,url:REPO_URL+'/commit/'+commit.sha};
   }
   async deployment(commit){
    if(!/^[\w-]+$/.test(commit))throw error('版本編號不正確。');

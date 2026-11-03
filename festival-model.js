@@ -47,7 +47,7 @@
  function syncProduct(site,product,options){
   const list=festivalsFor(site),id='line-product-'+product.id,existing=list.find(f=>f.id===id);
   if(!options.enabled)return list.filter(f=>f.id!==id);
-  const item={...existing,id,title:product.title.slice(0,90),subtitle:product.title.slice(0,90),holidayName:options.holidayName.trim(),eventDate:options.eventDate,description:(product.description||'').slice(0,1500),tags:existing?.tags||'',image:product.image,imageAlt:product.title.slice(0,200),buttonText:'前往 LINE 貼圖商店 →',buttonLink:product.url,coverWorkId:'',workIds:existing?.workIds||[],published:product.published!==false};
+  const item={...existing,...(product.catalogTags?{catalogTags:structuredClone(product.catalogTags)}:{}),id,title:product.title.slice(0,90),subtitle:product.title.slice(0,90),holidayName:options.holidayName.trim(),eventDate:options.eventDate,description:(product.description||'').slice(0,1500),tags:existing?.tags||'',image:product.image,imageAlt:product.title.slice(0,200),buttonText:'前往 LINE 貼圖商店 →',buttonLink:product.url,coverWorkId:'',workIds:existing?.workIds||[],published:product.published!==false};
   return saveFestival(list,existing?id:null,item);
  }
  function reconcileProducts(before,next){

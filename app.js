@@ -60,3 +60,17 @@ $('#back-top').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}))
 function loadSite(){initSettings();renderNews();syncPrimaryNav();if(draftMode)toast('正在預覽後台草稿')}
 addEventListener('hashchange',syncPrimaryNav);
 initEvents();loadSite();
+
+// The editor frame accepts only its own parent and never writes localStorage.
+if(window.parent!==window){
+ const token=new URLSearchParams(location.search).get('editorPreview');
+ if(token&&window.TutuHomepagePreview){
+  heroRunning=false;showSlide(Math.max(0,Math.min(2,Number(new URLSearchParams(location.search).get('slide')||1)-1)));
+  window.addEventListener('message',window.TutuHomepagePreview.receiver({origin:location.origin,parent:window.parent,token,apply:(settings,slide)=>{
+   for(const n of [1,2,3]){const prefix=n===1?'hero':'hero'+n;window.TutuHomepageText.render(document,settings,{title:$('#'+prefix+'-title'),kicker:$('#'+prefix+'-kicker'),description:$('#'+prefix+'-description'),image:$(n===3?'#hero-feature-image':'#'+prefix+'-main-image')},n);}
+   if($('#brand-tagline'))$('#brand-tagline').textContent=settings.homepageTagline??'每一筆都值得被珍藏';heroRunning=false;showSlide(slide-1);
+  }}));
+ }
+}
+
+window.TutuResponsiveImages?.start(document,{site:()=>site,draft:draftMode});

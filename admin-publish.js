@@ -51,13 +51,13 @@
   }
  }
  function recordBase(snapshot){
-  window.TutuReportsAdmin?.setPublished?.(snapshot.data);
+  window.TutuReportsAdmin?.setPublished?.(snapshot.data);window.TutuImageStore?.setPublished(snapshot.data);
   remote=snapshot;baseBlob=snapshot.baseBlob;baseline=JSON.stringify(snapshot.data);
   reviewCache=null;
   needsAdoption=false;conflicted=false;draftBaseBlob=baseBlob;
  }
  function reconcile(snapshot,local=loadLocal(),metadata={baseBlob:draftStore.read()?.baseBlob}){
-  window.TutuReportsAdmin?.setPublished?.(snapshot.data);
+  window.TutuReportsAdmin?.setPublished?.(snapshot.data);window.TutuImageStore?.setPublished(snapshot.data);
   const result=api.resolveDraft(local,snapshot,metadata);
   remote=snapshot;baseline=JSON.stringify(snapshot.data);site=result.data;
   reviewCache=null;
@@ -143,7 +143,7 @@
     if(e.code==='uncertain'){savePending({commit:e.commit,baseBlob:e.baseBlob,uncertain:true});setRunLink(api.REPO_URL+'/actions');status(e.message,'uncertain');return;}
     throw e;
    }
-   recordBase({data:submitted,baseBlob:result.baseBlob,head:result.commit});saveLocal();
+   const published=result.data||submitted;if(JSON.stringify(site)===JSON.stringify(submitted))site=structuredClone(published);recordBase({data:published,baseBlob:result.baseBlob,head:result.commit});saveLocal();
    savePending({commit:result.commit,baseBlob:result.baseBlob,uncertain:false});pollCount=0;
    await checkDeployment();
   });

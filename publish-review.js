@@ -1,13 +1,13 @@
 /* Shared draft preview URLs and a review of effective public content. */
 (function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(...(node?[require('./content-models.js'),require('./festival-model.js'),require('./report-model.js'),require('./homepage-text.js'),require('./homepage-rich-text.js')]:[root.TutuContent,root.TutuFestivals,root.TutuReports,root.TutuHomepageText,root.TutuHomepageRich]));if(node)module.exports=api;else root.TutuPublishReview=api;})(typeof window==='undefined'?globalThis:window,function(content,festivals,reports,home,rich){
  'use strict';
- const labels={title:'標題',name:'名稱',description:'介紹',body:'內文',image:'圖片',imageAlt:'圖片說明',alt:'圖片說明',url:'連結網址',link:'連結網址',buttonLink:'按鈕連結網址',buttonText:'按鈕文字',published:'展示狀態',featured:'精選',category:'分類',date:'日期',eventDate:'節慶日期',holidayName:'節日名稱',subtitle:'副標題',tags:'標籤',workIds:'搭配作品',coverWorkId:'封面來源',sections:'內文卡片',images:'搭配圖片',showImages:'顯示圖片',label:'標籤',text:'文字',fontSize:'字體大小',effect:'文字特效',underline:'底線特效',background:'背景顏色',linkText:'超連結文字',brand:'品牌中文名稱',brandEn:'品牌英文名稱',lineUrl:'LINE 貼圖商店網址',instagram:'Instagram 網址',homepageTagline:'品牌短句'};
+ const labels={catalogTags:'篩選標籤',topic:'主題',characters:'角色',holidays:'節日',situations:'使用情境',title:'標題',name:'名稱',description:'介紹',body:'內文',image:'圖片',imageAlt:'圖片說明',alt:'圖片說明',url:'連結網址',link:'連結網址',buttonLink:'按鈕連結網址',buttonText:'按鈕文字',published:'展示狀態',featured:'精選',category:'分類',date:'日期',eventDate:'節慶日期',holidayName:'節日名稱',subtitle:'副標題',tags:'標籤',workIds:'搭配作品',coverWorkId:'封面來源',sections:'內文卡片',images:'搭配圖片',showImages:'顯示圖片',label:'標籤',text:'文字',fontSize:'字體大小',effect:'文字特效',underline:'底線特效',background:'背景顏色',linkText:'超連結文字',brand:'品牌中文名稱',brandEn:'品牌英文名稱',lineUrl:'LINE 貼圖商店網址',instagram:'Instagram 網址',homepageTagline:'品牌短句'};
  const effects={none:'無',bold:'粗體',shadow:'陰影',outline:'描邊',glow:'光暈',solid:'單底線',double:'雙底線',wavy:'波浪底線',highlight:'螢光標示',transparent:'透明'};
  const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
  const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
  function previewUrl(anchor=''){
   if(typeof anchor!=='string'||!/^[\w-]{0,100}$/.test(anchor))throw new Error('預覽區塊不正確。');
-  return 'index.html?draft=1&v=20261103-sync-review'+(anchor?'#'+anchor:'');
+  return 'index.html?draft=1&v=20261103-preview-assets-tags'+(anchor?'#'+anchor:'');
  }
  function settingValues(settings={}){
   const result={...settings},tagline=settings.homepageTagline??'每一筆都值得被珍藏';delete result.tagline;result.homepageTagline=tagline;

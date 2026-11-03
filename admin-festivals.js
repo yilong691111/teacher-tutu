@@ -28,6 +28,7 @@
   const f=list().find(x=>x.id===id);if(id&&!f){toast('這個系列已不存在，請重新開啟。',true);return false;}
   releaseFestivalPreview();$('#festival-form').reset();
   const value=f?{...f}:{title:'塗塗的日常',subtitle:'',holidayName:'',eventDate:'',description:'',tags:'',imageAlt:'',buttonText:'看看系列作品 →',buttonLink:'#gallery',workIds:[],published:true};
+  window.TutuTagsAdmin?.fill('festival',value);
   if(copy){value.eventDate='';value.subtitle=(value.subtitle||value.holidayName).slice(0,85)+'（複本）';}
   const identity=copy||!f?'f'+Array.from(crypto.getRandomValues(new Uint32Array(4)),n=>n.toString(16).padStart(8,'0')).join(''):f.id;$('#festival-id').value=identity;$('#festival-origin-id').value=copy?'':f?.id||'';
   for(const [key,input] of Object.entries(fields))$('#festival-'+input).value=value[key]||'';
@@ -58,6 +59,7 @@
   e.preventDefault();const button=$('#save-festival');if(button.disabled)return;button.disabled=true;let release=()=>{};
   try{
    release=beginEditorSave('festival-form');const id=$('#festival-id').value,original=list().some(f=>f.id===id)?id:null,value={id};for(const [key,input] of Object.entries(fields))value[key]=$('#festival-'+input).value.trim();
+   if(window.TutuTagsAdmin)value.catalogTags=window.TutuTagsAdmin.read('festival');
    value.tags=value.tags.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).join('\n');value.workIds=ids();value.published=$('#festival-published').checked;value.image=$('#festival-current-image').value;value.coverWorkId=$('#festival-cover-work-id').value;
    const file=$('#festival-file').files[0];if(file){value.image=await(window.TutuFormDrafts?.imageFor(file)||compressImage(file));value.coverWorkId='';}
    const next=model.saveFestival(list(),original||null,value);window.TutuGitHub.validateData({...site,festivals:next});site.festivals=next;$('#festival-id').value=id;$('#festival-origin-id').value=id;$('#festival-cover-work-id').value=value.coverWorkId;$('#festival-current-image').value=value.image;$('#festival-file').value='';

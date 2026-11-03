@@ -38,6 +38,5 @@
   document.getElementById('homepage-'+slide+'-add-block').onclick=()=>{if(list.length>=20)return;list.push(rich.block());sync();render();host.lastElementChild?.querySelector('textarea')?.focus();};
   editors.set(slide,()=>{try{list=JSON.parse(hidden.value||'[]');}catch{list=[];}render();});
  }
- document.getElementById('preview-homepage-copy')?.addEventListener('click',()=>previewDraft());
  const refresh=()=>editors.forEach(render=>render());window.TutuHomepageRichEditor={refresh};new MutationObserver(paintLocks).observe(document.querySelector('.content'),{attributes:true,attributeFilter:['aria-busy']});refresh();
 })();

@@ -30,6 +30,7 @@ function editWork(id){
  const w=(site.gallery||[]).find(x=>x.id===id);
  $('#work-id').value=w?.id||'';$('#work-existing-image').value=w?.image||'';$('#work-title').value=w?.title||'';$('#work-category').value=w?.category||'萬聖節';$('#work-series').value=w?.series||'塗塗的日常';$('#work-description').value=w?.description||'';$('#work-published').checked=w?.published!==false;$('#work-featured').checked=w?.featured===true;$('#work-file').value='';
  const preview=$('#work-image-preview');if(preview){preview.src=safeImg(w?.image||'');preview.hidden=!w?.image;}
+ window.TutuTagsAdmin?.fill('work',w||{});
  $('#work-form-heading').textContent=w?'編輯作品':'新增作品';$('#work-form').hidden=false;window.TutuFormDrafts?.begin('work-form',w?.id||'');$('#work-form').scrollIntoView({behavior:'smooth',block:'start'});return true;
 }
 function renderNews(){$('#news-table').innerHTML=(site.news||[]).map(x=>`<tr><td>${clean(x.date)}</td><td>${clean(x.title)}</td><td>${clean(x.category)}</td><td><span class="status ${x.published===false?'off':''}">${x.published===false?'已隱藏':'展示中'}</span></td><td><button data-news-edit="${clean(x.id)}">編輯</button><button data-news-delete="${clean(x.id)}">刪除</button></td></tr>`).join('');$$('[data-news-edit]').forEach(b=>b.onclick=()=>editNews(b.dataset.newsEdit));$$('[data-news-delete]').forEach(b=>b.onclick=()=>askDelete('news',b.dataset.newsDelete));}
@@ -45,10 +46,10 @@ function renderFestival(){window.TutuFestivalsAdmin?.render();}
 function checkFestivalFile(file){if(!['image/png','image/jpeg','image/webp'].includes(file.type))throw new Error('只支援 PNG、JPG、WEBP');if(file.size>15*1024*1024)throw new Error('原始圖片請勿超過 15 MB');}
 function askDelete(kind,id){pendingDelete={kind,id};$('#confirm-dialog').showModal();}
 function uniqueId(prefix,list){let i=Date.now().toString(36),id=prefix+i;while(list.some(x=>x.id===id)){i+='x';id=prefix+i}return id;}
-function compressImage(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=()=>reject(new Error('圖片讀取失敗'));reader.onload=()=>{const img=new Image();img.onerror=()=>reject(new Error('圖片格式無法處理'));img.onload=()=>{const max=1400,scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/webp',.86));};img.src=reader.result;};reader.readAsDataURL(file);});}
+function compressImage(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=()=>reject(new Error('圖片讀取失敗'));reader.onload=()=>{const img=new Image();img.onerror=()=>reject(new Error('圖片格式無法處理'));img.onload=()=>{const max=1400,scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/webp',.86));};img.src=reader.result;};reader.readAsDataURL(file);}).then(image=>window.TutuImageStore?window.TutuImageStore.stage(image):image);}
 function download(name,text,type='text/plain;charset=utf-8'){const b=new Blob([text],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
-function exportJS(){download('site-data.js','window.TUTU_BOOTSTRAP = '+JSON.stringify(site,null,2)+';\n','text/javascript;charset=utf-8');toast('site-data.js 已下載。請覆蓋 GitHub 的 data/site-data.js。');}
-function exportJSON(){download('teacher-tutu-backup.json',JSON.stringify(site,null,2),'application/json;charset=utf-8');}
+async function exportJS(){try{if(window.TutuImageStore&&(await window.TutuImageStore.pending(site)).files.length){toast('這份草稿有尚未發布的獨立圖檔，請使用「發布到官網」或下載包含圖片的完整備份。',true);return;}download('site-data.js','window.TUTU_BOOTSTRAP = '+JSON.stringify(site,null,2)+';\n','text/javascript;charset=utf-8');toast('site-data.js 已下載。請覆蓋 GitHub 的 data/site-data.js。');}catch(err){toast(err.message,true);}}
+async function exportJSON(){try{const data=window.TutuImageStore?await window.TutuImageStore.backup(site):site;download('teacher-tutu-backup.json',JSON.stringify(data,null,2),'application/json;charset=utf-8');toast('完整備份已下載，包含這份草稿使用的獨立圖檔。');}catch(err){toast('備份未完成：'+err.message,true);}}
 function parseImported(text,name){if(name.toLowerCase().endsWith('.json'))return JSON.parse(text);const m=text.match(/window\.TUTU_BOOTSTRAP\s*=\s*([\s\S]*?)\s*;?\s*$/);if(!m)throw new Error('找不到 TUTU_BOOTSTRAP 資料');return JSON.parse(m[1].replace(/;\s*$/,''));}
 $$('.side nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 $$('[data-jump]').forEach(b=>b.onclick=()=>{if(!showPage(b.dataset.jump))return;if(b.dataset.jump==='gallery')editWork();if(b.dataset.jump==='news')editNews();});
@@ -58,6 +59,7 @@ $('#work-form').addEventListener('submit',async e=>{
  try{
   release=beginEditorSave('work-form');
   const id=$('#work-id').value||uniqueId('w',site.gallery||[]),fields={id,title:$('#work-title').value.trim(),category:$('#work-category').value,series:$('#work-series').value.trim(),description:$('#work-description').value.trim(),published:$('#work-published').checked,featured:$('#work-featured').checked};
+  if(window.TutuTagsAdmin)fields.catalogTags=window.TutuTagsAdmin.read('work');
   const file=$('#work-file').files[0];let image=$('#work-existing-image').value;
   if(file){checkFestivalFile(file);image=await (window.TutuFormDrafts?.imageFor(file)||compressImage(file));}if(!image)throw new Error('新增作品必須選擇圖片');fields.image=image;
   const list=(site.gallery||[]).slice(),index=list.findIndex(x=>x.id===id),obj={...(index>=0?list[index]:{}),...fields};if(index>=0)list[index]=obj;else list.unshift(obj);
@@ -89,7 +91,7 @@ $('#festival-file')?.addEventListener('change',e=>{
 $('#cancel-delete').onclick=()=>{$('#confirm-dialog').close();pendingDelete=null;};
 $('#confirm-delete').onclick=()=>{if(!pendingDelete)return;const {kind,id}=pendingDelete;const key=kind==='works'?'gallery':'news';site[key]=(site[key]||[]).filter(x=>x.id!==id);saveLocal();render();toast('已從本機草稿刪除。');$('#confirm-dialog').close();pendingDelete=null;};
 $('#export-js').onclick=exportJS;$('#export-json').onclick=exportJSON;
-$('#import-data').onclick=async()=>{const f=$('#import-file').files[0];if(!f){toast('請先選擇 site-data.js 或備份 JSON',true);return;}try{const data=parseImported(await f.text(),f.name);if(window.TutuFormDrafts?.importBackup(data))return;window.TutuGitHub.validateData(data);if(!data||!Array.isArray(data.gallery)||!Array.isArray(data.news)||typeof data.settings!=='object')throw new Error('資料格式不正確');site=data;saveLocal();render();toast('資料已匯入並存成本機草稿。');}catch(err){toast('匯入失敗：'+err.message,true)}};
+$('#import-data').onclick=async()=>{const f=$('#import-file').files[0];if(!f){toast('請先選擇 site-data.js 或備份 JSON',true);return;}try{let data=parseImported(await f.text(),f.name);if(window.TutuImageStore)data=await window.TutuImageStore.restore(data);if(window.TutuFormDrafts?.importBackup(data))return;window.TutuGitHub.validateData(data);if(!data||!Array.isArray(data.gallery)||!Array.isArray(data.news)||typeof data.settings!=='object')throw new Error('資料格式不正確');site=data;saveLocal();render();toast('資料已匯入並存成本機草稿。');}catch(err){toast('匯入失敗：'+err.message,true)}};
 $('#reset-bootstrap').onclick=()=>{site=structuredClone(BOOTSTRAP);saveLocal();render();toast('已還原為目前網站內建資料。');};
 $('#clear-local').onclick=()=>{if(confirm('確定清除這台裝置的本機草稿？')){draftStore.clear();draftBaseBlob=null;site=structuredClone(BOOTSTRAP);render();window.dispatchEvent(new CustomEvent('tutu:draft',{detail:{saved:true}}));toast('本機草稿已清除。');}};
 render();
@@ -110,3 +112,5 @@ function previewDraft(anchor=''){if(window.TutuFormDrafts?.allowPreview()===fals
 document.querySelector('#preview-draft')?.addEventListener('click',previewDraft);
 document.querySelector('#preview-publish')?.addEventListener('click',previewDraft);
 document.querySelector('#preview-festival')?.addEventListener('click',()=>previewDraft('series'));
+
+window.TutuResponsiveImages?.start(document,{site:()=>site,draft:true});

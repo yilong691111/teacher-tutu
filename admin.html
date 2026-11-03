@@ -5,33 +5,41 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
 <link rel="stylesheet" href="publish-review.css?v=20261103-sync-review">
-<script defer src="data/site-data.js?v=20261101-missing-reports"></script>
+<script defer src="data/site-data.js?v=20261103-preview-assets-tags"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
-<script defer src="form-drafts.js?v=20261103-rich-copy"></script>
-<script defer src="festival-model.js?v=20261103-sync-review"></script>
+<script defer src="form-drafts.js?v=20261103-preview-assets-tags"></script>
+<script defer src="festival-model.js?v=20261103-preview-assets-tags"></script>
 <script defer src="category-model.js?v=20261103-sync-review"></script>
 <script defer src="media-model.js?v=20261103-homepage-three"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
 <script defer src="homepage-rich-text.js?v=20261103-rich-copy"></script>
-<script defer src="homepage-text.js?v=20261103-rich-copy"></script>
-<script defer src="publish-review.js?v=20261103-sync-review"></script>
-<script defer src="github-cms.js?v=20261103-homepage-editor"></script>
-<script defer src="admin.js?v=20261103-sync-review"></script>
-<script defer src="admin-collections.js?v=20261103-sync-review"></script>
+<script defer src="homepage-text.js?v=20261103-preview-assets-tags"></script>
+<script defer src="publish-review.js?v=20261103-preview-assets-tags"></script>
+<script defer src="image-assets.js?v=20261103-preview-assets-tags"></script>
+<script defer src="image-store.js?v=20261103-preview-assets-tags"></script>
+<script defer src="responsive-images.js?v=20261103-preview-assets-tags"></script>
+<script defer src="github-cms.js?v=20261103-preview-assets-tags"></script>
+<script defer src="taxonomy.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin-tags.js?v=20261103-preview-assets-tags"></script>
+<script defer src="homepage-preview.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin-collections.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
-<script defer src="admin-festivals.js?v=20261030-report-editor"></script>
+<script defer src="admin-festivals.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-reports.js?v=20261103-sync-review"></script>
-<script defer src="admin-drafts.js?v=20261103-rich-copy"></script>
-<script defer src="admin-publish.js?v=20261103-sync-review"></script>
-<script defer src="admin-rich-text.js?v=20261103-rich-copy"></script>
+<script defer src="admin-drafts.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin-publish.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin-rich-text.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin-live-preview.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-homepage.js?v=20261103-homepage-three"></script>
-<script defer src="admin-media.js?v=20261102-media-drop"></script>
+<script defer src="admin-media.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
 <link rel="stylesheet" href="homepage-text.css?v=20261103-rich-copy">
+<link rel="stylesheet" href="editor-enhancements.css?v=20261103-preview-assets-tags">
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -51,7 +59,7 @@
       <button data-page="categories">▤　分類管理</button>
       <button data-page="publish">↗　發布與備份</button>
     </nav>
-    <div class="side-foot"><a href="index.html" target="_blank" rel="noopener">↗ 查看官網</a></div>
+    <div class="side-foot"><a href="index.html?v=20261103-preview-assets-tags" target="_blank" rel="noopener">↗ 查看官網</a></div>
   </aside>
 
   <div class="content">
@@ -235,6 +243,10 @@
     <section id="page-settings" class="page" hidden>
       <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依輪播順序編輯三組首頁介紹，每組可新增多段內文、設定文字特效、加入超連結及修改搭配圖片。儲存後可預覽，再到「發布與備份」更新官網。</p>
         <label>品牌短句<input id="settings-tagline" maxlength="150"><small>顯示於官網頁首品牌區。</small></label><p id="homepage-tagline-preview" class="homepage-tagline-preview"></p>
+        <section id="homepage-live-preview" class="homepage-live-preview" hidden aria-label="首頁即時預覽">
+          <div class="homepage-live-toolbar"><label>預覽篇數<select id="homepage-live-slide"><option value="1">首頁介紹 1</option><option value="2">首頁介紹 2</option><option value="3">首頁介紹 3</option></select></label><button type="button" class="secondary" data-preview-device="mobile">手機</button><button type="button" class="secondary" data-preview-device="desktop">電腦</button><button type="button" class="secondary" id="homepage-live-close">收起預覽</button></div>
+          <p id="homepage-live-status" role="status">預覽目前編輯內容，尚未發布。</p><div id="homepage-live-viewport" class="homepage-live-viewport"><iframe id="homepage-live-frame" title="首頁即時預覽" referrerpolicy="same-origin"></iframe></div>
+        </section>
         <fieldset id="homepage-editor"><legend>首頁介紹 1</legend>
           <input id="settings-heroDescription" type="hidden"><input id="settings-heroTextBlocks" type="hidden">
           <div id="homepage-1-blocks" class="homepage-blocks"></div><button id="homepage-1-add-block" class="secondary" type="button">＋ 新增其他內文</button><p class="muted">每組最多 20 段；每段可選擇文字大小、特效、底線與背景色。超連結請同時填寫文字及網址。</p>
@@ -295,7 +307,7 @@
           <div class="actions"><button id="github-publish" class="primary" disabled>↗ 發布到官網</button><button id="preview-publish" class="secondary">◎ 預覽草稿</button></div>
           <div id="github-progress" class="publish-progress" role="status" aria-live="polite">正在讀取官網版本…</div>
           <div class="actions status-actions"><button id="github-refresh-status" class="secondary" hidden>重新確認發布狀態</button><button id="github-check-submission" class="secondary" hidden>確認提交結果</button><a id="github-run-link" class="text-link" target="_blank" rel="noopener noreferrer" hidden>查看 GitHub 建置紀錄 ↗</a></div>
-          <a class="text-link" href="index.html" target="_blank" rel="noopener">開啟官網 ↗</a>
+          <a class="text-link" href="index.html?v=20261103-preview-assets-tags" target="_blank" rel="noopener">開啟官網 ↗</a>
           <hr><h3>同步官網內容</h3><p>換電腦或遇到版本衝突時，先下載草稿備份，再讀取最新官網。</p>
           <div class="actions"><button id="github-reload" class="secondary">重新讀取官網</button><button id="github-adopt-local" class="secondary" hidden>採用本機草稿</button></div>
           <small class="security-note">本網站的 GitHub 專案為公開。關閉「在官網展示」只會隱藏前台項目，內容仍會提交至公開專案，請勿放入私密資料。</small>

@@ -145,7 +145,7 @@
  }
  document.addEventListener('input',e=>{const formId=e.target.closest('form')?.id;if(api.FORM_FIELDS[formId])capture(formId,e.target.id);});
  document.addEventListener('change',e=>{const formId=e.target.closest('form')?.id;if(api.FORM_FIELDS[formId])capture(formId,e.target.id);});
- $('#export-form-buffers').onclick=()=>{flush();download('teacher-tutu-unfinished-edits.json',JSON.stringify({format:'tutu-form-buffers-v1',records:store.all()},null,2),'application/json;charset=utf-8');};
+ $('#export-form-buffers').onclick=async()=>{flush();try{const data={format:'tutu-form-buffers-v1',records:store.all()},bundle=window.TutuImageStore?await window.TutuImageStore.backup(data):data;download('teacher-tutu-unfinished-edits.json',JSON.stringify(bundle,null,2),'application/json;charset=utf-8');}catch(err){toast('暫存備份未完成：'+err.message,true);}};
  addEventListener('beforeunload',e=>{flush();if(activeDirty()||pendingSaves.size||pendingImages.size||hasImageError()||!store.persisted){e.preventDefault();e.returnValue='';}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)flush();});
  new MutationObserver(paint).observe($('.content'),{attributes:true,attributeFilter:['aria-busy']});

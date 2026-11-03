@@ -31,6 +31,7 @@
   clearPreview('line-product');$('#line-product-form').reset();$('#line-product-id').value=p?.id||'';$('#line-product-existing-image').value=p?.image||'';
   for(const key of ['url','title','category','description'])$('#line-product-'+key).value=p?.[key]||'';
   $('#line-product-author').value=p?.author??'瀧ir.';$('#line-product-published').checked=p?.published!==false;
+  window.TutuTagsAdmin?.fill('line-product',p||{});
   const festival=window.TutuFestivals.festivalsFor(site).find(f=>f.id==='line-product-'+p?.id);
   $('#line-product-festival-enabled').checked=!!festival;$('#line-product-festival-holiday').value=festival?.holidayName||'';$('#line-product-festival-date').value=festival?.eventDate||'';syncFestivalFields();
   imageOptions('line-product');imagePreview('line-product',p?.image||'');$('#product-form-heading').textContent=p?'編輯 LINE 貼圖':'新增 LINE 貼圖';$('#line-product-form').hidden=false;
@@ -71,6 +72,7 @@
   try{
    release=beginEditorSave('line-product-form');
    const id=$('#line-product-id').value,fields={};for(const key of ['url','title','author','category','description'])fields[key]=$('#line-product-'+key).value.trim();
+   if(window.TutuTagsAdmin)fields.catalogTags=window.TutuTagsAdmin.read('line-product');
    fields.published=$('#line-product-published').checked;fields.image=await editorImage('line-product');fields.category=fields.category||'日常';
    const next=model.saveProduct(site.lineProducts||[],id||null,fields),productId=model.productFromUrl(fields.url).id;
    const festivals=window.TutuFestivals.syncProduct(site,next.find(p=>p.id===productId),{enabled:$('#line-product-festival-enabled').checked,holidayName:$('#line-product-festival-holiday').value,eventDate:$('#line-product-festival-date').value});

@@ -68,7 +68,7 @@
     select.replaceChildren(option('選擇素材（保留目前圖片）',''),...assets.map(asset=>option(asset.name,asset.image)));
    }
   }const tagline=doc.getElementById('settings-tagline');if(tagline)tagline.value=settings.homepageTagline??'每一筆都值得被珍藏';
-  if(typeof window!=='undefined')window.TutuHomepageRichEditor?.refresh();preview(doc);
+  if(typeof window!=='undefined')window.TutuHomepageRichEditor?.refresh();preview(doc);if(typeof window!=='undefined'&&window.dispatchEvent&&typeof CustomEvent==='function')window.dispatchEvent(new CustomEvent('tutu:homepage-filled'));
  }
  return {defaults,validate,values,render,read,fill,preview};
 });
