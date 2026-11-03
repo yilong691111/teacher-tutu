@@ -6,10 +6,11 @@
  const categories=typeof module==='object'&&module.exports?require('./category-model.js'):root.TutuCategories;
  const media=typeof module==='object'&&module.exports?require('./media-model.js'):root.TutuMedia;
  const reports=typeof module==='object'&&module.exports?require('./report-model.js'):root.TutuReports;
- const api=factory(content,festivals,categories,media,reports);
+ const homepage=typeof module==='object'&&module.exports?require('./homepage-text.js'):root.TutuHomepageText;
+ const api=factory(content,festivals,categories,media,reports,homepage);
  if(typeof module==='object'&&module.exports)module.exports=api;
  else root.TutuGitHub=api;
-})(typeof window==='undefined'?globalThis:window,function(content,festivals,categories,media,reports){
+})(typeof window==='undefined'?globalThis:window,function(content,festivals,categories,media,reports,homepage){
  'use strict';
  const REPO='yilong691111/teacher-tutu',BRANCH='main';
  const REPO_URL='https://github.com/'+REPO;
@@ -32,6 +33,7 @@
  function validateData(data){
   if(!data||typeof data.settings!=='object'||!data.settings||Array.isArray(data.settings)||!Array.isArray(data.gallery)||!Array.isArray(data.news))throw error('網站資料格式不正確。');
   if(!String(data.settings.brand||'').trim())throw error('請填寫品牌名稱。');
+  if(homepage)homepage.validate(data.settings);
   if(content)content.validateCollections(data);
   if(reports)reports.validate(data);
   if(festivals)festivals.validate(data);

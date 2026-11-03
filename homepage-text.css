@@ -1,0 +1,10 @@
+/* Keep the existing responsive proportions when adjusting text size. */
+#hero-title,.homepage-preview-title{font-size:clamp(calc(var(--homepage-title-size,63px)*38/63),4.5vw,var(--homepage-title-size,63px));white-space:pre-line;overflow-wrap:anywhere;line-height:1.35}
+#hero-description,.homepage-preview-description{font-size:var(--homepage-description-size,16px);white-space:pre-line;overflow-wrap:anywhere}
+.homepage-preview{padding:24px;border:1px solid #dce5ee;border-radius:16px;background:linear-gradient(145deg,#fff6dc,#f5f9ff);margin-top:20px;max-width:100%;overflow:hidden}
+.homepage-preview-title{font-weight:900;letter-spacing:.03em;margin:18px 0}
+.homepage-preview-title span{background:linear-gradient(transparent 70%,#ffda76 70%);border-radius:8px}
+.homepage-preview-description{line-height:1.65;margin-bottom:0}
+.homepage-preview-kicker{display:inline-block;background:#e5eeff;border-radius:14px;padding:7px 14px;font-weight:900;max-width:100%;overflow-wrap:anywhere}
+@media(max-width:900px){#hero-title,.homepage-preview-title{font-size:calc(var(--homepage-title-size,63px)*39/63)}#hero-description,.homepage-preview-description{font-size:calc(var(--homepage-description-size,16px)*14/16)}}
+@media(max-width:600px){#hero-title,.homepage-preview-title{font-size:calc(var(--homepage-title-size,63px)*34/63)}}

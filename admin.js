@@ -37,7 +37,7 @@ function editNews(id){
  if(window.TutuFormDrafts?.canOpen('news-form')===false)return false;
  const n=(site.news||[]).find(x=>x.id===id);$('#news-id').value=n?.id||'';$('#news-title').value=n?.title||'';$('#news-date').value=n?.date||new Date().toLocaleDateString('en-CA');$('#news-category').value=n?.category||'網站公告';$('#news-body').value=n?.body||'';$('#news-published').checked=n?.published!==false;$('#news-form-heading').textContent=n?'編輯公告':'新增公告';$('#news-form').hidden=false;window.TutuFormDrafts?.begin('news-form',n?.id||'');$('#news-form').scrollIntoView({behavior:'smooth',block:'start'});return true;
 }
-function renderSettings(){const s=site.settings||{};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>$('#settings-'+k).value=s[k]||'');window.TutuFormDrafts?.begin('settings-form','');}
+function renderSettings(){const s=site.settings||{};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>$('#settings-'+k).value=s[k]||'');window.TutuHomepageText?.fill(document,s);window.TutuFormDrafts?.begin('settings-form','');}
 const festivalFields={festivalTitle:'title',festivalSubtitle:'subtitle',festivalDescription:'description',festivalTags:'tags',festivalImageAlt:'image-alt',festivalButtonText:'button-text',festivalButtonLink:'button-link'};
 let festivalPreviewUrl=null;
 function releaseFestivalPreview(){if(festivalPreviewUrl){URL.revokeObjectURL(festivalPreviewUrl);festivalPreviewUrl=null;}}
@@ -74,7 +74,7 @@ $('#news-form').addEventListener('submit',e=>{
  }catch(err){toast(err.message,true);}
 });
 $('#settings-form').addEventListener('submit',e=>{
- e.preventDefault();try{const settings={...(site.settings||{})};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>settings[k]=$('#settings-'+k).value.trim());window.TutuGitHub.validateData({...site,settings});site.settings=settings;const saved=saveFormDraft('settings-form');render();toast(saved?'網站設定已儲存在草稿。':'設定目前只保留於此頁面，請先下載備份或完成發布。',!saved);}catch(err){toast(err.message,true);}
+ e.preventDefault();try{const settings={...(site.settings||{}),...window.TutuHomepageText?.read(document)};['brand','brandEn','tagline','lineUrl','heroDescription','storyText','siteNotice'].forEach(k=>settings[k]=$('#settings-'+k).value.trim());window.TutuGitHub.validateData({...site,settings});site.settings=settings;const saved=saveFormDraft('settings-form');render();toast(saved?'網站設定已儲存在草稿。':'設定目前只保留於此頁面，請先下載備份或完成發布。',!saved);}catch(err){toast(err.message,true);}
 });
 $('#festival-gallery-image')?.addEventListener('change',e=>{
  const w=(site.gallery||[]).find(w=>w.id===e.target.value);if(!w)return;
