@@ -1,5 +1,5 @@
 /* Pure category, batch and guarded Undo rules for publishable collections. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.TutuCategories=api;})(typeof window==='undefined'?globalThis:window,function(){
+(function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(node?require('./festival-model.js'):root.TutuFestivals);if(node)module.exports=api;else root.TutuCategories=api;})(typeof window==='undefined'?globalThis:window,function(festivals){
  'use strict';
  const defaults={gallery:['萬聖節','生日祝福','12年國教七年級成語','賀新年','成語','日常','角色','其他'],lineProducts:['萬聖節','生日祝福','12年國教七年級常用成語','日常']};
  const checkKey=key=>{if(!Object.hasOwn(defaults,key))throw new Error('不支援這個分類清單。');};
@@ -37,15 +37,17 @@
   if(!['','top','bottom'].includes(position))throw new Error('排序位置不正確。');
   let next=items.map(item=>selected.has(item.id)?{...item,...patch}:item);
   if(position){const chosen=next.filter(x=>selected.has(x.id)),rest=next.filter(x=>!selected.has(x.id));next=position==='top'?[...chosen,...rest]:[...rest,...chosen];}
-  return {...site,[key]:next};
+  const result={...site,[key]:next};return key==='lineProducts'?festivals.reconcileProducts(site,result):result;
  }
  const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
- function checkpoint(before,after,key){checkKey(key);return structuredClone({key,before:before[key]||[],after:after[key]||[],beforeNames:before.categoryLists?.[key],afterNames:after.categoryLists?.[key],hadRegistry:before.categoryLists!==undefined});}
+ function checkpoint(before,after,key){checkKey(key);return structuredClone({key,before:before[key]||[],after:after[key]||[],beforeNames:before.categoryLists?.[key],afterNames:after.categoryLists?.[key],hadRegistry:before.categoryLists!==undefined,...(key==='lineProducts'&&!equal(before.festivals,after.festivals)?{linked:true,beforeFestivals:before.festivals,afterFestivals:after.festivals}:{})});}
  function undo(site,token){
   checkKey(token.key);if(!equal(site[token.key]||[],token.after)||!equal(site.categoryLists?.[token.key],token.afterNames))throw new Error('這份清單已有其他修改，無法復原；請使用備份還原。');
+  if(token.linked&&!equal(site.festivals,token.afterFestivals))throw new Error('節慶系列已有其他修改，無法復原；請使用備份還原。');
   const next={...site,[token.key]:structuredClone(token.before)},registry={...(site.categoryLists||{})};
   if(token.beforeNames===undefined)delete registry[token.key];else registry[token.key]=structuredClone(token.beforeNames);
   if(!token.hadRegistry&&!Object.keys(registry).length)delete next.categoryLists;else next.categoryLists=registry;
+  if(token.linked){if(token.beforeFestivals===undefined)delete next.festivals;else next.festivals=structuredClone(token.beforeFestivals);}
   return next;
  }
  const visibleSelection=(ids,items)=>{const visible=new Set(items.map(x=>x.id));return [...new Set(ids)].filter(id=>visible.has(id));};

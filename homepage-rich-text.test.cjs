@@ -28,7 +28,7 @@ test('預覽與官網共用安全的文字、背景、底線與連結渲染',()=
  rich.render(doc,container,[block({url:'javascript:alert(1)'})]);assert.equal(container.children[0].children.length,1);
 });
 test('完整首頁預覽帶有版本參數，避免瀏覽器沿用舊的純文字版頁面',()=>{
- const vm=require('node:vm'),source=fs.readFileSync(__dirname+'/admin.js','utf8').match(/function previewDraft\(\)\{[^\n]+\}/)[0];let opened;
- vm.runInNewContext(source+';previewDraft();',{saveLocal(){},window:{TutuFormDrafts:{allowPreview:()=>true},open:url=>opened=url}});
+ const vm=require('node:vm'),source=fs.readFileSync(__dirname+'/admin.js','utf8').match(/function previewDraft\([^\n]*?\)\{[^\n]+\}/)[0];let opened;
+ vm.runInNewContext(source+';previewDraft();',{saveLocal:()=>true,window:{TutuPublishReview:require('./publish-review.js'),TutuFormDrafts:{allowPreview:()=>true},open:url=>opened=url}});
  const url=new URL(opened,'https://example.test/');assert.equal(url.searchParams.get('draft'),'1');assert.ok(url.searchParams.get('v'));
 });

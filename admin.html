@@ -7,24 +7,26 @@
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
 <link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
+<link rel="stylesheet" href="publish-review.css?v=20261103-sync-review">
 <script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
 <script defer src="form-drafts.js?v=20261103-rich-copy"></script>
-<script defer src="festival-model.js?v=20261102-line-festival"></script>
-<script defer src="category-model.js?v=20261030-report-editor"></script>
+<script defer src="festival-model.js?v=20261103-sync-review"></script>
+<script defer src="category-model.js?v=20261103-sync-review"></script>
 <script defer src="media-model.js?v=20261103-homepage-three"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
 <script defer src="homepage-rich-text.js?v=20261103-rich-copy"></script>
 <script defer src="homepage-text.js?v=20261103-rich-copy"></script>
+<script defer src="publish-review.js?v=20261103-sync-review"></script>
 <script defer src="github-cms.js?v=20261103-homepage-editor"></script>
-<script defer src="admin.js?v=20261103-rich-preview"></script>
-<script defer src="admin-collections.js?v=20261102-line-festival"></script>
+<script defer src="admin.js?v=20261103-sync-review"></script>
+<script defer src="admin-collections.js?v=20261103-sync-review"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
-<script defer src="admin-reports.js?v=20261101-missing-reports"></script>
+<script defer src="admin-reports.js?v=20261103-sync-review"></script>
 <script defer src="admin-drafts.js?v=20261103-rich-copy"></script>
-<script defer src="admin-publish.js?v=20261101-missing-reports"></script>
+<script defer src="admin-publish.js?v=20261103-sync-review"></script>
 <script defer src="admin-rich-text.js?v=20261103-rich-copy"></script>
 <script defer src="admin-homepage.js?v=20261103-homepage-three"></script>
 <script defer src="admin-media.js?v=20261102-media-drop"></script>
@@ -288,6 +290,8 @@
           <span class="studio-label">02 / PUBLISH</span><h2>發布到官網</h2>
           <p>確認草稿後按發布，網站內容會自動提交到 GitHub，再由 Pages 更新官網。</p>
           <div id="publish-summary" class="publish-summary"></div>
+          <h3>本次變更明細</h3><p class="muted">對照已讀取的官網版本與已儲存草稿，列出各區內容及貼圖連動的節慶變更；尚未儲存的表單不會列入。</p>
+          <div id="publish-change-details" class="publish-change-details" aria-live="polite"></div>
           <div class="actions"><button id="github-publish" class="primary" disabled>↗ 發布到官網</button><button id="preview-publish" class="secondary">◎ 預覽草稿</button></div>
           <div id="github-progress" class="publish-progress" role="status" aria-live="polite">正在讀取官網版本…</div>
           <div class="actions status-actions"><button id="github-refresh-status" class="secondary" hidden>重新確認發布狀態</button><button id="github-check-submission" class="secondary" hidden>確認提交結果</button><a id="github-run-link" class="text-link" target="_blank" rel="noopener noreferrer" hidden>查看 GitHub 建置紀錄 ↗</a></div>
@@ -309,7 +313,7 @@
 </div>
 <div id="editor-save-status" class="editor-save-mask" role="status" aria-live="polite" hidden><div>正在處理圖片與儲存編輯，請稍候…</div></div>
 <dialog id="confirm-dialog"><h3>確定要刪除嗎？</h3><p>刪除後仍可從備份檔復原。</p><div class="actions"><button id="confirm-delete" class="danger">確認刪除</button><button id="cancel-delete" class="secondary">取消</button></div></dialog>
-<dialog id="publish-confirm"><h2 id="publish-confirm-title">發布這份草稿？</h2><p id="publish-confirm-summary"></p><p>確認後會更新公開官網。GitHub Pages 完成建置後，訪客才會看到新內容。</p><div class="actions"><button id="publish-confirm-go" class="primary">確認發布</button><button id="publish-confirm-cancel" class="secondary">繼續編輯</button></div></dialog>
+<dialog id="publish-confirm" aria-labelledby="publish-confirm-title"><h2 id="publish-confirm-title">發布這份草稿？</h2><p id="publish-confirm-summary"></p><div id="publish-confirm-changes" class="publish-change-details"></div><p>確認後會更新公開官網。GitHub Pages 完成建置後，訪客才會看到新內容。</p><div class="actions"><button id="publish-confirm-go" class="primary">確認發布</button><button id="publish-confirm-cancel" class="secondary">繼續編輯</button></div></dialog>
 
 <dialog id="media-detail-dialog" class="media-dialog" aria-labelledby="media-detail-title">
   <div class="media-dialog-head"><h2 id="media-detail-title">素材詳情</h2><button id="media-detail-close" type="button" class="secondary">關閉</button></div>

@@ -106,7 +106,7 @@ function renderPublishChecks(){
  ];
  const el=document.querySelector('#publish-checks');if(el)el.innerHTML=checks.map(([t,ok])=>`<div class="check-item ${ok?'ok':'warn'}"><b>${ok?'✓':'!'}</b><span>${t}</span></div>`).join('');
 }
-function previewDraft(){if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1&v=20261103-rich-copy','_blank','noopener');}
+function previewDraft(anchor=''){if(window.TutuFormDrafts?.allowPreview()===false)return;if(!saveLocal()){toast('草稿未能儲存，請先下載備份；暫時無法開啟完整預覽。',true);return;}window.open(window.TutuPublishReview.previewUrl(typeof anchor==='string'?anchor:''),'_blank','noopener');}
 document.querySelector('#preview-draft')?.addEventListener('click',previewDraft);
 document.querySelector('#preview-publish')?.addEventListener('click',previewDraft);
-document.querySelector('#preview-festival')?.addEventListener('click',()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1#series','_blank','noopener');});
+document.querySelector('#preview-festival')?.addEventListener('click',()=>previewDraft('series'));

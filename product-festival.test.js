@@ -24,3 +24,19 @@ test('同步長名稱與介紹時遵守節慶欄位限制',()=>{
  const next=festivals.syncProduct({festivals:[]},{...p,title:'長'.repeat(150),description:'文'.repeat(3000)},{enabled:true,holidayName:'聖誕節',eventDate:'2026-12-25'});
  festivals.validate({festivals:next});assert.equal(next[0].title.length,90);assert.equal(next[0].description.length,1500);
 });
+test('刪除貼圖同步移除自己的節慶項目，保留獨立系列',()=>{
+ const linked=festivals.syncProduct({festivals:[]},p,{enabled:true,holidayName:'聖誕節',eventDate:'2026-12-25'}),standalone={...linked[0],id:'independent'};
+ const before={lineProducts:[p],festivals:[...linked,standalone]},next=festivals.reconcileProducts(before,{...before,lineProducts:[]});
+ assert.deepEqual(next.festivals,[standalone]);assert.equal(before.festivals.length,2);
+});
+test('批次隱藏與展示同步節慶，復原時兩者一起還原且拒絕覆蓋較新修改',()=>{
+ const cats=require('./category-model.js'),before={lineProducts:[{...p,category:'日常'}],festivals:festivals.syncProduct({festivals:[]},p,{enabled:true,holidayName:'聖誕節',eventDate:'2026-12-25'})};
+ const hidden=cats.batch(before,'lineProducts',['123'],{published:false});assert.equal(hidden.festivals[0].published,false);assert.equal(before.festivals[0].published,true);
+ const restored=cats.undo(hidden,cats.checkpoint(before,hidden,'lineProducts'));assert.deepEqual(restored,before);
+ const shown=cats.batch(hidden,'lineProducts',['123'],{published:true});assert.equal(shown.festivals[0].published,true);
+ const changed=structuredClone(hidden);changed.festivals[0].title='另外編輯的系列';assert.throws(()=>cats.undo(changed,cats.checkpoint(before,hidden,'lineProducts')),/其他修改/);
+});
+test('未改變貼圖展示狀態的操作，保留人工隱藏的節慶系列',()=>{
+ const linked=festivals.syncProduct({festivals:[]},p,{enabled:true,holidayName:'聖誕節',eventDate:'2026-12-25'});linked[0].published=false;
+ const before={lineProducts:[p],festivals:linked};assert.equal(festivals.reconcileProducts(before,{...before,lineProducts:[{...p,title:'新名稱'}]}).festivals[0].published,false);
+});

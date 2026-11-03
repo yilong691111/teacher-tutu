@@ -30,6 +30,6 @@
   }catch(err){toast(err.message,true);}
  });
  $('#sync-published-reports').onclick=()=>{if(window.TutuFormDrafts?.canLeave()===false)return;try{const missing=missingReports();if(!missing.length){render();return;}const saved=persist([...reports(),...structuredClone(missing)]);render();edit(missing[0].id);toast(saved?'已載入缺少的官網報導，原有草稿已保留。':'報導已載入此頁，但草稿未能儲存，請先下載備份。',!saved);}catch(err){toast(err.message,true);}};
- $('#new-report').onclick=()=>edit();$('#cancel-report').onclick=()=>{if(window.TutuFormDrafts?.canOpen('report-form')!==false)$('#report-form').hidden=true;};$('#preview-reports').onclick=()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;if(saveLocal()){const list=reports(),selected=list.find(r=>r.id===$('#report-id').value&&r.published!==false)||list.find(r=>r.published!==false);window.open('index.html?draft=1#'+(selected?model.anchor(selected):'idiom-story'),'_blank','noopener');}};
+ $('#new-report').onclick=()=>edit();$('#cancel-report').onclick=()=>{if(window.TutuFormDrafts?.canOpen('report-form')!==false)$('#report-form').hidden=true;};$('#preview-reports').onclick=()=>{const list=reports(),selected=list.find(r=>r.id===$('#report-id').value&&r.published!==false)||list.find(r=>r.published!==false);previewDraft(selected?model.anchor(selected):'idiom-story');};
  window.TutuReportsAdmin={render,edit,setPublished:data=>{publishedSite=data;render();},open:page=>{if(page==='reports')render();}};render();
 })();

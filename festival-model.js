@@ -50,8 +50,18 @@
   const item={...existing,id,title:product.title.slice(0,90),subtitle:product.title.slice(0,90),holidayName:options.holidayName.trim(),eventDate:options.eventDate,description:(product.description||'').slice(0,1500),tags:existing?.tags||'',image:product.image,imageAlt:product.title.slice(0,200),buttonText:'前往 LINE 貼圖商店 →',buttonLink:product.url,coverWorkId:'',workIds:existing?.workIds||[],published:product.published!==false};
   return saveFestival(list,existing?id:null,item);
  }
+ function reconcileProducts(before,next){
+  if(!Array.isArray(next.festivals))return next;
+  const old=new Map((before.lineProducts||[]).map(p=>[p.id,p])),current=new Map((next.lineProducts||[]).map(p=>[p.id,p]));
+  const festivals=next.festivals.flatMap(f=>{
+   const match=/^line-product-(\d{1,20})$/.exec(f.id);if(!match||!old.has(match[1]))return [f];
+   const was=old.get(match[1]),now=current.get(match[1]);if(!now)return [];
+   return [(was.published!==false)!==(now.published!==false)?{...f,published:now.published!==false}:f];
+  });
+  return {...next,festivals};
+ }
  const step=(index,length,delta)=>length?((index+delta)%length+length)%length:0;
  const recoveryId=(site,record)=>record.identity===''&&!Object.hasOwn(record.values,'festival-id')&&site.festivals===undefined?'legacy-festival':record.identity;
- return {festivalsFor,validDate,validate,saveFestival,syncProduct,ordered,select,frames,step,recoveryId};
+ return {festivalsFor,validDate,validate,saveFestival,syncProduct,reconcileProducts,ordered,select,frames,step,recoveryId};
 });
 

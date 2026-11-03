@@ -49,7 +49,7 @@
   if(file){checkFestivalFile(file);image=await (window.TutuFormDrafts?.imageFor(file)||compressImage(file));}
   if(!image)throw new Error('請先從相簿選圖或上傳圖片。');return image;
  }
- function persist(key,list,formId){window.TutuGitHub.validateData({...site,[key]:list});site[key]=list;return formId?saveFormDraft(formId):saveLocal();}
+ function persist(key,list,formId){const candidate={...site,[key]:list},next=key==='lineProducts'?window.TutuFestivals.reconcileProducts(site,candidate):candidate;window.TutuGitHub.validateData(next);Object.assign(site,next);return formId?saveFormDraft(formId):saveLocal();}
  function bindImage(prefix){
   $('#'+prefix+'-gallery-image').addEventListener('change',e=>{
    const w=(site.gallery||[]).find(w=>w.id===e.target.value);if(!w)return;
@@ -96,7 +96,7 @@
   if(window.TutuFormDrafts?.canLeave()===false)return;
   try{
    if(action==='delete'){
-    const item=list.find(x=>x.id===id);if(!item||!confirm('確定從官網草稿刪除「'+(item.title||item.name)+'」？發布後才會更新官網。'))return;
+    const item=list.find(x=>x.id===id),linked=key==='lineProducts'&&(site.festivals||[]).some(f=>f.id==='line-product-'+id);if(!item||!confirm('確定從官網草稿刪除「'+(item.title||item.name)+'」？'+(linked?'同步建立的節慶系列也會刪除。':'')+'發布後才會更新官網。'))return;
     persist(key,list.filter(x=>x.id!==id));
    }else persist(key,model.moveItem(list,id,action==='up'?-1:1));
    render();toast(action==='delete'?'已從草稿刪除。':'展示順序已儲存為草稿。');
@@ -106,8 +106,8 @@
  $('#new-product').onclick=()=>editProduct();$('#new-character').onclick=()=>editCharacter();
  $('#cancel-product').onclick=()=>{if(window.TutuFormDrafts?.canOpen('line-product-form')!==false)$('#line-product-form').hidden=true;};
  $('#cancel-character').onclick=()=>{if(window.TutuFormDrafts?.canOpen('character-form')!==false)$('#character-form').hidden=true;};
- $('#preview-products').onclick=()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1#line-catalog','_blank','noopener');};
- $('#preview-characters').onclick=()=>{if(window.TutuFormDrafts?.allowPreview()===false)return;saveLocal();window.open('index.html?draft=1#characters','_blank','noopener');};
+ $('#preview-products').onclick=()=>previewDraft('line-catalog');
+ $('#preview-characters').onclick=()=>previewDraft('characters');
  function syncFestivalFields(){
   const enabled=$('#line-product-festival-enabled').checked;
   $('#line-product-festival-fields').hidden=!enabled;$('#line-product-festival-holiday').required=enabled;$('#line-product-festival-date').required=enabled;

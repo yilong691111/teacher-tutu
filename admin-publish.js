@@ -7,6 +7,12 @@
  const write=(key,value)=>{try{value?localStorage.setItem(key,JSON.stringify(value)):localStorage.removeItem(key)}catch{/* No credential is ever passed here. */}};
  let baseBlob=null,baseline=null,remote=null,busy=false,needsAdoption=false,conflicted=false;
  let pending=read(PENDING_KEY),pollTimer=null,pollCount=0;
+ let reviewCache=null,lastRenderedReview=null,reviewedData=null;
+ const changes=()=>reviewCache||(reviewCache=window.TutuPublishReview.compare(remote.data,site));
+ function renderChanges(){
+  if(!remote){$('#publish-change-details').textContent='正在取得官網版本，取得後顯示變更明細。';return;}
+  const current=changes();if(current!==lastRenderedReview){window.TutuPublishReview.render(document,$('#publish-change-details'),current);lastRenderedReview=current;}
+ }
  const status=(message,state='idle')=>{const el=$('#github-progress');el.textContent=message;el.dataset.state=state;};
  const dirty=()=>baseline===null||JSON.stringify(site)!==baseline;
  const displayTime=()=>new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
@@ -28,6 +34,7 @@
   const products=site.lineProducts||[],characters=window.TutuContent?.charactersFor(site)||[];
   $('#publish-summary').textContent=`這份草稿：${all.length} 件作品（展示 ${shown} 件、隱藏 ${all.length-shown} 件），${(site.news||[]).length} 則公告。LINE 貼圖 ${products.filter(p=>p.published!==false).length}／${products.length} 款、人物夥伴 ${characters.filter(c=>c.published!==false).length}／${characters.length} 位。節慶系列：${festival}。特別報導 ${window.TutuReports.reportsFor(site).filter(r=>r.published!==false).length}／${window.TutuReports.reportsFor(site).length} 篇。`;
   if(formPending)$('#publish-summary').textContent+=' 尚有未儲存的編輯，請先在上方繼續編輯或放棄暫存。';
+  renderChanges();
  }
  async function run(fn){
   if(busy)return;
@@ -46,12 +53,14 @@
  function recordBase(snapshot){
   window.TutuReportsAdmin?.setPublished?.(snapshot.data);
   remote=snapshot;baseBlob=snapshot.baseBlob;baseline=JSON.stringify(snapshot.data);
+  reviewCache=null;
   needsAdoption=false;conflicted=false;draftBaseBlob=baseBlob;
  }
  function reconcile(snapshot,local=loadLocal(),metadata={baseBlob:draftStore.read()?.baseBlob}){
   window.TutuReportsAdmin?.setPublished?.(snapshot.data);
   const result=api.resolveDraft(local,snapshot,metadata);
   remote=snapshot;baseline=JSON.stringify(snapshot.data);site=result.data;
+  reviewCache=null;
   baseBlob=result.baseBlob;needsAdoption=result.needsAdoption;conflicted=false;
   draftBaseBlob=baseBlob;
   saveLocal();
@@ -85,6 +94,7 @@
  }
  $('#header-publish').onclick=()=>showPage('publish');
  window.addEventListener('tutu:draft',e=>{
+  reviewCache=null;
   $('#draft-saved').textContent=e.detail.saved?'草稿儲存於此裝置 · '+displayTime():'草稿目前只保留於此頁面';
   renderState();
  });
@@ -115,14 +125,19 @@
  $('#github-publish').onclick=()=>{
   window.TutuFormDrafts?.flush();if(window.TutuFormDrafts?.hasPending()){status('還有未儲存的編輯，請先儲存或放棄暫存。','failed');return;}
   try{api.validateData(site);}catch(e){status(e.message,'failed');return;}
+  if(!remote||!baseBlob||busy||needsAdoption||conflicted||!client.connected)return;
+  reviewedData=structuredClone(site);
   $('#publish-confirm-summary').textContent=$('#publish-summary').textContent;
+  window.TutuPublishReview.render(document,$('#publish-confirm-changes'),changes());
   $('#publish-confirm').showModal();
  };
- $('#publish-confirm-cancel').onclick=()=>$('#publish-confirm').close();
+ $('#publish-confirm-cancel').onclick=()=>{reviewedData=null;$('#publish-confirm').close();};
+ $('#publish-confirm').addEventListener('cancel',()=>{reviewedData=null;});
  $('#publish-confirm-go').onclick=()=>{
+  if(!reviewedData||busy)return;const submitted=reviewedData;reviewedData=null;
   $('#publish-confirm').close();
   run(async()=>{
-   const submitted=structuredClone(site);status('正在檢查官網版本並提交內容，請保持此頁面開啟…','building');
+   status('正在檢查官網版本並提交內容，請保持此頁面開啟…','building');
    let result;
    try{result=await client.publish(submitted,baseBlob);}catch(e){
     if(e.code==='uncertain'){savePending({commit:e.commit,baseBlob:e.baseBlob,uncertain:true});setRunLink(api.REPO_URL+'/actions');status(e.message,'uncertain');return;}

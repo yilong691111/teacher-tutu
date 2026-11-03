@@ -69,6 +69,13 @@ test('failed replacement image stays visibly pending and blocks leaving until ex
  const stored=new buffers.Store(h.storage).get('work-form','w1');assert.equal(stored.values['work-image-error'],'1');
  h.el('work-cancel-image').onclick();assert.equal(h.manager.hasPending(),false);assert.equal(h.el('work-image-warning').hidden,true);
 });
+test('從後台刪除貼圖，連動節慶與貼圖在同一次驗證和草稿儲存移除',()=>{
+ const {el}=dom(),festivals=require('./festival-model.js'),product={id:'123',title:'聖誕快樂',image:'assets/works/009.webp',url:'https://line.me/S/sticker/123',published:true},site={lineProducts:[product],festivals:festivals.syncProduct({festivals:[]},product,{enabled:true,holidayName:'聖誕節',eventDate:'2026-12-25'})},saved=[],validated=[],messages=[];
+ const context={window:{TutuContent:models,TutuFestivals:festivals,TutuGitHub:{validateData:d=>validated.push(structuredClone(d))}},$:s=>el(s.slice(1)),site,URL,Option:function(){},clean:String,safeImg:String,saveLocal:()=>{saved.push(structuredClone(site));return true},toast(){},confirm:m=>(messages.push(m),true)};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/admin-collections.js','utf8'),context);
+ el('products-table').handlers.click({target:{closest:()=>({dataset:{collection:'products',action:'delete',id:'123'},disabled:false})}});
+ assert.equal(saved.length,1);assert.equal(validated.length,1);assert.equal(saved[0].lineProducts.length,0);assert.equal(saved[0].festivals.length,0);assert.match(messages[0],/節慶系列也會刪除/);
+});
 
 test('editor save gate blocks navigation, recovery and closing and restores existing disabled states',()=>{
  const h=draftHarness(()=>Promise.resolve('assets/works/009.webp'));
