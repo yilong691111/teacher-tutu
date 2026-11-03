@@ -4,14 +4,18 @@ const fs=require('node:fs');
 const cms=require('./github-cms.js');
 const site=()=>JSON.parse(fs.readFileSync(__dirname+'/data/site.json','utf8'));
 test('首頁文字顏色與字體大小在發布前驗證',()=>{
- for(const patch of [{heroTitleColor:'red;display:none'},{heroTitleSize:0},{heroDescriptionSize:1000},{heroTitle:'x'.repeat(161)},{heroKickerColor:'url(x)'},{heroTitleSize:'63'},{heroHighlightColor:null}]){
+ for(const patch of [{heroTitleColor:'red;display:none'},{heroTitleSize:0},{heroDescriptionSize:1000},{heroIntroTitle:'x'.repeat(161)},{heroKickerColor:'url(x)'},{heroTitleSize:'63'},{heroHighlightColor:null}]){
   const data=site();Object.assign(data.settings,patch);assert.throws(()=>cms.validateData(data),/首頁/);
  }
 });
 test('舊網站資料不需新增欄位也可以發布',()=>{assert.doesNotThrow(()=>cms.validateData(site()));});
 test('自訂首頁文字與樣式可完整匯出再匯入',()=>{
- const data=site();Object.assign(data.settings,{heroTitle:'每天一起開心\n一起成長',heroHighlight:'開心',heroTitleColor:'#123456',heroHighlightColor:'#ff3388',heroTitleSize:60,heroDescriptionColor:'#334455',heroDescriptionSize:18,heroKicker:'WELCOME',heroKickerColor:'#223344',heroKickerSize:14});
+ const data=site();Object.assign(data.settings,{heroIntroTitle:'每天一起開心\n一起成長',heroHighlight:'開心',heroTitleColor:'#123456',heroHighlightColor:'#ff3388',heroTitleSize:60,heroDescriptionColor:'#334455',heroDescriptionSize:18,heroKicker:'WELCOME',heroKickerColor:'#223344',heroKickerSize:14});
  assert.deepEqual(cms.parseData(cms.serializeData(data)).settings,data.settings);
+});
+test('未曾顯示的舊標題不應因啟用編輯功能而取代首頁原文',()=>{
+ const model=require('./homepage-text.js');assert.equal(model.values({heroTitle:'舊資料未使用的標題'}).heroTitle,model.defaults.heroTitle);
+ assert.equal(model.values({heroIntroTitle:'新編輯的標題'}).heroTitle,'新編輯的標題');
 });
 test('表單恢復保留首頁文字與樣式，不保留額外資料',()=>{
  const api=require('./form-drafts.js');

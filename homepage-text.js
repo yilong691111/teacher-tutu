@@ -9,14 +9,14 @@
  const defaults=Object.freeze({heroKicker:"✦ WELCOME TO TUTU'S WORLD",heroKickerColor:'#1149bd',heroKickerSize:12,heroTitle:'把孩子的想像力\n畫進每一天。',heroHighlight:'想像力',heroTitleColor:'#192849',heroTitleSize:63,heroHighlightColor:'#f15252',heroDescriptionColor:'#536582',heroDescriptionSize:16});
  const sizes={heroKickerSize:[10,28],heroTitleSize:[24,84],heroDescriptionSize:[12,28]};
  function validate(settings){
-  for(const [key,max] of [['heroKicker',100],['heroTitle',160],['heroHighlight',40],['heroDescription',1000]]){
-   const value=settings[key];if(value!==undefined&&(typeof value!=='string'||value.length>max||(key==='heroTitle'&&!value.trim())))throw new Error('首頁文字格式不正確或超過字數限制。');
+  for(const [key,max] of [['heroKicker',100],['heroIntroTitle',160],['heroHighlight',40],['heroDescription',1000]]){
+   const value=settings[key];if(value!==undefined&&(typeof value!=='string'||value.length>max||(key==='heroIntroTitle'&&!value.trim())))throw new Error('首頁文字格式不正確或超過字數限制。');
   }
   for(const key of ['heroKickerColor','heroTitleColor','heroHighlightColor','heroDescriptionColor'])if(settings[key]!==undefined&&(typeof settings[key]!=='string'||!/^#[0-9a-f]{6}$/i.test(settings[key])))throw new Error('首頁字體顏色請使用六位數色碼。');
   for(const [key,[min,max]] of Object.entries(sizes))if(settings[key]!==undefined&&(!Number.isInteger(settings[key])||settings[key]<min||settings[key]>max))throw new Error(`首頁字體大小請填入 ${min}–${max} 的整數。`);
  }
  function values(settings={}){
-  const result={...defaults};for(const key of Object.keys(defaults))if(settings[key]!==undefined){try{validate({[key]:settings[key]});result[key]=settings[key];}catch{}}
+  const result={...defaults};for(const key of Object.keys(defaults)){const storedKey=key==='heroTitle'?'heroIntroTitle':key;if(settings[storedKey]!==undefined){try{validate({[storedKey]:settings[storedKey]});result[key]=settings[storedKey];}catch{}}}
   return {...result,heroDescription:typeof settings.heroDescription==='string'?settings.heroDescription:''};
  }
  function render(doc,settings,nodes){
@@ -33,7 +33,7 @@
   if(description){description.textContent=s.heroDescription;description.style.color=s.heroDescriptionColor;description.style.setProperty('--homepage-description-size',s.heroDescriptionSize+'px');}
  }
  function read(doc){
-  const result={};for(const key of Object.keys(defaults)){const value=doc.getElementById('settings-'+key).value;result[key]=Object.hasOwn(sizes,key)?Number(value):value.trim();}
+  const result={};for(const key of Object.keys(defaults)){const value=doc.getElementById('settings-'+key).value;result[key==='heroTitle'?'heroIntroTitle':key]=Object.hasOwn(sizes,key)?Number(value):value.trim();}
   return result;
  }
  function preview(doc){
