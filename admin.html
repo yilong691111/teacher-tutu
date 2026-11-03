@@ -32,9 +32,10 @@
 <div id="dashboard" class="dashboard">
   <aside class="side">
     <div class="side-brand">✳ 塗塗老師 <small>內容管理中心</small></div>
-    <label class="mobile-page-switch" for="admin-mobile-page">切換管理功能<select id="admin-mobile-page" aria-label="切換管理功能"><option value="settings">首頁編輯</option></select></label>
+    <label class="mobile-page-switch" for="admin-mobile-page">切換管理功能<select id="admin-mobile-page" aria-label="切換管理功能"><option value="overview">管理總覽</option></select></label>
     <nav>
-      <button class="selected" data-page="settings">✎　首頁編輯</button>
+      <button class="selected" data-page="overview">◈　總覽</button>
+      <button data-page="settings">✎　首頁編輯</button>
       <button data-page="news">☷　最新消息</button>
       <button data-page="reports">▤　特別報導</button>
       <button data-page="festivals">✿　節慶系列</button>
@@ -43,7 +44,6 @@
       <button data-page="gallery">▣　作品相簿</button>
       <button data-page="media">▧　圖片素材庫</button>
       <button data-page="categories">▤　分類管理</button>
-      <button data-page="overview">◈　總覽</button>
       <button data-page="publish">↗　發布與備份</button>
     </nav>
     <div class="side-foot"><a href="index.html" target="_blank" rel="noopener">↗ 查看官網</a></div>
@@ -51,7 +51,7 @@
 
   <div class="content">
     <header class="admin-header">
-      <div><small>TEACHER TUTU / CONTENT STUDIO</small><h1 id="page-title">首頁編輯</h1></div>
+      <div><small>TEACHER TUTU / CONTENT STUDIO</small><h1 id="page-title">管理總覽</h1></div>
       <div class="header-actions"><span class="admin-state" id="connection-badge">● 尚未連線 GitHub</span><button class="primary" id="header-publish">發布與備份 ↗</button></div>
     </header>
     <div id="alert" role="status" aria-live="polite"></div>
@@ -64,7 +64,7 @@
       <div id="form-recovery-list"></div>
     </section>
 
-    <section id="page-overview" class="page" hidden>
+    <section id="page-overview" class="page">
       <div class="panel" style="border-left:5px solid #164ee8">
         <span class="studio-label">WELCOME BACK</span><h2>把塗塗的新故事，帶到官網上</h2>
         <p>編輯作品與公告 → 預覽草稿 → 發布到官網。草稿會先保存在這台裝置；完成 GitHub 授權後，就能在這裡直接發布。</p>
@@ -227,7 +227,7 @@
       </form>
     </section>
 
-    <section id="page-settings" class="page">
+    <section id="page-settings" class="page" hidden>
       <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依官網由上到下排列：頁首品牌 → 首頁介紹 → 公告跑馬文字 → 塗塗的故事。最新消息、特別報導、節慶系列、人物與 LINE 貼圖，請使用上方依網頁順序排列的編輯選單。</p><h3>01｜頁首品牌與貼圖商店入口</h3>
         <div class="form-grid"><label>品牌中文名稱<input id="settings-brand" maxlength="80" required></label><label>品牌英文名稱<input id="settings-brandEn" maxlength="80"></label><label>品牌短句<input id="settings-tagline" maxlength="150"></label><label>LINE 貼圖商店網址<input id="settings-lineUrl" type="url" required></label></div>
         <fieldset id="homepage-editor"><legend>02｜首頁介紹（第一張輪播）</legend>
