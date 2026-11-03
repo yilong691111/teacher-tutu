@@ -1,10 +1,10 @@
 /* Three independently editable hero slides; plain text only. */
 (function(root,factory){
- const api=factory(typeof module==='object'&&module.exports?require('./content-models.js'):root.TutuContent);if(typeof module==='object'&&module.exports)module.exports=api;else{
+ const node=typeof module==='object'&&module.exports,api=factory(node?require('./content-models.js'):root.TutuContent,node?require('./homepage-rich-text.js'):root.TutuHomepageRich);if(typeof module==='object'&&module.exports)module.exports=api;else{
   root.TutuHomepageText=api;
   for(const suffix of ['', '-2', '-3'])root.document.getElementById('homepage-editor'+suffix)?.addEventListener('input',()=>api.preview(root.document));
  }
-})(typeof window==='undefined'?globalThis:window,function(content){
+})(typeof window==='undefined'?globalThis:window,function(content,rich){
  'use strict';
  const defaults=Object.freeze({heroKicker:"✦ WELCOME TO TUTU'S WORLD",heroKickerColor:'#1149bd',heroKickerSize:12,heroTitle:'把孩子的想像力\n畫進每一天。',heroHighlight:'想像力',heroTitleColor:'#192849',heroTitleSize:63,heroHighlightColor:'#f15252',heroDescriptionColor:'#536582',heroDescriptionSize:16,heroDescription:'',heroImage:'assets/tutu-hero.webp'});
  const sizes={heroKickerSize:[10,28],heroTitleSize:[24,84],heroDescriptionSize:[12,28]};
@@ -12,6 +12,7 @@
  const fieldKey=(key,slide)=>slide===1?key:key.replace(/^hero/,'hero'+slide);
  const storedKey=(key,slide)=>slide===1&&key==='heroTitle'?'heroIntroTitle':slide===1&&key==='heroImage'?'heroIntroImage':fieldKey(key,slide);
  function validate(settings){
+  rich.validate(settings);
   for(const slide of [1,2,3]){
    const image=settings[storedKey('heroImage',slide)];if(image!==undefined&&!content.safeImage(image))throw new Error('首頁介紹 '+slide+' 圖片格式不正確。');
    for(const [key,max] of [['heroKicker',100],['heroTitle',160],['heroHighlight',40],['heroDescription',1000]]){
@@ -42,15 +43,18 @@
    }
    title.style.color=s.heroTitleColor;title.style.setProperty('--homepage-title-size',s.heroTitleSize+'px');
   }
-  if(description){description.textContent=s.heroDescription;description.style.color=s.heroDescriptionColor;description.style.setProperty('--homepage-description-size',s.heroDescriptionSize+'px');}
+  if(description){rich.render(doc,description,rich.blocksFor(settings,slide,s.heroDescription,s.heroDescriptionSize));description.style.color=s.heroDescriptionColor;description.style.setProperty('--homepage-description-size',s.heroDescriptionSize+'px');}
  }
  function read(doc){
   const result={};for(const slide of [1,2,3])for(const key of ['heroDescription','heroImage']){
    const field=doc.getElementById('settings-'+fieldKey(key,slide));if(field)result[storedKey(key,slide)]=field.value.trim();
-  }return result;
+  }
+  for(const slide of [1,2,3]){const field=doc.getElementById('settings-'+rich.key(slide));if(field){try{result[rich.key(slide)]=JSON.parse(field.value||'[]');}catch{throw new Error('首頁內文暫存格式不正確，請重新開啟編輯。');}}}
+  const tagline=doc.getElementById('settings-tagline');if(tagline){result.tagline=tagline.value.trim();result.homepageTagline=result.tagline;}
+  return result;
  }
  function preview(doc){
-  const settings=read(doc);
+  const settings=read(doc);const tagline=doc.getElementById('homepage-tagline-preview');if(tagline)tagline.textContent=settings.homepageTagline||'';
   for(const slide of [1,2,3]){const suffix=slide===1?'':'-'+slide;if(!doc.getElementById('homepage-editor'+suffix))continue;
    render(doc,settings,{description:doc.getElementById('homepage-preview-description'+suffix),image:doc.getElementById('homepage-'+slide+'-image-preview')},slide);
   }
@@ -58,11 +62,13 @@
  function fill(doc,settings,assets=[]){
   for(const slide of [1,2,3]){
    const s=values(settings,slide);for(const key of ['heroDescription','heroImage']){const field=doc.getElementById('settings-'+fieldKey(key,slide));if(field)field.value=s[key];}
+   const hidden=doc.getElementById('settings-'+rich.key(slide));if(hidden)hidden.value=JSON.stringify(rich.blocksFor(settings,slide,s.heroDescription,s.heroDescriptionSize));
    const select=doc.getElementById('homepage-'+slide+'-media');if(select){
     const option=(name,value)=>{const el=doc.createElement('option');el.textContent=name;el.value=value;return el;};
     select.replaceChildren(option('選擇素材（保留目前圖片）',''),...assets.map(asset=>option(asset.name,asset.image)));
    }
-  }preview(doc);
+  }const tagline=doc.getElementById('settings-tagline');if(tagline)tagline.value=settings.homepageTagline??'每一筆都值得被珍藏';
+  if(typeof window!=='undefined')window.TutuHomepageRichEditor?.refresh();preview(doc);
  }
  return {defaults,validate,values,render,read,fill,preview};
 });

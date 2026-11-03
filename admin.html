@@ -9,25 +9,27 @@
 <link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
 <script defer src="data/site-data.js?v=20261101-missing-reports"></script>
 <script defer src="content-models.js?v=20261030-report-editor"></script>
-<script defer src="form-drafts.js?v=20261103-homepage-three"></script>
+<script defer src="form-drafts.js?v=20261103-rich-copy"></script>
 <script defer src="festival-model.js?v=20261102-line-festival"></script>
 <script defer src="category-model.js?v=20261030-report-editor"></script>
 <script defer src="media-model.js?v=20261103-homepage-three"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
-<script defer src="homepage-text.js?v=20261103-homepage-three"></script>
+<script defer src="homepage-rich-text.js?v=20261103-rich-copy"></script>
+<script defer src="homepage-text.js?v=20261103-rich-copy"></script>
 <script defer src="github-cms.js?v=20261103-homepage-editor"></script>
 <script defer src="admin.js?v=20261103-homepage-three"></script>
 <script defer src="admin-collections.js?v=20261102-line-festival"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
 <script defer src="admin-reports.js?v=20261101-missing-reports"></script>
-<script defer src="admin-drafts.js?v=20261103-editor-order"></script>
+<script defer src="admin-drafts.js?v=20261103-rich-copy"></script>
 <script defer src="admin-publish.js?v=20261101-missing-reports"></script>
+<script defer src="admin-rich-text.js?v=20261103-rich-copy"></script>
 <script defer src="admin-homepage.js?v=20261103-homepage-three"></script>
 <script defer src="admin-media.js?v=20261102-media-drop"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
-<link rel="stylesheet" href="homepage-text.css?v=20261103-homepage-three">
+<link rel="stylesheet" href="homepage-text.css?v=20261103-rich-copy">
 </head>
 <body>
 <div id="dashboard" class="dashboard">
@@ -229,35 +231,39 @@
     </section>
 
     <section id="page-settings" class="page" hidden>
-      <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依輪播順序編輯三組首頁介紹，每組只提供內文與搭配圖片修改。儲存後可預覽，再到「發布與備份」更新官網。</p>
+      <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依輪播順序編輯三組首頁介紹，每組可新增多段內文、設定文字特效、加入超連結及修改搭配圖片。儲存後可預覽，再到「發布與備份」更新官網。</p>
+        <label>品牌短句<input id="settings-tagline" maxlength="150"><small>顯示於官網頁首品牌區。</small></label><p id="homepage-tagline-preview" class="homepage-tagline-preview"></p>
         <fieldset id="homepage-editor"><legend>首頁介紹 1</legend>
-          <label>介紹內文<textarea id="settings-heroDescription" rows="4" maxlength="1000"></textarea></label>
+          <input id="settings-heroDescription" type="hidden"><input id="settings-heroTextBlocks" type="hidden">
+          <div id="homepage-1-blocks" class="homepage-blocks"></div><button id="homepage-1-add-block" class="secondary" type="button">＋ 新增其他內文</button><p class="muted">每組最多 20 段；每段可選擇文字大小、特效、底線與背景色。超連結請同時填寫文字及網址。</p>
           <input id="settings-heroImage" type="hidden">
           <div class="form-grid"><div><img id="homepage-1-image-preview" class="collection-image-preview" alt="首頁介紹 1 搭配圖片" style="max-height:280px;object-fit:contain">
           <label>上傳搭配圖片<input id="homepage-1-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB，會自動縮放並保留透明背景。</small></label>
           <label>或從圖片素材庫選擇<select id="homepage-1-media"><option value="">選擇素材（保留目前圖片）</option></select></label>
           <button id="homepage-1-reset" type="button" class="secondary">取消本次換圖</button><p id="homepage-1-status" role="status" aria-live="polite"></p></div>
-          <div><h3>內文預覽</h3><p id="homepage-preview-description" class="homepage-preview-description"></p></div></div>
+          <div><h3>內文預覽</h3><div id="homepage-preview-description" class="homepage-preview-description homepage-copy"></div></div></div>
         </fieldset>
         <fieldset id="homepage-editor-2"><legend>首頁介紹 2</legend>
-          <label>介紹內文<textarea id="settings-hero2Description" rows="4" maxlength="1000"></textarea></label>
+          <input id="settings-hero2Description" type="hidden"><input id="settings-hero2TextBlocks" type="hidden">
+          <div id="homepage-2-blocks" class="homepage-blocks"></div><button id="homepage-2-add-block" class="secondary" type="button">＋ 新增其他內文</button><p class="muted">每組最多 20 段；每段可選擇文字大小、特效、底線與背景色。超連結請同時填寫文字及網址。</p>
           <input id="settings-hero2Image" type="hidden">
           <div class="form-grid"><div><img id="homepage-2-image-preview" class="collection-image-preview" alt="首頁介紹 2 搭配圖片" style="max-height:280px;object-fit:contain">
           <label>上傳搭配圖片<input id="homepage-2-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB，會自動縮放並保留透明背景。</small></label>
           <label>或從圖片素材庫選擇<select id="homepage-2-media"><option value="">選擇素材（保留目前圖片）</option></select></label>
           <button id="homepage-2-reset" type="button" class="secondary">取消本次換圖</button><p id="homepage-2-status" role="status" aria-live="polite"></p></div>
-          <div><h3>內文預覽</h3><p id="homepage-preview-description-2" class="homepage-preview-description"></p></div></div>
+          <div><h3>內文預覽</h3><div id="homepage-preview-description-2" class="homepage-preview-description homepage-copy"></div></div></div>
         </fieldset>
         <fieldset id="homepage-editor-3"><legend>首頁介紹 3</legend>
-          <label>介紹內文<textarea id="settings-hero3Description" rows="4" maxlength="1000"></textarea></label>
+          <input id="settings-hero3Description" type="hidden"><input id="settings-hero3TextBlocks" type="hidden">
+          <div id="homepage-3-blocks" class="homepage-blocks"></div><button id="homepage-3-add-block" class="secondary" type="button">＋ 新增其他內文</button><p class="muted">每組最多 20 段；每段可選擇文字大小、特效、底線與背景色。超連結請同時填寫文字及網址。</p>
           <input id="settings-hero3Image" type="hidden">
           <div class="form-grid"><div><img id="homepage-3-image-preview" class="collection-image-preview" alt="首頁介紹 3 搭配圖片" style="max-height:280px;object-fit:contain">
           <label>上傳搭配圖片<input id="homepage-3-file" type="file" accept="image/png,image/jpeg,image/webp"><small>支援 PNG、JPG、WEBP，最大 15 MB，會自動縮放並保留透明背景。</small></label>
           <label>或從圖片素材庫選擇<select id="homepage-3-media"><option value="">選擇素材（保留目前圖片）</option></select></label>
           <button id="homepage-3-reset" type="button" class="secondary">取消本次換圖</button><p id="homepage-3-status" role="status" aria-live="polite"></p></div>
-          <div><h3>內文預覽</h3><p id="homepage-preview-description-3" class="homepage-preview-description"></p></div></div>
+          <div><h3>內文預覽</h3><div id="homepage-preview-description-3" class="homepage-preview-description homepage-copy"></div></div></div>
         </fieldset>
-        <div class="actions"><button type="submit" class="primary">儲存首頁介紹</button><button type="button" class="secondary" data-jump="publish">前往預覽與發布</button></div>
+        <div class="actions"><button type="submit" class="primary">儲存首頁介紹</button><button type="button" class="secondary" id="preview-homepage-copy">預覽完整首頁與特效</button><button type="button" class="secondary" data-jump="publish">前往預覽與發布</button></div>
       </form>
     </section>
 

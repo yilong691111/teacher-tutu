@@ -18,7 +18,7 @@
  const activeDirty=()=>[...states.values()].some(s=>s.dirty&&!s.parked&&visible(s.formId));
  const hasImageError=()=>[...states.values()].some(s=>s.imageError&&!s.committed);
  const hasPending=()=>pendingSaves.size>0||pendingImages.size>0||hasImageError()||[...states.values()].some(s=>s.dirty)||store.all().length>0;
- function title(record){const values=record.values;return values['report-title']||values['work-title']||values['news-title']||values['line-product-title']||values['character-name']||values['festival-subtitle']||values['settings-brand']||'尚未命名';}
+ function title(record){if(record.formId==='settings-form')return '品牌短句與首頁介紹';const values=record.values;return values['report-title']||values['work-title']||values['news-title']||values['line-product-title']||values['character-name']||values['festival-subtitle']||values['settings-brand']||'尚未命名';}
  function paint(){
   const records=store.all(),count=records.length;
   $('#form-recovery').hidden=!count;
@@ -128,7 +128,7 @@
    if(el.type==='checkbox')el.checked=value===true;else el.value=String(value);
   }
   if(formId==='festival-form')window.TutuFestivalsAdmin.syncSelection();
-  if(formId==='settings-form')window.TutuHomepageText?.preview(document);
+  if(formId==='settings-form'){window.TutuHomepageRichEditor?.refresh();window.TutuHomepageText?.preview(document);}
   if(formId==='line-product-form')window.TutuCollectionsAdmin.syncFestivalFields();
   const spec=imageFields[formId];if(spec){document.getElementById(spec.file).value='';const image=document.getElementById(spec.value).value,preview=document.getElementById(spec.preview);if(preview){preview.src=safeImg(image);preview.hidden=!image;}}
   const s=states.get(formId);s.identity=record.identity;s.dirty=true;s.imageError=!!spec&&document.getElementById(spec.error).value==='1';s.values=readValues(formId);persistState(s);paint();

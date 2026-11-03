@@ -8,3 +8,24 @@
 .homepage-preview-kicker{display:inline-block;background:#e5eeff;border-radius:14px;padding:7px 14px;font-weight:900;max-width:100%;overflow-wrap:anywhere}
 @media(max-width:900px){#hero-title,#hero2-title,#hero3-title,.homepage-preview-title{font-size:calc(var(--homepage-title-size,63px)*39/63)}#hero-description,#hero2-description,#hero3-description,.homepage-preview-description{font-size:calc(var(--homepage-description-size,16px)*14/16)}}
 @media(max-width:600px){#hero-title,#hero2-title,#hero3-title,.homepage-preview-title{font-size:calc(var(--homepage-title-size,63px)*34/63)}}
+
+/* Paragraph effects are shared by the editor preview and the public homepage. */
+.homepage-copy{max-width:475px;margin:0 0 1em;white-space:normal!important;line-height:1.65}
+.homepage-text-block{font-size:var(--copy-font-size,16px);line-height:1.65;overflow-wrap:anywhere}
+.homepage-text-block+.homepage-text-block{margin-top:12px}
+.homepage-text-content{white-space:pre-wrap;display:block}
+.copy-background{padding:10px 14px;border-radius:10px}
+.copy-effect-bold{font-weight:800}
+.copy-effect-shadow{text-shadow:2px 2px 3px #16417b55}
+.copy-effect-outline{-webkit-text-stroke:.5px currentColor;letter-spacing:.04em}
+.copy-effect-glow{text-shadow:0 0 5px #649bff88,0 0 12px #649bff66}
+.copy-underline-solid{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.2em}
+.copy-underline-double{text-decoration:underline double;text-underline-offset:.2em}
+.copy-underline-wavy{text-decoration:underline wavy;text-underline-offset:.2em}
+.copy-underline-highlight{background:linear-gradient(transparent 62%,#ffe373 62%);display:inline;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.homepage-copy-link{display:block;width:fit-content;margin-top:8px;color:#1149bd;text-decoration:underline;text-underline-offset:.2em;font-weight:700}
+.homepage-block-editor{margin-bottom:16px;min-width:0;border:1px solid #dce5ef;border-radius:12px;padding:16px}
+.homepage-block-editor .actions{margin-top:12px}
+.homepage-tagline-preview{padding:12px;border:1px dashed #cbd8ed;border-radius:8px;color:#536582}
+#brand-tagline{font-size:inherit;color:inherit}
+@media(max-width:900px){.homepage-text-block{font-size:max(12px,calc(var(--copy-font-size,16px)*14/16))}}

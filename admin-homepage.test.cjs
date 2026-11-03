@@ -2,7 +2,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const model=require('./homepage-text.js'),content=require('./content-models.js');
 function harness(compress){
  const nodes=new Map(),events=[],messages=[];let locked=false;
- const el=id=>{if(!nodes.has(id))nodes.set(id,{id,value:'',files:[],handlers:{},style:{setProperty(){}},addEventListener(k,f){this.handlers[k]=f},dispatchEvent(){events.push(id)}});return nodes.get(id);};
+ const el=id=>{if(!nodes.has(id))nodes.set(id,{id,value:'',files:[],handlers:{},replaceChildren(){},style:{setProperty(){}},addEventListener(k,f){this.handlers[k]=f},dispatchEvent(){events.push(id)}});return nodes.get(id);};
  for(const slide of [1,2,3]){const p=slide===1?'hero':'hero'+slide;el('settings-'+p+'Image').value=model.values({},slide).heroImage;el('settings-'+p+'Description').value='介紹 '+slide;}
  const settings={heroIntroTitle:'保留原標題',brand:'塗塗老師'};
  const context={window:{TutuHomepageText:model,TutuContent:content},document:{getElementById:el},$:s=>el(s.slice(1)),site:{settings},Event:class{},checkFestivalFile(){},compressImage:compress,beginEditorSave(){locked=true;return ()=>locked=false},toast:m=>messages.push(m)};
