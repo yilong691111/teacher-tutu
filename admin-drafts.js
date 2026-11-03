@@ -4,7 +4,7 @@
  const api=window.TutuFormBuffers;if(!api||!$('#form-recovery'))return;
  const store=new api.Store(localStorage),states=new Map(),imageCache=new WeakMap(),pendingImages=new Set(),pendingSaves=new Set();
  const pages={'report-form':'reports','work-form':'gallery','news-form':'news','settings-form':'settings','festival-form':'festivals','line-product-form':'products','character-form':'characters'};
- const labels={'report-form':'特別報導','work-form':'作品','news-form':'公告','settings-form':'網站設定','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
+ const labels={'report-form':'特別報導','work-form':'作品','news-form':'公告','settings-form':'首頁編輯','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
  const idFields={'report-form':'report-id','festival-form':'festival-id','work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
  const imageFields={
   'work-form':{file:'work-file',value:'work-existing-image',preview:'work-image-preview',error:'work-image-error',warning:'work-image-warning',cancel:'work-cancel-image'},

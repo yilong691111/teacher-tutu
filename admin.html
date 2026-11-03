@@ -17,12 +17,12 @@
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
 <script defer src="homepage-text.js?v=20261103-homepage-editor-2"></script>
 <script defer src="github-cms.js?v=20261103-homepage-editor"></script>
-<script defer src="admin.js?v=20261103-homepage-editor"></script>
+<script defer src="admin.js?v=20261103-editor-order"></script>
 <script defer src="admin-collections.js?v=20261102-line-festival"></script>
 <script defer src="admin-batch.js?v=20261030-report-editor"></script>
 <script defer src="admin-festivals.js?v=20261030-report-editor"></script>
 <script defer src="admin-reports.js?v=20261101-missing-reports"></script>
-<script defer src="admin-drafts.js?v=20261103-homepage-editor"></script>
+<script defer src="admin-drafts.js?v=20261103-editor-order"></script>
 <script defer src="admin-publish.js?v=20261101-missing-reports"></script>
 <script defer src="admin-media.js?v=20261102-media-drop"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
@@ -32,18 +32,18 @@
 <div id="dashboard" class="dashboard">
   <aside class="side">
     <div class="side-brand">✳ 塗塗老師 <small>內容管理中心</small></div>
-    <label class="mobile-page-switch" for="admin-mobile-page">切換管理功能<select id="admin-mobile-page" aria-label="切換管理功能"><option value="overview">管理總覽</option></select></label>
+    <label class="mobile-page-switch" for="admin-mobile-page">切換管理功能<select id="admin-mobile-page" aria-label="切換管理功能"><option value="settings">首頁編輯</option></select></label>
     <nav>
-      <button class="selected" data-page="overview">◈　總覽</button>
+      <button class="selected" data-page="settings">✎　首頁編輯</button>
+      <button data-page="news">☷　最新消息</button>
+      <button data-page="reports">▤　特別報導</button>
+      <button data-page="festivals">✿　節慶系列</button>
+      <button data-page="characters">☺　人物夥伴</button>
+      <button data-page="products">▦　LINE 貼圖</button>
       <button data-page="gallery">▣　作品相簿</button>
       <button data-page="media">▧　圖片素材庫</button>
       <button data-page="categories">▤　分類管理</button>
-      <button data-page="products">▦　LINE 貼圖</button>
-      <button data-page="characters">☺　人物夥伴</button>
-      <button data-page="reports">▤　特別報導</button>
-      <button data-page="news">☷　最新消息</button>
-      <button data-page="festivals">✿　節慶系列</button>
-      <button data-page="settings">✎　網站設定</button>
+      <button data-page="overview">◈　總覽</button>
       <button data-page="publish">↗　發布與備份</button>
     </nav>
     <div class="side-foot"><a href="index.html" target="_blank" rel="noopener">↗ 查看官網</a></div>
@@ -51,7 +51,7 @@
 
   <div class="content">
     <header class="admin-header">
-      <div><small>TEACHER TUTU / CONTENT STUDIO</small><h1 id="page-title">管理總覽</h1></div>
+      <div><small>TEACHER TUTU / CONTENT STUDIO</small><h1 id="page-title">首頁編輯</h1></div>
       <div class="header-actions"><span class="admin-state" id="connection-badge">● 尚未連線 GitHub</span><button class="primary" id="header-publish">發布與備份 ↗</button></div>
     </header>
     <div id="alert" role="status" aria-live="polite"></div>
@@ -64,7 +64,7 @@
       <div id="form-recovery-list"></div>
     </section>
 
-    <section id="page-overview" class="page">
+    <section id="page-overview" class="page" hidden>
       <div class="panel" style="border-left:5px solid #164ee8">
         <span class="studio-label">WELCOME BACK</span><h2>把塗塗的新故事，帶到官網上</h2>
         <p>編輯作品與公告 → 預覽草稿 → 發布到官網。草稿會先保存在這台裝置；完成 GitHub 授權後，就能在這裡直接發布。</p>
@@ -77,13 +77,17 @@
         <div><span>作品分類</span><strong id="stat-categories">0</strong></div>
       </div>
       <div class="panel"><h2>快速操作</h2><div class="actions">
-        <button data-jump="gallery">＋ 新增作品</button>
+        <button data-jump="settings">✎ 首頁編輯</button>
         <button data-jump="news">＋ 發布最新消息</button>
-        <button data-jump="settings">✎ 編輯品牌故事</button>
-        <button data-jump="products">▦ 管理 LINE 貼圖</button>
-        <button data-jump="characters">☺ 管理人物夥伴</button>
+        <button data-jump="reports">▤ 編輯特別報導</button>
         <button data-jump="festivals">✿ 編輯節慶系列</button>
-        <button data-jump="publish">↗ 發布與備份</button><button id="preview-draft">◎ 預覽目前草稿</button>
+        <button data-jump="characters">☺ 管理人物夥伴</button>
+        <button data-jump="products">▦ 管理 LINE 貼圖</button>
+        <button data-jump="gallery">＋ 新增作品</button>
+        <button data-jump="media">▧ 圖片素材庫</button>
+        <button data-jump="categories">▤ 分類管理</button>
+        <button data-jump="publish">↗ 發布與備份</button>
+        <button id="preview-draft">◎ 預覽目前草稿</button>
       </div></div>
       <div class="panel"><h2>圖片展示</h2><div class="mini-gallery" id="mini-gallery"></div></div>
     </section>
@@ -223,10 +227,10 @@
       </form>
     </section>
 
-    <section id="page-settings" class="page" hidden>
-      <form class="panel" id="settings-form"><h2>品牌與網站設定</h2><p>可修改首頁介紹、故事與 LINE 商店入口。</p>
+    <section id="page-settings" class="page">
+      <form class="panel" id="settings-form"><h2>首頁編輯</h2><p>依官網由上到下排列：頁首品牌 → 首頁介紹 → 公告跑馬文字 → 塗塗的故事。最新消息、特別報導、節慶系列、人物與 LINE 貼圖，請使用上方依網頁順序排列的編輯選單。</p><h3>01｜頁首品牌與貼圖商店入口</h3>
         <div class="form-grid"><label>品牌中文名稱<input id="settings-brand" maxlength="80" required></label><label>品牌英文名稱<input id="settings-brandEn" maxlength="80"></label><label>品牌短句<input id="settings-tagline" maxlength="150"></label><label>LINE 貼圖商店網址<input id="settings-lineUrl" type="url" required></label></div>
-        <fieldset id="homepage-editor"><legend>首頁介紹編輯（第一張輪播）</legend>
+        <fieldset id="homepage-editor"><legend>02｜首頁介紹（第一張輪播）</legend>
         <p>修改首頁英文小標、主標題與介紹文字，可調整顏色及字體大小。主標題可按 Enter 換行；手機會依比例縮放。儲存草稿後，先預覽再發布。</p>
         <label>英文小標<input id="settings-heroKicker" maxlength="100"><small>留空可隱藏英文小標。</small></label>
         <div class="form-grid"><label>英文小標顏色<input id="settings-heroKickerColor" type="color"></label><label>英文小標大小（px）<input id="settings-heroKickerSize" type="number" min="10" max="28" step="1" required></label></div>
@@ -238,9 +242,11 @@
         <h3>即時文字預覽</h3><small>此處只預覽文字與樣式；完整排版請使用「預覽目前草稿」。</small>
         <div class="homepage-preview"><span id="homepage-preview-kicker" class="homepage-preview-kicker"></span><div id="homepage-preview-title" class="homepage-preview-title"></div><p id="homepage-preview-description" class="homepage-preview-description"></p></div>
         </fieldset>
-        <label>塗塗的故事<textarea id="settings-storyText" rows="8" maxlength="5000"></textarea></label>
-        <label>頂部公告跑馬文字<input id="settings-siteNotice" maxlength="500"></label>
-        <div class="actions"><button type="submit" class="primary">儲存網站設定</button></div>
+        <h3>03｜首頁介紹下方的公告跑馬文字</h3>
+        <label>公告跑馬文字<input id="settings-siteNotice" maxlength="500"></label>
+        <h3>04｜塗塗的故事</h3>
+        <label>故事內文<textarea id="settings-storyText" rows="8" maxlength="5000"></textarea></label>
+        <div class="actions"><button type="submit" class="primary">儲存首頁編輯</button></div>
       </form>
     </section>
 
