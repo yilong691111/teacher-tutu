@@ -1169,169 +1169,394 @@ window.TUTU_BOOTSTRAP = {
       "id": "friends-daily",
       "title": "塗塗的快樂日常｜全體人物著色本",
       "category": "合集篇",
-      "description": "七位主要角色，9 張 A4 黑白著色頁。一起探索、分享、玩積木，再出發去野餐。",
-      "image": "assets/works/coloring-friends-daily.png",
-      "pdf": "assets/coloring/upload-758098c2f1a435c85f27fe2b9fb477871b2df75778e23228b81bf4bc3df1bc0e.pdf",
+      "description": "9頁全體人物合作情境：一起野餐、放風箏、畫花園、聽故事、做點心、閱讀、種樹、搭積木與分享祝福。",
+      "image": "assets/works/coloring-friends-daily-9pages-7eb265e4e229.png",
+      "pdf": "assets/coloring/upload-7eb265e4e2290f2db23d09361521980fd71410dbe4159dfdad213f4232e666c1.pdf",
       "pageCount": 9,
-      "fileSize": 14143807,
+      "fileSize": 14094374,
       "pages": [
         {
-          "id": "page-1",
-          "title": "藍寶的小小探險"
+          "id": "friends-daily-p01",
+          "title": "大家的野餐日"
         },
         {
-          "id": "page-2",
-          "title": "桃寶的生日祝福"
+          "id": "friends-daily-p02",
+          "title": "風箏飛向好心情"
         },
         {
-          "id": "page-3",
-          "title": "小藍姊姊的創意畫室"
+          "id": "friends-daily-p03",
+          "title": "一起畫一座花園"
         },
         {
-          "id": "page-4",
-          "title": "藍田老師的快樂課堂"
+          "id": "friends-daily-p04",
+          "title": "我們的快樂課堂"
         },
         {
-          "id": "page-5",
-          "title": "佑佑來幫忙"
+          "id": "friends-daily-p05",
+          "title": "圓圓姨的點心時間"
         },
         {
-          "id": "page-6",
-          "title": "暖暖的花園時光"
+          "id": "friends-daily-p06",
+          "title": "安靜的故事小屋"
         },
         {
-          "id": "page-7",
-          "title": "圓圓姨的分享點心"
+          "id": "friends-daily-p07",
+          "title": "幫小樹安一個家"
         },
         {
-          "id": "page-8",
-          "title": "藍寶和桃寶一起玩"
+          "id": "friends-daily-p08",
+          "title": "積木搭起夢想屋"
         },
         {
-          "id": "page-9",
-          "title": "大家一起去野餐"
+          "id": "friends-daily-p09",
+          "title": "把祝福送給每個人"
         }
       ],
       "published": true
     },
     {
       "id": "character-1",
-      "title": "藍寶｜小小探險",
+      "title": "藍寶｜好奇探險著色本",
       "category": "人物篇",
-      "description": "幫花朵和蝴蝶穿上你喜歡的顏色。",
-      "image": "assets/works/coloring-character-1.png",
-      "pdf": "assets/coloring/upload-37e8b240de4209d1992a7ef2fc41d6bc9d98a22f0b2fd3ff60f0c9e56c1bfd5b.pdf",
-      "pageCount": 1,
-      "fileSize": 1500975,
+      "description": "9頁A4黑白著色，以「好奇探險」為主題，陪藍寶探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-1-9pages-519bd64be64c.png",
+      "pdf": "assets/coloring/upload-519bd64be64c62756b4ed14af7f32c9dc9700d4dc186175609da8a6d34620d49.pdf",
+      "pageCount": 9,
+      "fileSize": 12043033,
       "pages": [
         {
-          "id": "page-1",
+          "id": "character-1-p01",
           "title": "藍寶的小小探險"
+        },
+        {
+          "id": "character-1-p02",
+          "title": "風箏飛高高"
+        },
+        {
+          "id": "character-1-p03",
+          "title": "紙船慢慢漂"
+        },
+        {
+          "id": "character-1-p04",
+          "title": "紙箱火箭出發"
+        },
+        {
+          "id": "character-1-p05",
+          "title": "小種子的新家"
+        },
+        {
+          "id": "character-1-p06",
+          "title": "收集葉子的形狀"
+        },
+        {
+          "id": "character-1-p07",
+          "title": "拼出我的小世界"
+        },
+        {
+          "id": "character-1-p08",
+          "title": "泡泡的旅行"
+        },
+        {
+          "id": "character-1-p09",
+          "title": "看見晚安星星"
         }
       ],
       "published": true
     },
     {
       "id": "character-2",
-      "title": "桃寶｜生日祝福",
+      "title": "桃寶｜快樂祝福著色本",
       "category": "人物篇",
-      "description": "你想把生日祝福送給誰？",
-      "image": "assets/works/coloring-character-2.png",
-      "pdf": "assets/coloring/upload-c6911e3fb781fe2bc50d9e4e01b9100826fadead4470bdf2e7e1ca6ddf3fe16f.pdf",
-      "pageCount": 1,
-      "fileSize": 1485932,
+      "description": "9頁A4黑白著色，以「快樂祝福」為主題，陪桃寶探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-2-9pages-0811454c5da5.png",
+      "pdf": "assets/coloring/upload-0811454c5da55b8b889cd668e58f4cd08076a02d868331a85362a0a6b787e327.pdf",
+      "pageCount": 9,
+      "fileSize": 11955183,
       "pages": [
         {
-          "id": "page-2",
+          "id": "character-2-p01",
           "title": "桃寶的生日祝福"
+        },
+        {
+          "id": "character-2-p02",
+          "title": "畫一張心意卡"
+        },
+        {
+          "id": "character-2-p03",
+          "title": "送你一朵小太陽"
+        },
+        {
+          "id": "character-2-p04",
+          "title": "小熊的午茶時間"
+        },
+        {
+          "id": "character-2-p05",
+          "title": "唱一首開心的歌"
+        },
+        {
+          "id": "character-2-p06",
+          "title": "禮物裡的心意"
+        },
+        {
+          "id": "character-2-p07",
+          "title": "寄出暖暖的祝福"
+        },
+        {
+          "id": "character-2-p08",
+          "title": "雨天也有小快樂"
+        },
+        {
+          "id": "character-2-p09",
+          "title": "也要抱抱自己"
         }
       ],
       "published": true
     },
     {
       "id": "character-3",
-      "title": "小藍姊姊｜創意畫室",
+      "title": "小藍姊姊｜創意時光著色本",
       "category": "人物篇",
-      "description": "在畫紙上，加上自己的小點子。",
-      "image": "assets/works/coloring-character-3.png",
-      "pdf": "assets/coloring/upload-133afbb8d38d5c0f2f753685da411a59222464ea843367e1ef03cf13d4488ff2.pdf",
-      "pageCount": 1,
-      "fileSize": 1555974,
+      "description": "9頁A4黑白著色，以「創意時光」為主題，陪小藍姊姊探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-3-9pages-02dc485f0e8d.png",
+      "pdf": "assets/coloring/upload-02dc485f0e8dd7d3723520da205fa70c0b947ebba481903a3405be1d98654d71.pdf",
+      "pageCount": 9,
+      "fileSize": 12454620,
       "pages": [
         {
-          "id": "page-3",
+          "id": "character-3-p01",
           "title": "小藍姊姊的創意畫室"
+        },
+        {
+          "id": "character-3-p02",
+          "title": "黏土小花盆"
+        },
+        {
+          "id": "character-3-p03",
+          "title": "摺一隻紙小鳥"
+        },
+        {
+          "id": "character-3-p04",
+          "title": "我的拼布小洋裝"
+        },
+        {
+          "id": "character-3-p05",
+          "title": "烏克麗麗小樂曲"
+        },
+        {
+          "id": "character-3-p06",
+          "title": "串起花朵的笑容"
+        },
+        {
+          "id": "character-3-p07",
+          "title": "積木變成小房子"
+        },
+        {
+          "id": "character-3-p08",
+          "title": "星星手作坊"
+        },
+        {
+          "id": "character-3-p09",
+          "title": "故事裡的秘密花園"
         }
       ],
       "published": true
     },
     {
       "id": "character-4",
-      "title": "藍田老師｜快樂課堂",
+      "title": "藍田老師｜一起慢慢學著色本",
       "category": "人物篇",
-      "description": "今天，你最想學會什麼？",
-      "image": "assets/works/coloring-character-4.png",
-      "pdf": "assets/coloring/upload-cc158f21a5e82ec4c68596b0a2b7e3980259e9cc7f5e4585ec9c6ef46e8d184c.pdf",
-      "pageCount": 1,
-      "fileSize": 1599413,
+      "description": "9頁A4黑白著色，以「一起慢慢學」為主題，陪藍田老師探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-4-9pages-9a1b112b2d5a.png",
+      "pdf": "assets/coloring/upload-9a1b112b2d5ab3ecbb041e6a2c0e9d30d71f8d289f7d15bfe2dca1c610d8f088.pdf",
+      "pageCount": 9,
+      "fileSize": 12506938,
       "pages": [
         {
-          "id": "page-4",
+          "id": "character-4-p01",
           "title": "藍田老師的快樂課堂"
+        },
+        {
+          "id": "character-4-p02",
+          "title": "形狀捉迷藏"
+        },
+        {
+          "id": "character-4-p03",
+          "title": "小豆芽長大了"
+        },
+        {
+          "id": "character-4-p04",
+          "title": "數一數小積木"
+        },
+        {
+          "id": "character-4-p05",
+          "title": "紙飛機的課堂"
+        },
+        {
+          "id": "character-4-p06",
+          "title": "布偶說故事"
+        },
+        {
+          "id": "character-4-p07",
+          "title": "教室的小綠角"
+        },
+        {
+          "id": "character-4-p08",
+          "title": "一起把環境整理好"
+        },
+        {
+          "id": "character-4-p09",
+          "title": "老師也需要休息"
         }
       ],
       "published": true
     },
     {
       "id": "character-5",
-      "title": "佑佑來幫忙",
+      "title": "佑佑｜善良小行動著色本",
       "category": "人物篇",
-      "description": "你今天可以幫朋友做哪一件事？",
-      "image": "assets/works/coloring-character-5.png",
-      "pdf": "assets/coloring/upload-5efdccd1399043522ea7df13a85ff640e79893540e03b1f6ec46d30a292c9d4e.pdf",
-      "pageCount": 1,
-      "fileSize": 1536356,
+      "description": "9頁A4黑白著色，以「善良小行動」為主題，陪佑佑探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-5-9pages-d311789f82d2.png",
+      "pdf": "assets/coloring/upload-d311789f82d2a96e65613455997d07b2d4740972ac75403e75cbbb7419a04e1f.pdf",
+      "pageCount": 9,
+      "fileSize": 12424283,
       "pages": [
         {
-          "id": "page-5",
+          "id": "character-5-p01",
           "title": "佑佑來幫忙"
+        },
+        {
+          "id": "character-5-p02",
+          "title": "玩具回家囉"
+        },
+        {
+          "id": "character-5-p03",
+          "title": "種下一棵小希望"
+        },
+        {
+          "id": "character-5-p04",
+          "title": "幫忙把門打開"
+        },
+        {
+          "id": "character-5-p05",
+          "title": "修好心愛的小車"
+        },
+        {
+          "id": "character-5-p06",
+          "title": "一起準備大皮球"
+        },
+        {
+          "id": "character-5-p07",
+          "title": "給小狗一碗水"
+        },
+        {
+          "id": "character-5-p08",
+          "title": "鞋子排排站"
+        },
+        {
+          "id": "character-5-p09",
+          "title": "準備出遊的小點心"
         }
       ],
       "published": true
     },
     {
       "id": "character-6",
-      "title": "暖暖｜花園時光",
+      "title": "暖暖｜溫柔陪伴著色本",
       "category": "人物篇",
-      "description": "替小花選顏色，也對自己說一句好話。",
-      "image": "assets/works/coloring-character-6.png",
-      "pdf": "assets/coloring/upload-bccf2bb6b622165295931398799871f46720dc754bb86c7554fd69bc5a8e44df.pdf",
-      "pageCount": 1,
-      "fileSize": 1614375,
+      "description": "9頁A4黑白著色，以「溫柔陪伴」為主題，陪暖暖探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-6-9pages-7dc1fa2c8348.png",
+      "pdf": "assets/coloring/upload-7dc1fa2c8348e2076f0cd1af61968407a8a014071517ca607d8550157a0bf316.pdf",
+      "pageCount": 9,
+      "fileSize": 13084290,
       "pages": [
         {
-          "id": "page-6",
+          "id": "character-6-p01",
           "title": "暖暖的花園時光"
+        },
+        {
+          "id": "character-6-p02",
+          "title": "抱抱我的小熊"
+        },
+        {
+          "id": "character-6-p03",
+          "title": "跟雲朵一起慢慢來"
+        },
+        {
+          "id": "character-6-p04",
+          "title": "聽聽雨的聲音"
+        },
+        {
+          "id": "character-6-p05",
+          "title": "把小花放進家裡"
+        },
+        {
+          "id": "character-6-p06",
+          "title": "小鳥願意靠近"
+        },
+        {
+          "id": "character-6-p07",
+          "title": "溫暖的小被窩"
+        },
+        {
+          "id": "character-6-p08",
+          "title": "握住一顆小星星"
+        },
+        {
+          "id": "character-6-p09",
+          "title": "畫出今天的心情"
         }
       ],
       "published": true
     },
     {
       "id": "character-7",
-      "title": "圓圓姨｜分享點心",
+      "title": "圓圓姨｜暖心日常著色本",
       "category": "人物篇",
-      "description": "畫出你想和大家分享的小點心。",
-      "image": "assets/works/coloring-character-7.png",
-      "pdf": "assets/coloring/upload-a3b9b46e8da6ac8c1e1b6449c8af36108b0990dc33f8bf557611f66e603c828a.pdf",
-      "pageCount": 1,
-      "fileSize": 1546387,
+      "description": "9頁A4黑白著色，以「暖心日常」為主題，陪圓圓姨探索不同日常。每頁搭配一句溫柔的引導。",
+      "image": "assets/works/coloring-character-7-9pages-41c164be150b.png",
+      "pdf": "assets/coloring/upload-41c164be150b3ab22e7b501c2f4f045f1b48b889c7ab94150d69714464e3c2ec.pdf",
+      "pageCount": 9,
+      "fileSize": 12770124,
       "pages": [
         {
-          "id": "page-7",
+          "id": "character-7-p01",
           "title": "圓圓姨的分享點心"
+        },
+        {
+          "id": "character-7-p02",
+          "title": "揉一團柔軟的麵糰"
+        },
+        {
+          "id": "character-7-p03",
+          "title": "一碗暖暖的湯"
+        },
+        {
+          "id": "character-7-p04",
+          "title": "菜市場的小收穫"
+        },
+        {
+          "id": "character-7-p05",
+          "title": "織一條關心的圍巾"
+        },
+        {
+          "id": "character-7-p06",
+          "title": "陽台上的小香草"
+        },
+        {
+          "id": "character-7-p07",
+          "title": "一起等粽子熟"
+        },
+        {
+          "id": "character-7-p08",
+          "title": "把被子摺整齊"
+        },
+        {
+          "id": "character-7-p09",
+          "title": "厝內有你真好"
         }
       ],
       "published": true
     }
-  ]
+  ],
+  "coloringRevision": "20261104-nine-pages-v1"
 };

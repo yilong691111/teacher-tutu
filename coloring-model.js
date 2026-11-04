@@ -1,5 +1,5 @@
 /* Shared coloring-book schema. Array order is the public display/page order. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.TutuColoring=api;})(typeof window==='undefined'?globalThis:window,function(){
+(function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(node?require('./coloring-release.js'):root.TutuColoringRelease);if(node)module.exports=api;else root.TutuColoring=api;})(typeof window==='undefined'?globalThis:window,function(release){
  'use strict';
  const categories=Object.freeze(['人物篇','合集篇']);
  const MAX_BYTES=50*1024*1024,MAX_PAGES=100;
@@ -7,6 +7,22 @@
  const validImage=value=>typeof value==='string'&&/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|png|jpe?g)$/.test(value);
  const books=site=>Array.isArray(site?.coloringBooks)?site.coloringBooks:[];
  const visible=site=>books(site).filter(b=>b.published!==false);
+ function syncPublished(local,published){
+  if(!local||!release||published?.coloringRevision!==release.version||local.coloringRevision===release.version||!Array.isArray(local.coloringBooks))return local;
+  const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
+  const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
+  const previous=new Map(release.previousBooks.map(b=>[b.id,b])),current=new Map(books(published).map(b=>[b.id,b]));
+  const pdfFields=['pdf','pageCount','fileSize','pages'];
+  const updated=local.coloringBooks.map(book=>{
+   const before=previous.get(book.id),after=current.get(book.id);if(!before||!after)return book;
+   const next={...book};
+   // Keep an edited file and its page metadata together; never mix two PDFs.
+   if(pdfFields.every(key=>equal(book[key],before[key])))for(const key of pdfFields)next[key]=structuredClone(after[key]);
+   for(const key of ['title','description','image','category','published'])if(equal(book[key],before[key]))next[key]=structuredClone(after[key]);
+   return next;
+  });
+  return {...local,coloringBooks:updated,coloringRevision:release.version};
+ }
  function validate(site){
   if(site.coloringBooks===undefined)return site;
   if(!Array.isArray(site.coloringBooks)||site.coloringBooks.length>300)throw new Error('著色本清單格式不正確，最多 300 本。');
@@ -24,5 +40,5 @@
   }return site;
  }
  function move(list,id,offset){const next=list.slice(),i=next.findIndex(x=>x.id===id);if(i<0)throw new Error('找不到要排序的項目。');const target=Math.max(0,Math.min(next.length-1,i+offset));next.splice(target,0,next.splice(i,1)[0]);return next;}
- return {categories,MAX_BYTES,MAX_PAGES,validPdf,validImage,books,visible,validate,move};
+ return {categories,MAX_BYTES,MAX_PAGES,validPdf,validImage,books,visible,validate,move,syncPublished};
 });

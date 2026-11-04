@@ -80,14 +80,16 @@
  function hydrateDraft(local,published){
   // Drafts saved before coloring books existed have no collection at all.
   // An existing array (including []) is an intentional edit and must survive.
-  if(local&&!Object.prototype.hasOwnProperty.call(local,'coloringBooks')&&Array.isArray(published?.coloringBooks))return {...local,coloringBooks:structuredClone(published.coloringBooks)};
-  return local;
+  if(local&&!Object.prototype.hasOwnProperty.call(local,'coloringBooks')&&Array.isArray(published?.coloringBooks))local={...local,coloringBooks:structuredClone(published.coloringBooks)};
+  const coloring=typeof module==='object'&&module.exports?require('./coloring-model.js'):window.TutuColoring;
+  return coloring?.syncPublished?coloring.syncPublished(local,published):local;
  }
  function resolveDraft(local,remote,metadata){
   local=hydrateDraft(local,remote.data);
-  const same=local&&JSON.stringify(local)===JSON.stringify(remote.data);
+  const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
+  const same=local&&JSON.stringify(canonical(local))===JSON.stringify(canonical(remote.data));
   const needsAdoption=!!local&&!same&&metadata?.baseBlob!==remote.baseBlob;
-  return {data:local||remote.data,baseBlob:needsAdoption?null:remote.baseBlob,needsAdoption,dirty:!!local&&!same};
+  return {data:same||!local?structuredClone(remote.data):local,baseBlob:needsAdoption?null:remote.baseBlob,needsAdoption,dirty:!!local&&!same};
  }
  class DraftStore{
   constructor(storage){this.storage=storage;this.key='teacher-tutu-static-cms-v2';this.legacy='teacher-tutu-static-cms-v1';}

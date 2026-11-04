@@ -106,13 +106,14 @@ test('unknown or stale local drafts need explicit adoption and are never discard
 test('pre-coloring drafts recover the published books without losing unrelated edits or bypassing conflicts',()=>{
  const local=data();delete local.coloringBooks;local.news[0].title='保留我的未發布公告';
  const original=structuredClone(local),remote={data:data(),baseBlob:'latest'};
+ remote.data.coloringBooks[0].pages=[{id:'first',title:'第一頁'},{id:'second',title:'第二頁'}];remote.data.coloringBooks[0].pageCount=2;
  const result=cms.resolveDraft(local,remote,{baseBlob:'before-coloring'});
  assert.equal(result.data.coloringBooks.length,8);
  assert.equal(result.data.coloringBooks[0].title,'塗塗的快樂日常｜全體人物著色本');
  assert.equal(result.data.news[0].title,'保留我的未發布公告');
  assert.equal(result.needsAdoption,true);assert.equal(result.baseBlob,null);assert.equal(result.dirty,true);
  assert.deepEqual(local,original);
- result.data.coloringBooks[0].pages.reverse();assert.equal(remote.data.coloringBooks[0].pages[0].title,'藍寶的小小探險');
+ result.data.coloringBooks[0].pages.reverse();assert.equal(remote.data.coloringBooks[0].pages[0].title,'第一頁');
 });
 test('a draft that only lacks the new coloring collection becomes current after recovery',()=>{
  const local=data();delete local.coloringBooks;
