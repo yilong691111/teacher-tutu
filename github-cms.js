@@ -77,7 +77,14 @@
   return validateData(JSON.parse(match[1]));
  }
  function decodeBase64(text){return new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(atob(text.replace(/\s/g,'')),c=>c.charCodeAt(0)));}
+ function hydrateDraft(local,published){
+  // Drafts saved before coloring books existed have no collection at all.
+  // An existing array (including []) is an intentional edit and must survive.
+  if(local&&!Object.prototype.hasOwnProperty.call(local,'coloringBooks')&&Array.isArray(published?.coloringBooks))return {...local,coloringBooks:structuredClone(published.coloringBooks)};
+  return local;
+ }
  function resolveDraft(local,remote,metadata){
+  local=hydrateDraft(local,remote.data);
   const same=local&&JSON.stringify(local)===JSON.stringify(remote.data);
   const needsAdoption=!!local&&!same&&metadata?.baseBlob!==remote.baseBlob;
   return {data:local||remote.data,baseBlob:needsAdoption?null:remote.baseBlob,needsAdoption,dirty:!!local&&!same};
@@ -178,5 +185,5 @@
    return {state:run.conclusion==='success'?'succeeded':'failed',url,conclusion:run.conclusion};
   }
  }
- return {Client,DraftStore,validateData,serializeData,parseData,resolveDraft,FESTIVAL_DEFAULTS,validFestivalLink,REPO,BRANCH,REPO_URL,SITE_URL};
+ return {Client,DraftStore,validateData,serializeData,parseData,hydrateDraft,resolveDraft,FESTIVAL_DEFAULTS,validFestivalLink,REPO,BRANCH,REPO_URL,SITE_URL};
 });

@@ -103,6 +103,31 @@ test('unknown or stale local drafts need explicit adoption and are never discard
  const current=cms.resolveDraft(local,remote,{baseBlob:'latest'});assert.equal(current.needsAdoption,false);assert.equal(current.dirty,true);
  const empty=cms.resolveDraft(null,remote,null);assert.equal(empty.dirty,false);assert.equal(empty.baseBlob,'latest');
 });
+test('pre-coloring drafts recover the published books without losing unrelated edits or bypassing conflicts',()=>{
+ const local=data();delete local.coloringBooks;local.news[0].title='保留我的未發布公告';
+ const original=structuredClone(local),remote={data:data(),baseBlob:'latest'};
+ const result=cms.resolveDraft(local,remote,{baseBlob:'before-coloring'});
+ assert.equal(result.data.coloringBooks.length,8);
+ assert.equal(result.data.coloringBooks[0].title,'塗塗的快樂日常｜全體人物著色本');
+ assert.equal(result.data.news[0].title,'保留我的未發布公告');
+ assert.equal(result.needsAdoption,true);assert.equal(result.baseBlob,null);assert.equal(result.dirty,true);
+ assert.deepEqual(local,original);
+ result.data.coloringBooks[0].pages.reverse();assert.equal(remote.data.coloringBooks[0].pages[0].title,'藍寶的小小探險');
+});
+test('a draft that only lacks the new coloring collection becomes current after recovery',()=>{
+ const local=data();delete local.coloringBooks;
+ const result=cms.resolveDraft(local,{data:data(),baseBlob:'latest'},{baseBlob:'old'});
+ assert.equal(result.data.coloringBooks.length,8);assert.equal(result.dirty,false);
+ assert.equal(result.needsAdoption,false);assert.equal(result.baseBlob,'latest');
+});
+test('book edits, reordering and an explicitly emptied coloring collection survive reconciliation',()=>{
+ for(const books of [[],data().coloringBooks.slice().reverse()]){
+  const local=data();local.coloringBooks=books;
+  if(books.length)books[0].title='尚未發布的書名';
+  const result=cms.resolveDraft(local,{data:data(),baseBlob:'latest'},{baseBlob:'latest'});
+  assert.deepEqual(result.data.coloringBooks,books);assert.equal(result.needsAdoption,false);
+ }
+});
 test('native browser fetch is called with the global receiver',async()=>{
  assert.equal(typeof cms.Client,'function');const original=globalThis.fetch;const s=server();
  globalThis.fetch=function(...args){assert.equal(this,globalThis);return s.fetch(...args)};
