@@ -13,6 +13,7 @@
   const map=new Map();const add=(image,name,category,alt,use)=>{if(!content.safeImage(image))return;let item=map.get(image);if(!item){item={image,name:(typeof name==='string'&&name.trim()?name:'未命名圖片').slice(0,120),category:typeof category==='string'?category:'',alt:typeof alt==='string'?alt:'',saved:false,uses:[]};map.set(image,item);}if(use)item.uses.push(use);};
   for(const [key,kind] of [['gallery','作品'],['lineProducts','LINE 貼圖']])for(const x of site[key]||[])add(x.image,x.title,x.category,x.imageAlt,{kind:key,id:x.id,label:`${kind}｜${x.title}${x.published===false?'（已隱藏）':''}`});
   for(const x of content.charactersFor(site))add(x.image,x.name,'人物夥伴',x.imageAlt,{kind:'characters',id:x.id,label:`人物｜${x.name}${x.published===false?'（已隱藏）':''}`});
+  for(const b of Array.isArray(site.coloringBooks)?site.coloringBooks:[])add(b.image,b.title,'著色本',b.title+'封面',{kind:'coloringBooks',id:b.id,label:`著色本｜${b.title}${b.published===false?'（已隱藏）':''}`});
   const works=new Map((site.gallery||[]).map(x=>[x.id,x]));
   for(const x of festivals.festivalsFor(site,base)){
    const title=x.subtitle||x.holidayName,label=`節慶｜${x.holidayName||title}${x.subtitle&&x.subtitle!==x.holidayName?'｜'+x.subtitle:''}${x.published===false?'（已隱藏）':''}`;

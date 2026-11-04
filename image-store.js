@@ -28,6 +28,6 @@
   const mime=path.endsWith('.png')?'image/png':path.endsWith('.jpg')?'image/jpeg':'image/webp',row={path,mime,content:api.base64(new Uint8Array(await response.arrayBuffer()))};
   const info=(data.imageAssets||[]).find(x=>x.image===path);if(info)Object.assign(row,Object.fromEntries(Object.entries(info).filter(([k])=>k!=='image')));return row;
  }
- const store={get,put,stage,getOrFetch,objectURL,cachedURL:path=>cache.has(path)?objectURL(cache.get(path)):null,prepare:(data,remote)=>api.prepare(data,remote,store),backup:data=>api.backup(data,store),restore:data=>api.restore(data,store)};
+ const store={get,put,stage,getOrFetch,objectURL,cachedURL:path=>cache.has(path)?objectURL(cache.get(path)):null,prepare:async(data,remote)=>{const images=await api.prepare(data,remote,store),pdfs=window.TutuColoringFiles?await window.TutuColoringFiles.prepare(images.data,remote):{files:[]};return {data:images.data,files:[...images.files,...pdfs.files]};},backup:async data=>{const bundle=await api.backup(data,store);if(window.TutuColoringFiles)bundle.coloringAssets=await window.TutuColoringFiles.backupFiles(data);return bundle;},restore:async data=>{if(data?.coloringAssets!==undefined&&window.TutuColoringFiles)await window.TutuColoringFiles.restoreFiles(data.coloringAssets);return api.restore(data,store);}};
  store.setPublished=data=>{published=data;};store.pending=data=>api.prepare(data,published,store);window.TutuImageStore=store;
 })();

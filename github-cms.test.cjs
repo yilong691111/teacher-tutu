@@ -69,6 +69,15 @@ test('stale base refuses writes; another unrelated commit is allowed only with u
  assert.equal(typeof cms.Client,'function');const s=server({conflict:true});const c=new cms.Client({fetch:s.fetch});await c.connect('test-token');
  await assert.rejects(()=>c.publish(data(),'base'),e=>e.code==='conflict');assert.equal(s.calls.filter(x=>x.method==='POST').length,0);
 });
+test('coloring PDF and both data files are committed together without embedding binary in site data',async()=>{
+ const fileApi=require('./coloring-assets.js'),{PDFDocument}=require('./vendor/pdf-lib.min.js');
+ const pdf=await PDFDocument.create();pdf.addPage();const row=await fileApi.record(await pdf.save());
+ const d=data();d.coloringBooks=[{id:'test-book',title:'測試著色本',category:'人物篇',description:'',image:'assets/tutu-boy.webp',pdf:row.path,pageCount:1,fileSize:row.size,pages:[{id:'p1',title:'第一頁'}],published:true}];
+ const s=server(),client=new cms.Client({fetch:s.fetch,assets:{prepare:(next,remote)=>fileApi.prepare(next,remote,{get:async p=>p===row.path?row:null})}});await client.connect('test-token');await client.publish(d,'base');
+ const tree=s.calls.find(c=>c.path.endsWith('/git/trees')).body.tree;assert.ok(tree.some(x=>x.path===row.path));assert.ok(tree.some(x=>x.path==='data/site-data.js'));assert.ok(tree.some(x=>x.path==='data/site.json'));
+ const blob=s.calls.find(c=>c.body?.encoding==='base64');assert.equal(blob.body.content,row.content);
+ const textBlobs=s.calls.filter(c=>c.body?.encoding==='utf-8');assert.ok(textBlobs.every(c=>!c.body.content.includes(row.content)));
+});
 test('concurrent branch update rejects without force or a retry',async()=>{
  assert.equal(typeof cms.Client,'function');const s=server({race:true});const c=new cms.Client({fetch:s.fetch});await c.connect('test-token');
  await assert.rejects(()=>c.publish(data(),'base'),e=>e.code==='conflict');assert.equal(s.calls.filter(x=>x.method==='PATCH').length,1);

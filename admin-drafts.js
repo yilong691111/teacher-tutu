@@ -3,10 +3,11 @@
  'use strict';
  const api=window.TutuFormBuffers;if(!api||!$('#form-recovery'))return;
  const store=new api.Store(localStorage),states=new Map(),imageCache=new WeakMap(),pendingImages=new Set(),pendingSaves=new Set();
- const pages={'report-form':'reports','work-form':'gallery','news-form':'news','settings-form':'settings','festival-form':'festivals','line-product-form':'products','character-form':'characters'};
- const labels={'report-form':'特別報導','work-form':'作品','news-form':'公告','settings-form':'首頁編輯','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
- const idFields={'report-form':'report-id','festival-form':'festival-id','work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
+ const pages={'coloring-form':'coloring','report-form':'reports','work-form':'gallery','news-form':'news','settings-form':'settings','festival-form':'festivals','line-product-form':'products','character-form':'characters'};
+ const labels={'coloring-form':'著色本','report-form':'特別報導','work-form':'作品','news-form':'公告','settings-form':'首頁編輯','festival-form':'節慶系列','line-product-form':'LINE 貼圖','character-form':'人物夥伴'};
+ const idFields={'coloring-form':'coloring-id','report-form':'report-id','festival-form':'festival-id','work-form':'work-id','news-form':'news-id','line-product-form':'line-product-id','character-form':'character-id'};
  const imageFields={
+  'coloring-form':{file:'coloring-cover-file',value:'coloring-existing-image',preview:'coloring-image-preview',error:'coloring-image-error',warning:'coloring-image-warning',cancel:'coloring-cancel-image'},
   'work-form':{file:'work-file',value:'work-existing-image',preview:'work-image-preview',error:'work-image-error',warning:'work-image-warning',cancel:'work-cancel-image'},
   'festival-form':{file:'festival-file',value:'festival-current-image',preview:'festival-image-preview',gallery:'festival-gallery-image',error:'festival-image-error',warning:'festival-image-warning',cancel:'festival-cancel-image',source:'festival-cover-work-id'},
   'line-product-form':{file:'line-product-file',value:'line-product-existing-image',preview:'line-product-image-preview',gallery:'line-product-gallery-image',error:'line-product-image-error',warning:'line-product-image-warning',cancel:'line-product-cancel-image'},
@@ -18,7 +19,7 @@
  const activeDirty=()=>[...states.values()].some(s=>s.dirty&&!s.parked&&visible(s.formId));
  const hasImageError=()=>[...states.values()].some(s=>s.imageError&&!s.committed);
  const hasPending=()=>pendingSaves.size>0||pendingImages.size>0||hasImageError()||[...states.values()].some(s=>s.dirty)||store.all().length>0;
- function title(record){if(record.formId==='settings-form')return '品牌短句與首頁介紹';const values=record.values;return values['report-title']||values['work-title']||values['news-title']||values['line-product-title']||values['character-name']||values['festival-subtitle']||values['settings-brand']||'尚未命名';}
+ function title(record){if(record.formId==='settings-form')return '品牌短句與首頁介紹';const values=record.values;return values['coloring-title']||values['report-title']||values['work-title']||values['news-title']||values['line-product-title']||values['character-name']||values['festival-subtitle']||values['settings-brand']||'尚未命名';}
  function paint(){
   const records=store.all(),count=records.length;
   $('#form-recovery').hidden=!count;
@@ -108,6 +109,7 @@
   suppress=true;
   try{
    if(formId==='work-form')editWork((site.gallery||[]).some(x=>x.id===identity)?identity:undefined);
+   else if(formId==='coloring-form')window.TutuColoringAdmin.edit((site.coloringBooks||[]).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='report-form')window.TutuReportsAdmin.edit(window.TutuReports.reportsFor(site).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='news-form')editNews((site.news||[]).some(x=>x.id===identity)?identity:undefined);
    else if(formId==='line-product-form')window.TutuCollectionsAdmin.editProduct((site.lineProducts||[]).some(x=>x.id===identity)?identity:undefined);
@@ -130,6 +132,7 @@
   if(formId==='festival-form')window.TutuFestivalsAdmin.syncSelection();
   if(formId==='settings-form'){window.TutuHomepageRichEditor?.refresh();window.TutuHomepageText?.preview(document);}
   if(formId==='line-product-form')window.TutuCollectionsAdmin.syncFestivalFields();
+  if(formId==='coloring-form')window.TutuColoringAdmin.refreshPages();
   const spec=imageFields[formId];if(spec){document.getElementById(spec.file).value='';const image=document.getElementById(spec.value).value,preview=document.getElementById(spec.preview);if(preview){preview.src=safeImg(image);preview.hidden=!image;}}
   const s=states.get(formId);s.identity=record.identity;s.dirty=true;s.imageError=!!spec&&document.getElementById(spec.error).value==='1';s.values=readValues(formId);persistState(s);paint();
   document.getElementById(formId).scrollIntoView({behavior:'smooth',block:'start'});

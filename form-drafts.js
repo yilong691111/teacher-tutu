@@ -3,6 +3,7 @@
  'use strict';
  const PREFIX='teacher-tutu-form-buffer-v1:';
  const FORM_FIELDS=Object.freeze({
+  'coloring-form':['coloring-id','coloring-title','coloring-category','coloring-description','coloring-existing-image','coloring-source','coloring-page-data','coloring-file-size','coloring-published','coloring-image-error'],
   'work-form':['work-id','work-existing-image','work-title','work-category','work-series','work-description','work-published','work-featured','work-image-error','work-tags-topic','work-tags-characters','work-tags-holidays','work-tags-situations'],
   'report-form':["report-id", "report-origin-id", "report-title", "report-subtitle", "report-label", "report-summary", "report-body", "report-closing", "report-button-text", "report-button-link", "report-published", "report-section-1-label", "report-section-1-title", "report-section-1-body", "report-section-2-label", "report-section-2-title", "report-section-2-body", "report-section-3-label", "report-section-3-title", "report-section-3-body"],
   'news-form':['news-id','news-title','news-date','news-category','news-body','news-published'],

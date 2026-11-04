@@ -34,6 +34,7 @@
   if(!data||typeof data.settings!=='object'||!data.settings||Array.isArray(data.settings)||!Array.isArray(data.gallery)||!Array.isArray(data.news))throw error('網站資料格式不正確。');
   if(!String(data.settings.brand||'').trim())throw error('請填寫品牌名稱。');
   if(homepage)homepage.validate(data.settings);
+  const coloring=typeof module==='object'&&module.exports?require('./coloring-model.js'):window.TutuColoring;if(coloring)coloring.validate(data);
   const imageAssets=typeof module==='object'&&module.exports?require('./image-assets.js'):window.TutuImageAssets;if(imageAssets)imageAssets.validate(data);
   const taxonomy=typeof module==='object'&&module.exports?require('./taxonomy.js'):window.TutuTaxonomy;if(taxonomy)taxonomy.validate(data);
   if(content)content.validateCollections(data);
