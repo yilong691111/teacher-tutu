@@ -76,7 +76,8 @@
   if(!changes.length){container.append(make('p','目前沒有內容變更。','muted'));return;}
   const totals=new Map();for(const change of changes)for(const action of change.actions)totals.set(action,(totals.get(action)||0)+1);
   container.append(make('p','共 '+changes.length+' 筆變更：'+[...totals].map(([a,n])=>a+' '+n+' 筆').join('、')+'。點開項目核對前後內容。','review-total'));
-  for(const change of changes){
+  if(changes.length>3)container.append(make('p','僅顯示前 3 筆紀錄，其餘 '+(changes.length-3)+' 筆已隱藏。','muted'));
+  for(const change of changes.slice(0,3)){
    const card=make('details',undefined,'review-change'),summary=make('summary',change.actions.join('、')+'｜'+change.area+'｜'+change.title+(change.linked?'（貼圖連動）':''));card.append(summary);
    for(const field of change.fields){
     const row=make('div',undefined,'review-field');row.append(make('strong',field.label));
