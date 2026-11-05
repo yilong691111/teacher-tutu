@@ -1167,6 +1167,18 @@ window.TUTU_BOOTSTRAP = {
       "link": "",
       "linkText": "",
       "gallerySeries": ""
+    },
+    {
+      "id": "tutu-teacher",
+      "name": "塗塗老師",
+      "description": "♏ 天蠍座 AB 型 | 外冷內暖的創意陪伴者\n戴著藍框眼鏡，拿著心愛的畫冊，塗塗老師觀察細心、重視承諾，也喜歡用蠟筆把生活畫成故事。陪孩子勇敢嘗試，慢慢找到自己的樣子。\n口頭禪：「慢慢來，老師陪你一起想。」",
+      "image": "assets/works/tutu-teacher-20261105.png",
+      "imageAlt": "塗塗老師，藍色短髮、藍框眼鏡與藍色背心，拿著愛心畫冊揮手的蠟筆男性角色",
+      "tone": "ice",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
     }
   ],
   "mediaLibrary": [
@@ -1253,6 +1265,14 @@ window.TUTU_BOOTSTRAP = {
       "alt": "塗塗開心跳躍，搭配彩色煙火、2027 數字與「2027來啦」蠟筆文字。",
       "width": 259,
       "height": 224
+    },
+    {
+      "image": "assets/works/tutu-teacher-20261105.png",
+      "name": "塗塗老師｜人物角色",
+      "category": "人物夥伴",
+      "alt": "塗塗老師，藍色短髮、藍框眼鏡與藍色背心，拿著愛心畫冊揮手的蠟筆男性角色",
+      "width": 1254,
+      "height": 1254
     }
   ],
   "reports": [
@@ -1764,7 +1784,7 @@ window.TUTU_BOOTSTRAP = {
     }
   ],
   "coloringRevision": "20261104-nine-pages-v1",
-  "characterRevision": "20261105-partners-v1",
+  "characterRevision": "20261105-teacher-v2",
   "catalogRevision": "20261105-line-christmas-v1",
   "festivalRevision": "20261105-december-single-v1"
 };

@@ -12,8 +12,18 @@
  // Introduce this release's partners once, without replacing an editor's collection.
  // Explicit empty collections and subsequent removals remain intentional edits.
  function syncPublishedCharacters(local,published){
-  const revision='20261105-partners-v1',introduced=new Set(['yuanyuan','tutu-teacher']);
-  if(!local||published?.characterRevision!==revision||local.characterRevision===revision||!Array.isArray(published.characters))return local;
+  const revision=published?.characterRevision;
+  const releases={'20261105-partners-v1':['yuanyuan','tutu-teacher'],'20261105-teacher-v2':['tutu-teacher']};
+  if(!local||!releases[revision]||local.characterRevision===revision||!Array.isArray(published.characters))return local;
+  const introduced=new Set(releases[revision]);
+  if(revision==='20261105-teacher-v2'){
+   const image=published.characters.find(c=>c.id==='tutu-teacher')?.image;
+   const current=local.mediaLibrary||[];
+   if(Array.isArray(current)&&Array.isArray(published.mediaLibrary)){
+    const entries=published.mediaLibrary.filter(m=>m.image===image&&!current.some(c=>c.image===m.image));
+    if(entries.length)local={...local,mediaLibrary:[...current,...structuredClone(entries)]};
+   }
+  }
   if(local.characters===undefined)return {...local,characters:structuredClone(published.characters),characterRevision:revision};
   if(!Array.isArray(local.characters))return local;
   const ids=new Set(local.characters.map(c=>c.id));

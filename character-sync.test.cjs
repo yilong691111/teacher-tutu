@@ -6,6 +6,28 @@ const old={id:'boy',name:'藍寶',description:'舊介紹',image:'assets/tutu-boy
 const aunt={id:'yuanyuan',name:'圓圓姨',image:'assets/works/yuanyuan-aunt-20261105.png',published:true};
 const teacher={id:'tutu-teacher',name:'塗塗老師',image:'assets/works/tutu-teacher-20261105.png',published:true};
 const published=()=>({settings:{brand:'塗塗'},gallery:[],news:[],characters:[old,aunt,teacher],characterRevision:revision});
+const teacherRelease=()=>({...published(),characterRevision:'20261105-teacher-v2',mediaLibrary:[{image:teacher.image,name:'塗塗老師｜人物角色',category:'人物夥伴'}]});
+test('teacher release reaches drafts from the prior release without restoring other removed partners',()=>{
+ const local={...published(),characters:[{...old,name:'草稿藍寶'}],mediaLibrary:[],news:[{id:'draft'}]};
+ const result=cms.hydrateDraft(local,teacherRelease());
+ assert.deepEqual(result.characters.map(c=>c.id),['boy','tutu-teacher']);
+ assert.equal(result.characters[0].name,'草稿藍寶');assert.deepEqual(result.news,local.news);
+ assert.deepEqual(result.mediaLibrary,teacherRelease().mediaLibrary);assert.equal(local.characters.length,1);
+ result.characters.pop();result.mediaLibrary=[];
+ assert.deepEqual(cms.hydrateDraft(result,teacherRelease()),result);
+});
+test('teacher release preserves an edited teacher and existing media metadata',()=>{
+ const local={...published(),characters:[{...teacher,name:'自訂老師',published:false}],mediaLibrary:[{image:teacher.image,name:'自訂素材',deleted:true}]};
+ const result=cms.hydrateDraft(local,teacherRelease());
+ assert.deepEqual(result.characters,local.characters);assert.deepEqual(result.mediaLibrary,local.mediaLibrary);
+ assert.equal(result.characterRevision,'20261105-teacher-v2');
+});
+test('teacher release respects empty collections and fills missing legacy collections',()=>{
+ const local={...published(),characters:[]};
+ assert.deepEqual(cms.hydrateDraft(local,teacherRelease()).characters,[]);
+ delete local.characters;
+ assert.deepEqual(cms.hydrateDraft(local,teacherRelease()).characters,teacherRelease().characters);
+});
 test('legacy drafts gain the two new partners while preserving local edits, order and removals',()=>{
  const local={...published(),characters:[{...old,name:'我的藍寶',published:false},{id:'custom',name:'我的角色'}],news:[{id:'draft',title:'未發布公告'}]};delete local.characterRevision;
  const original=structuredClone(local),result=cms.hydrateDraft(local,published());
