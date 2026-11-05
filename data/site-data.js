@@ -389,7 +389,19 @@ window.TUTU_BOOTSTRAP = {
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37354432/LINEStorePC/main.png?v=1",
       "category": "萬聖節",
-      "published": true
+      "published": true,
+      "catalogTags": {
+        "topic": "festive",
+        "characters": [
+          "藍寶\""
+        ],
+        "holidays": [
+          "萬聖節"
+        ],
+        "situations": [
+          "萬聖節"
+        ]
+      }
     },
     {
       "id": "37531576",
@@ -571,7 +583,10 @@ window.TUTU_BOOTSTRAP = {
       "published": true,
       "catalogTags": {
         "topic": "festive",
-        "characters": [],
+        "characters": [
+          "藍寶",
+          "桃保"
+        ],
         "holidays": [
           "感恩節"
         ],
@@ -727,7 +742,10 @@ window.TUTU_BOOTSTRAP = {
     {
       "catalogTags": {
         "topic": "festive",
-        "characters": [],
+        "characters": [
+          "藍寶",
+          "桃保"
+        ],
         "holidays": [
           "感恩節"
         ],
@@ -746,6 +764,34 @@ window.TUTU_BOOTSTRAP = {
       "imageAlt": "塗塗的日常 感恩節篇",
       "buttonText": "前往 LINE 貼圖商店 →",
       "buttonLink": "https://store.line.me/stickershop/product/37496417/zh-Hant",
+      "coverWorkId": "",
+      "workIds": [],
+      "published": true
+    },
+    {
+      "catalogTags": {
+        "topic": "festive",
+        "characters": [
+          "藍寶\""
+        ],
+        "holidays": [
+          "萬聖節"
+        ],
+        "situations": [
+          "萬聖節"
+        ]
+      },
+      "id": "line-product-37354432",
+      "title": "塗塗的日常 萬聖節篇",
+      "subtitle": "塗塗的日常 萬聖節篇",
+      "holidayName": "萬聖節",
+      "eventDate": "2026-10-31",
+      "description": "",
+      "tags": "",
+      "image": "assets/line-product-37354432.png",
+      "imageAlt": "塗塗的日常 萬聖節篇",
+      "buttonText": "前往 LINE 貼圖商店 →",
+      "buttonLink": "https://store.line.me/stickershop/product/37354432/zh-Hant",
       "coverWorkId": "",
       "workIds": [],
       "published": true
