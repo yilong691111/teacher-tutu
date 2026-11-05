@@ -79,6 +79,7 @@
  function decodeBase64(text){return new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(atob(text.replace(/\s/g,'')),c=>c.charCodeAt(0)));}
  function hydrateDraft(local,published){
   if(content?.syncPublishedCharacters)local=content.syncPublishedCharacters(local,published);
+  if(content?.syncPublishedCatalog)local=content.syncPublishedCatalog(local,published);
   // Drafts saved before coloring books existed have no collection at all.
   // An existing array (including []) is an intentional edit and must survive.
   if(local&&!Object.prototype.hasOwnProperty.call(local,'coloringBooks')&&Array.isArray(published?.coloringBooks))local={...local,coloringBooks:structuredClone(published.coloringBooks)};

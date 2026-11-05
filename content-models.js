@@ -20,6 +20,34 @@
   const additions=local.characters.length?published.characters.filter(c=>introduced.has(c.id)&&!ids.has(c.id)):[];
   return {...local,characters:[...local.characters,...structuredClone(additions)],characterRevision:revision};
  }
+ function syncPublishedCatalog(local,published){
+  const revision='20261105-line-christmas-v1';
+  if(!local||published?.catalogRevision!==revision||local.catalogRevision===revision)return local;
+  const productIds=new Set(['37744779','37687563','37681899','37654041','37327487']);
+  const workIds=new Set(Array.from({length:24},(_,i)=>'christmas-'+(920161673+i)));
+  const merge=(key,introduced,prepend=false)=>{
+   const current=local[key],source=published[key];if(!Array.isArray(source))return current;
+   if(current===undefined)return structuredClone(source);if(!Array.isArray(current)||!current.length)return current;
+   const ids=new Set(current.map(item=>item.id)),added=structuredClone(source.filter(item=>introduced(item)&&!ids.has(item.id)));
+   return prepend?[...added,...current]:[...current,...added];
+  };
+  let lineProducts=merge('lineProducts',p=>productIds.has(p.id),true);
+  const christmas=published.lineProducts?.find(p=>p.id==='37513322');
+  if(christmas&&Array.isArray(lineProducts))lineProducts=lineProducts.map(p=>{
+   if(p.id!==christmas.id)return p;
+   const next={...p};for(const [key,before] of Object.entries({category:'其他節慶',description:'',checkedDate:'2026-10-29'}))if(p[key]===before&&christmas[key]!==undefined)next[key]=christmas[key];
+   if(p.image==='assets/line-product-37513322.png'){next.image=christmas.image;if(christmas.sourceImageUrl)next.sourceImageUrl=christmas.sourceImageUrl;}return next;
+  });
+  const gallery=merge('gallery',w=>workIds.has(w.id)),available=new Set((gallery||[]).map(w=>w.id));
+  let festivals=merge('festivals',f=>f.id==='line-product-37513322'&&lineProducts?.some(p=>p.id==='37513322'));
+  if(Array.isArray(festivals))festivals=festivals.map(f=>{
+   if(f.id!=='line-product-37513322'||local.festivals?.some(x=>x.id===f.id))return f;
+   const next={...f};if(lineProducts?.find(p=>p.id==='37513322')?.published===false)next.published=false;
+   if(next.coverWorkId&&!available.has(next.coverWorkId))next.coverWorkId='';
+   if(Array.isArray(next.workIds))next.workIds=next.workIds.filter(id=>available.has(id));return next;
+  });
+  return {...local,lineProducts,gallery,festivals,catalogRevision:revision};
+ }
  const safeImage=value=>typeof value==='string'&&imagePattern.test(value);
  function safeLink(value){
   if(typeof value!=='string'||!value||value.length>2000||/\s/.test(value))return false;
@@ -77,5 +105,5 @@
   if(direction!==1&&direction!==-1)throw new Error('排序方向不正確。');const result=list.slice(),index=result.findIndex(x=>x.id===id),target=index+direction;
   if(index>=0&&target>=0&&target<result.length)[result[index],result[target]]=[result[target],result[index]];return result;
  }
- return {defaultCharacters,charactersFor,syncPublishedCharacters,safeImage,safeLink,productFromUrl,saveProduct,saveCharacter,moveItem,validateCollections};
+ return {defaultCharacters,charactersFor,syncPublishedCharacters,syncPublishedCatalog,safeImage,safeLink,productFromUrl,saveProduct,saveCharacter,moveItem,validateCollections};
 });
