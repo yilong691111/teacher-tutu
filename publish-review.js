@@ -52,13 +52,17 @@
    const old=get(before),next=get(after),identity=x=>key==='mediaLibrary'?x.image:x.id,oldMap=new Map(old.map(x=>[identity(x),x])),nextMap=new Map(next.map(x=>[identity(x),x]));
    for(const id of new Set([...oldMap.keys(),...nextMap.keys()])){
     const a=oldMap.get(id),b=nextMap.get(id),actions=[],fields=fieldsFor(a,b);
+    if(key==='mediaLibrary'&&(a?.deleted===true||b?.deleted===true)){
+     if(a?.deleted===true&&b?.deleted===true)continue;
+     const removed=b?.deleted===true;result.push({area,id:'素材',title:(b||a).name||'未命名圖片',actions:[removed?'刪除':'恢復'],fields:[{label:'素材庫狀態',before:removed?'顯示':'已刪除',after:removed?'已從素材庫刪除；官網既有圖片保留':'恢復顯示',type:'text'}],linked:false});continue;
+    }
     if(!a)actions.push('新增');else if(!b)actions.push('刪除');else{
      if(fields.some(f=>f.label!=='展示狀態'))actions.push('修改');
      if((a.published!==false)!==(b.published!==false))actions.push(b.published===false?'隱藏':'展示');
     }
     if(actions.length)result.push({area,id:key==='mediaLibrary'?'素材':id,title:(b||a).title||(b||a).name||'未命名項目',actions,fields,linked:key==='festivals'&&/^line-product-\d{1,20}$/.test(id)});
    }
-   const oldOrder=old.map(identity).filter(id=>nextMap.has(id)),newOrder=next.map(identity).filter(id=>oldMap.has(id));
+   const orderable=item=>key!=='mediaLibrary'||item.deleted!==true,oldOrder=old.filter(orderable).map(identity).filter(id=>nextMap.has(id)&&orderable(nextMap.get(id))),newOrder=next.filter(orderable).map(identity).filter(id=>oldMap.has(id)&&orderable(oldMap.get(id)));
    if(!equal(oldOrder,newOrder))result.push({area,title:'清單順序',actions:['排序'],fields:[{label:'順序',before:old.filter(x=>nextMap.has(identity(x))).map(x=>x.title||x.name||'未命名項目'),after:next.filter(x=>oldMap.has(identity(x))).map(x=>x.title||x.name||'未命名項目'),type:'text'}],linked:false});
   }
   const categoryFields=fieldsFor(before.categoryLists,after.categoryLists);if(categoryFields.length)result.push({area:'分類',title:'分類名稱與順序',actions:['修改'],fields:categoryFields,linked:false});

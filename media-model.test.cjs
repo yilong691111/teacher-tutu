@@ -13,9 +13,9 @@ test('validation rejects unsafe sources, duplicate image keys, bad dimensions an
  for(const list of [null,{},[{image:'https://evil.example/a.png',name:'a',category:'',alt:''}],[{image:'assets/works/a.png',name:'',category:'',alt:''}],[{image:'assets/works/a.png',name:'a',category:'',alt:'',width:-1}],[{image:'assets/works/a.png',name:'a',category:'',alt:''},{image:'assets/works/a.png',name:'b',category:'',alt:''}]])assert.throws(()=>m.validate({mediaLibrary:list}));
  assert.doesNotThrow(()=>m.validate({}));assert.doesNotThrow(()=>m.validate({mediaLibrary:[]}));
 });
-test('delete refuses used, hidden, fixed and unknown images and removes only selected unused saved entries',()=>{
+test('delete removes only selected unused saved entries and refuses unknown images',()=>{
  let s=m.add(fixture(),[{image:'data:image/png;base64,AAAA',name:'unused',category:'',alt:''},{image:'data:image/png;base64,BBBB',name:'keep',category:'',alt:''}]);
- for(const image of ['assets/works/a.png','assets/tutu-boy.webp','assets/works/missing.png'])assert.throws(()=>m.remove(s,[image]));assert.throws(()=>m.remove(s,[]));
+ assert.throws(()=>m.remove(s,['assets/works/missing.png']));assert.throws(()=>m.remove(s,[]));
  const r=m.remove(s,['data:image/png;base64,AAAA']);assert.deepEqual(r.mediaLibrary.map(x=>x.name),['keep']);assert.deepEqual(r.gallery,s.gallery);assert.equal(s.mediaLibrary.length,2);
 });
 test('batch category saves metadata for selected existing images without altering public data',()=>{
@@ -41,11 +41,31 @@ test('festival usage and search include selected works and the current linked co
  const s={settings:{},gallery:[{id:'cover',title:'封面作品',image:'assets/works/current.png',published:false},{id:'work',title:'輪播作品',image:'assets/works/slide.png'}],characters:[],festivals:[{id:'f',holidayName:'世界兒童節',image:'assets/works/old.png',coverWorkId:'cover',workIds:['work'],published:false}]};
  const rows=m.catalog(s);for(const path of ['assets/works/current.png','assets/works/slide.png']){const row=rows.find(x=>x.image===path);assert.ok(row.uses.some(x=>x.kind==='festivals'&&x.id==='f'));assert.equal(m.matches(row,{query:'世界兒童節'}),true);}assert.equal(rows.find(x=>x.image==='assets/works/old.png').uses.length,0);
 });
-test('manifest large app icon is a protected fixed public usage even when it has saved metadata',()=>{
- const s={gallery:[],characters:[],festivals:[],mediaLibrary:[{image:'assets/icon-512.png',name:'圖示',category:'',alt:''}]};assert.ok(m.catalog(s).find(x=>x.image==='assets/icon-512.png').uses.some(x=>x.kind==='fixed'));assert.throws(()=>m.remove(s,['assets/icon-512.png']),/保護/);
+test('removing a fixed app icon from the library preserves its website usage and survives reload',()=>{
+ const s={gallery:[],characters:[],festivals:[],mediaLibrary:[{image:'assets/icon-512.png',name:'圖示',category:'',alt:''}]};assert.ok(m.catalog(s).find(x=>x.image==='assets/icon-512.png').uses.some(x=>x.kind==='fixed'));
+ const next=m.remove(s,['assets/icon-512.png']);assert.ok(!m.catalog(JSON.parse(JSON.stringify(next))).some(x=>x.image==='assets/icon-512.png'));assert.deepEqual(next.gallery,s.gallery);assert.ok(m.catalog(s).some(x=>x.image==='assets/icon-512.png'));
 });
 
 test('report illustrations remain protected usages even when the report is hidden',()=>{
  const s={...fixture(),reports:[{id:'kindness',title:'世界善良日',published:false,images:[{image:'assets/works/kindness-cover.webp',alt:'擁抱地球',caption:'用善良分享愛'}]}],mediaLibrary:[{image:'assets/works/kindness-cover.webp',name:'善良日封面',category:'節慶',alt:'擁抱地球'}]};
- const row=m.catalog(s).find(x=>x.image==='assets/works/kindness-cover.webp');assert.ok(row.uses.some(x=>x.kind==='reports'&&x.id==='kindness'&&x.label.includes('已隱藏')));assert.throws(()=>m.remove(s,[row.image]),/保護/);
+ const row=m.catalog(s).find(x=>x.image==='assets/works/kindness-cover.webp');assert.ok(row.uses.some(x=>x.kind==='reports'&&x.id==='kindness'&&x.label.includes('已隱藏')));const next=m.remove(s,[row.image]);assert.deepEqual(next.reports,s.reports);assert.ok(!m.catalog(next).some(x=>x.image===row.image));
+});
+test('used and automatically collected images disappear from the library without changing public content',()=>{
+ const site=fixture(),before=structuredClone(site),next=m.remove(site,['assets/works/a.png']);
+ assert.ok(!m.catalog(JSON.parse(JSON.stringify(next))).some(x=>x.image==='assets/works/a.png'));
+ assert.deepEqual({...next,mediaLibrary:undefined},{...before,mediaLibrary:undefined});assert.deepEqual(site,before);
+ const restored=m.undo(next,m.checkpoint(site,next));assert.deepEqual(restored,site);
+});
+test('reuploading a removed image restores one visible library record without duplicates',()=>{
+ const removed=m.remove(fixture(),['assets/works/a.png']);
+ const restored=m.add(removed,[{image:'assets/works/a.png',name:'重新加入的圖片',category:'',alt:''}]);
+ assert.equal(restored.mediaLibrary.length,1);assert.equal(m.catalog(restored).find(x=>x.image==='assets/works/a.png').name,'重新加入的圖片');assert.deepEqual(restored.gallery,removed.gallery);
+});
+test('deletion markers must be boolean',()=>{
+ assert.throws(()=>m.validate({mediaLibrary:[{image:'assets/works/a.png',name:'圖片',deleted:'true'}]}));
+});
+test('batch removal of the full catalog persists across serialization and undo restores every image',()=>{
+ const site=fixture(),images=m.catalog(site).map(x=>x.image),next=m.remove(site,images);
+ assert.deepEqual(m.catalog(JSON.parse(JSON.stringify(next))),[]);m.validate(next);
+ assert.deepEqual(m.undo(next,m.checkpoint(site,next)),site);
 });

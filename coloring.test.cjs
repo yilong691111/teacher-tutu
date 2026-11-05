@@ -44,8 +44,8 @@ test('website validation and publication review include coloring edits',()=>{
  const changes=review.compare(site,{...site,coloringBooks:[book()]});assert.ok(changes.some(c=>c.area==='著色本'&&c.actions.includes('新增')));
  const edit=book();edit.pages.reverse();assert.ok(review.compare({...site,coloringBooks:[book()]},{...site,coloringBooks:[edit]}).some(c=>c.area==='著色本'));
 });
-test('coloring covers are protected while any book still references them',()=>{
+test('removing a coloring cover from the library keeps the book and its public cover intact',()=>{
  const media=require('./media-model.js'),site={settings:{},gallery:[],news:[],characters:[],coloringBooks:[book()]};
  const cover=media.catalog(site).find(x=>x.image===book().image);assert.ok(cover.uses.some(x=>x.kind==='coloringBooks'));
- assert.throws(()=>media.remove(site,[book().image]),/保護|使用/);
+ const next=media.remove(site,[book().image]);assert.deepEqual(next.coloringBooks,site.coloringBooks);assert.ok(!media.catalog(next).some(x=>x.image===book().image));
 });

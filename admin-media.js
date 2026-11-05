@@ -10,7 +10,8 @@
  const filters=()=>({query:$('#media-search').value,category:$('#media-category').value,usage:$('#media-usage').value});
  const fields=()=>({name:$('#media-name').value,category:$('#media-meta-category').value,alt:$('#media-alt').value});
  const dirtyDetail=()=>$('#media-detail-dialog').open&&JSON.stringify(fields())!==detailInitial;
- const deleteReason=row=>!row?'素材已不存在，請重新選取。':row.uses.length?'圖片仍在使用中，請先更換使用位置的圖片。':!row.saved?'既有網站圖片，請先到原編輯區調整。':'';
+ const deleteReason=row=>!row?'素材已不存在，請重新選取。':'';
+ const deleteHelp=row=>row?.uses.length?`可從素材庫刪除；官網 ${row.uses.length} 處既有圖片保留，可復原最近一次操作。`:'可從素材庫刪除，可復原最近一次操作。';
  function categories(select,items){const value=select.value,names=[...new Set(items.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant'));select.replaceChildren(new Option('全部分類',''),...names.map(n=>new Option(n,n)));if(names.includes(value))select.value=value;return names;}
  const sizeText=image=>model.bytes(image)===null?'網站圖檔':`${Math.ceil(model.bytes(image)/1024)} KB`;
  function card(row,picker=false){
@@ -21,7 +22,7 @@
   const use=document.createElement('p');use.textContent=row.uses.length?`使用中 · ${row.uses.length} 處`:'尚未使用';const button=document.createElement('button');button.type='button';button.className='secondary';button.textContent=picker?'選用這張圖片':'查看／整理';button.setAttribute('aria-label',(picker?'選用素材 ':'查看素材 ')+row.name);button.onclick=()=>picker?choose(row.image):openDetail(row.image);if(picker){button.dataset.mediaChoose='';button.disabled=busy();}
   el.append(cover,name,info,use);
   if(picker)el.append(button);else{
-   const actions=document.createElement('div');actions.className='media-card-actions';const remove=document.createElement('button');remove.type='button';remove.className='secondary media-delete-button';remove.textContent='刪除圖片';remove.setAttribute('aria-label','刪除素材 '+row.name);remove.dataset.mediaDelete=row.image;remove.title=deleteReason(row)||'從素材庫刪除，可復原最近一次操作';remove.disabled=!ready()||!!deleteReason(row);remove.onclick=()=>deleteImages([row.image]);actions.append(button,remove);el.append(actions);
+   const actions=document.createElement('div');actions.className='media-card-actions';const remove=document.createElement('button');remove.type='button';remove.className='secondary media-delete-button';remove.textContent='刪除圖片';remove.setAttribute('aria-label','刪除素材 '+row.name);remove.dataset.mediaDelete=row.image;remove.title=deleteReason(row)||deleteHelp(row);remove.disabled=!ready()||!!deleteReason(row);remove.onclick=()=>deleteImages([row.image]);actions.append(button,remove);el.append(actions);
   }return el;
  }
  function render(){
@@ -33,10 +34,10 @@
  function paint(){
   const lock=!ready(),items=rows(),byImage=new Map(items.map(x=>[x.image,x])),visible=items.filter(x=>model.matches(x,filters()));$('#media-selected-count').textContent=`已勾選 ${selection.size} 張`;
   const all=$('#media-select-all');all.checked=visible.length>0&&visible.every(x=>selection.has(x.image));all.indeterminate=selection.size>0&&!all.checked;all.disabled=busy()||!visible.length;
-  $('#media-upload').disabled=lock;$('#media-files').disabled=lock;$('#media-dropzone')?.setAttribute('aria-disabled',String(lock));if(lock)$('#media-dropzone')?.setAttribute('data-drag-active','false');$('#media-batch-apply').disabled=lock||!selection.size;$('#media-delete').disabled=lock||!selection.size||rows().filter(x=>selection.has(x.image)).some(x=>x.uses.length||!x.saved);$('#media-clear').disabled=busy()||!selection.size;
+  $('#media-upload').disabled=lock;$('#media-files').disabled=lock;$('#media-dropzone')?.setAttribute('aria-disabled',String(lock));if(lock)$('#media-dropzone')?.setAttribute('data-drag-active','false');$('#media-batch-apply').disabled=lock||!selection.size;$('#media-delete').disabled=lock||!selection.size;$('#media-clear').disabled=busy()||!selection.size;
   $('#media-save').disabled=lock;let canUndo=false;if(last&&!lock){try{model.undo(site,last);canUndo=true;}catch{}}$('#media-undo').disabled=!canUndo;
-  $$('[data-media-delete]').forEach(b=>{const reason=deleteReason(byImage.get(b.dataset.mediaDelete));b.disabled=lock||!!reason;b.title=reason||'從素材庫刪除，可復原最近一次操作';});
-  const reason=deleteReason(byImage.get(detail));if($('#media-detail-delete'))$('#media-detail-delete').disabled=lock||!!reason;if($('#media-delete-help'))$('#media-delete-help').textContent=detail?(reason||'可刪除這張尚未使用的素材；可復原最近一次操作。'):'';
+  $$('[data-media-delete]').forEach(b=>{const row=byImage.get(b.dataset.mediaDelete),reason=deleteReason(row);b.disabled=lock||!!reason;b.title=reason||deleteHelp(row);});
+  const row=byImage.get(detail),reason=deleteReason(row);if($('#media-detail-delete'))$('#media-detail-delete').disabled=lock||!!reason;if($('#media-delete-help'))$('#media-delete-help').textContent=detail?(reason||deleteHelp(row)):'';
   $$('[data-media-picker]').forEach(b=>b.disabled=busy()||!window.TutuFormDrafts||window.TutuPublishReady!==true);$$('[data-media-choose]').forEach(b=>b.disabled=busy());$$('[data-media-select]').forEach(b=>b.disabled=busy());
  }
  function change(next,label){
@@ -63,8 +64,8 @@
   if(!images.length)return false;const current=rows(),selected=images.map(image=>current.find(x=>x.image===image)),reason=selected.map(deleteReason).find(Boolean);if(reason){toast(reason,true);return false;}
   const deletingDetail=$('#media-detail-dialog').open&&images.includes(detail);
   if(deletingDetail&&detailBase!==JSON.stringify(site.mediaLibrary)){toast('素材庫已有其他修改，請關閉後重新開啟素材。',true);return false;}
-  const label=images.length===1?'「'+selected[0].name+'」':`這 ${images.length} 張未使用圖片`;
-  if(!confirm(`確定從圖片素材庫刪除${label}？${deletingDetail&&dirtyDetail()?'尚未儲存的素材說明將一併放棄。':''}可復原最近一次素材操作；發布後才會更新共用素材庫。原始圖檔仍保留。`))return false;
+  const label=images.length===1?'「'+selected[0].name+'」':`這 ${images.length} 張圖片`;
+  if(!confirm(`確定從圖片素材庫刪除${label}？${deletingDetail&&dirtyDetail()?'尚未儲存的素材說明將一併放棄。':''}官網既有圖片與原始圖檔保留。可復原最近一次素材操作；發布後才會更新共用素材庫。`))return false;
   if(!perform(()=>model.remove(site,images),'圖片刪除'))return false;if(deletingDetail)finishDetail();return true;
  }
  $('#media-delete').onclick=()=>deleteImages([...selection]);if($('#media-detail-delete'))$('#media-detail-delete').onclick=()=>{if(detail)deleteImages([detail]);};

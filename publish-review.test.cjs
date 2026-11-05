@@ -1,4 +1,10 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+test('removing auto-collected library images is reviewed as deletion while public content stays unchanged',()=>{
+ const media=require('./media-model.js'),review=require('./publish-review.js'),before={settings:{},gallery:[{id:'work',title:'作品',image:'assets/works/a.png'}],characters:[],festivals:[]};
+ const after=media.remove(before,['assets/works/a.png']),changes=review.compare(before,after);
+ assert.equal(changes.length,1);assert.equal(changes[0].area,'圖片素材庫');assert.deepEqual(changes[0].actions,['刪除']);assert.match(changes[0].fields.at(-1).after,/官網既有圖片保留/);
+ assert.deepEqual(review.compare(after,before)[0].actions,['恢復']);
+});
 test('變更明細列出新增修改隱藏與刪除，包含連動節慶',()=>{
  const review=require('./publish-review.js'),before={settings:{},gallery:[],news:[{id:'removed',title:'移除公告'}],lineProducts:[{id:'123',title:'原貼圖',published:true,image:'assets/tutu-hero.webp'}],festivals:[{id:'line-product-123',title:'原節慶',published:true}]};
  const after={...before,news:[{id:'added',title:'新公告'}],lineProducts:[{...before.lineProducts[0],title:'新貼圖',published:false,image:'assets/tutu-original.webp'}],festivals:[]};

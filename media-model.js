@@ -7,6 +7,7 @@
   const seen=new Set();for(const item of list){if(!item||!content.safeImage(item.image))throw new Error('素材圖片必須是網站內圖片或上傳的圖片。');if(seen.has(item.image))throw new Error('素材圖片重複。');seen.add(item.image);
    for(const [key,max,required] of [['name',120,true],['category',80,false],['alt',200,false]])if(item[key]!==undefined||required){if(typeof item[key]!=='string'||item[key].length>max||(required&&!item[key].trim()))throw new Error('素材名稱、分類或說明格式不正確。');}
    for(const key of ['width','height'])if(item[key]!==undefined&&(!Number.isInteger(item[key])||item[key]<1||item[key]>20000))throw new Error('素材尺寸不正確。');
+   if(item.deleted!==undefined&&typeof item.deleted!=='boolean')throw new Error('素材刪除狀態不正確。');
   }return site;
  }
  function catalog(site,base){
@@ -26,7 +27,7 @@
   for(const [index,key] of ['heroIntroImage','hero2Image','hero3Image'].entries())if(site.settings?.[key])add(site.settings[key],'首頁介紹 '+(index+1),'首頁', '首頁搭配圖片',{kind:'settings',id:key,label:'首頁介紹 '+(index+1)+'（圖片）'});
   for(const image of fixed)add(image,image.split('/').at(-1),'網站固定圖','',{kind:'fixed',id:image,label:'網站固定展示圖片'});
   for(const x of site.mediaLibrary||[]){add(x.image,x.name,x.category,x.alt);const row=map.get(x.image);Object.assign(row,x,{saved:true});}
-  return [...map.values()];
+  return [...map.values()].filter(row=>row.deleted!==true);
  }
  function commit(site,list){const next={...site,mediaLibrary:list};validate(next);return next;}
  function save(site,image,fields){
@@ -34,11 +35,17 @@
   const item={...(i>=0?list[i]:{}),image,name:String(fields.name??'').trim(),category:String(fields.category??'').trim(),alt:String(fields.alt??'').trim()};if(i<0)list.push(item);else list[i]=item;return commit(site,list);
  }
  function add(site,records){
-  if(!Array.isArray(records)||records.length>500)throw new Error('上傳素材必須是清單，最多 500 張。');for(const record of records)validate({mediaLibrary:[record]});const list=(site.mediaLibrary||[]).slice(),images=new Set(catalog(site).map(x=>x.image));for(const item of records)if(!images.has(item.image)){list.push({...item});images.add(item.image);}return commit(site,list);
+  if(!Array.isArray(records)||records.length>500)throw new Error('上傳素材必須是清單，最多 500 張。');for(const record of records)validate({mediaLibrary:[record]});const list=(site.mediaLibrary||[]).slice(),images=new Set(catalog(site).map(x=>x.image));for(const record of records)if(!images.has(record.image)){const item={...record};delete item.deleted;const index=list.findIndex(x=>x.image===item.image);if(index<0)list.push(item);else list[index]=item;images.add(item.image);}return commit(site,list);
  }
  function picked(site,images){if(!Array.isArray(images)||!images.length)throw new Error('請先勾選素材。');const rows=catalog(site),result=[...new Set(images)].map(image=>rows.find(x=>x.image===image));if(result.some(x=>!x))throw new Error('素材已不存在，請重新選取。');return result;}
  function batch(site,images,category){if(typeof category!=='string'||category.trim().length>80)throw new Error('素材分類最多 80 字。');let next=site;for(const row of picked(site,images))next=save(next,row.image,{...row,category});return next;}
- function remove(site,images){const rows=picked(site,images);if(rows.some(x=>x.uses.length||!x.saved))throw new Error('只能移除未使用且已儲存在素材庫的圖片；使用中的素材受到保護。');const keys=new Set(images);return commit(site,(site.mediaLibrary||[]).filter(x=>!keys.has(x.image)));}
+ function remove(site,images){
+  const rows=picked(site,images),keys=new Set(images),list=(site.mediaLibrary||[]).filter(x=>!keys.has(x.image));
+  // Keep a library-only deletion marker for auto-collected images so they do not
+  // reappear on reload. Public content and original image files stay unchanged.
+  for(const row of rows)if(row.uses.length||!row.saved){const {uses,saved,...item}=row;list.push({...item,deleted:true});}
+  return commit(site,list);
+ }
  const matches=(row,f={})=>(!f.category||row.category===f.category)&&(!f.usage||(f.usage==='used'?row.uses.length>0:row.uses.length===0))&&`${row.name} ${row.category} ${row.alt} ${row.uses.map(x=>x.label).join(' ')}`.toLocaleLowerCase().includes((f.query||'').trim().toLocaleLowerCase());
  const select=(images,rows,filters)=>{const visible=new Set(rows.filter(x=>matches(x,filters)).map(x=>x.image));return [...new Set(images)].filter(x=>visible.has(x));};
  const checkpoint=(before,after)=>structuredClone({before:before.mediaLibrary,after:after.mediaLibrary});

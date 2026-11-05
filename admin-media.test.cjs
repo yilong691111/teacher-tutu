@@ -68,9 +68,9 @@ test('cached markup without the new detail button still starts and supports card
  const h=harness({detailDelete:false});h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
  h.created.filter(x=>x.attrs['aria-label']==='刪除素材 刪除測試').at(-1).onclick();assert.equal(h.saved,1);assert.equal(h.context.site.mediaLibrary.length,0);
 });
-test('used images are protected even if their disabled single delete handler is called',()=>{
- const h=harness();const button=h.created.filter(x=>x.attrs['aria-label']==='刪除素材 作品').at(-1);assert.ok(button);assert.equal(button.disabled,true);
- let confirmations=0;h.context.confirm=()=>{confirmations++;return true;};button.onclick();assert.equal(h.saved,0);assert.equal(confirmations,0);assert.equal(h.context.site.gallery.length,2);assert.match(button.title,/使用/);
+test('used images can be removed from the library while public records remain unchanged',()=>{
+ const h=harness(),before=structuredClone(h.context.site);const button=h.created.filter(x=>x.attrs['aria-label']==='刪除素材 作品').at(-1);assert.ok(button);assert.equal(button.disabled,false);
+ let confirmations=0;h.context.confirm=()=>{confirmations++;return true;};button.onclick();assert.equal(h.saved,1);assert.equal(confirmations,1);assert.deepEqual(h.context.site.gallery,before.gallery);assert.ok(!media.catalog(h.context.site).some(x=>x.image==='assets/works/a.png'));
 });
 test('detail deletion closes the dialog and removes stale selections; cancel keeps unsaved metadata',()=>{
  const h=harness();h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
@@ -79,10 +79,10 @@ test('detail deletion closes the dialog and removes stale selections; cancel kee
  h.context.confirm=()=>false;h.el('media-detail-delete').onclick();assert.equal(h.el('media-detail-dialog').open,true);assert.equal(h.el('media-name').value,'尚未儲存');assert.equal(h.saved,0);
  h.context.confirm=()=>true;h.el('media-detail-delete').onclick();assert.equal(h.el('media-detail-dialog').open,false);assert.equal(h.context.site.mediaLibrary.length,0);assert.equal(h.el('media-selected-count').textContent,'已勾選 0 張');assert.equal(h.saved,1);
 });
-test('single deletion refuses unfinished forms and rechecks usage changed since the card was rendered',()=>{
+test('single deletion refuses unfinished forms and keeps newly added public usage intact',()=>{
  const h=harness();h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
  const button=h.created.filter(x=>x.attrs['aria-label']==='刪除素材 刪除測試').at(-1);assert.ok(button);
  h.window.TutuFormDrafts.hasPending=()=>true;h.emit('tutu:form-buffer');button.onclick();assert.equal(h.saved,0);
- h.window.TutuFormDrafts.hasPending=()=>false;h.context.site.gallery.push({id:'new-use',title:'新使用位置',image:'assets/works/unused.png'});button.onclick();assert.equal(h.saved,0);assert.equal(h.context.site.mediaLibrary.length,1);
+ h.window.TutuFormDrafts.hasPending=()=>false;h.context.site.gallery.push({id:'new-use',title:'新使用位置',image:'assets/works/unused.png'});button.onclick();assert.equal(h.saved,1);assert.equal(h.context.site.gallery.at(-1).image,'assets/works/unused.png');assert.ok(!media.catalog(h.context.site).some(x=>x.image==='assets/works/unused.png'));
 });
 

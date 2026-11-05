@@ -13,12 +13,12 @@
 <script defer src="form-drafts.js?v=20261104-coloring"></script>
 <script defer src="festival-model.js?v=20261103-preview-assets-tags"></script>
 <script defer src="category-model.js?v=20261103-sync-review"></script>
-<script defer src="media-model.js?v=20261104-coloring"></script>
+<script defer src="media-model.js?v=20261105-media-remove-fix"></script>
 <script defer src="media-editor.js?v=20261030-report-editor"></script>
 <script defer src="report-model.js?v=20261101-report-editor-pages"></script>
 <script defer src="homepage-rich-text.js?v=20261103-rich-copy"></script>
 <script defer src="homepage-text.js?v=20261103-preview-assets-tags"></script>
-<script defer src="publish-review.js?v=20261104-review-three"></script>
+<script defer src="publish-review.js?v=20261105-media-remove-fix"></script>
 <script defer src="image-assets.js?v=20261103-preview-assets-tags"></script>
 <script defer src="image-store.js?v=20261104-coloring"></script>
 <script defer src="responsive-images.js?v=20261103-preview-assets-tags"></script>
@@ -42,7 +42,7 @@
 <script defer src="admin-rich-text.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-live-preview.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-homepage.js?v=20261103-homepage-three"></script>
-<script defer src="admin-media.js?v=20261105-media-delete"></script>
+<script defer src="admin-media.js?v=20261105-media-remove-fix"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
 <link rel="stylesheet" href="homepage-text.css?v=20261103-rich-copy">
 <link rel="stylesheet" href="editor-enhancements.css?v=20261103-preview-assets-tags">
@@ -158,7 +158,7 @@
       </div>
       <div class="panel"><div class="media-filters"><label>搜尋素材<input id="media-search" type="search" placeholder="名稱、分類、圖片說明或使用位置"></label><label>分類<select id="media-category"><option value="">全部分類</option></select></label><label>使用狀態<select id="media-usage"><option value="">全部狀態</option><option value="used">使用中（含隱藏作品）</option><option value="unused">尚未使用</option></select></label></div>
         <div class="media-batch"><label class="bulk-check"><input id="media-select-all" type="checkbox">全選目前顯示</label><strong id="media-selected-count">已勾選 0 張</strong><button id="media-clear" class="secondary" type="button">取消勾選</button><label>批次分類<input id="media-batch-category" maxlength="80" list="media-category-options" placeholder="留空可清除分類"></label><button id="media-batch-apply" class="secondary" type="button">套用分類</button><button id="media-delete" class="secondary" type="button">刪除已勾選圖片</button></div>
-        <p id="media-count" class="muted"></p><p class="muted">可在圖片下方逐張刪除，或勾選後批次刪除；使用中與網站固定圖片受到保護。刪除只移除素材庫紀錄，原始圖檔仍保留。可復原最近一次操作；發布後才會更新共用素材庫。</p><div id="media-grid" class="media-grid"></div><p id="media-empty" hidden>沒有符合條件的素材。</p>
+        <p id="media-count" class="muted"></p><p class="muted">可在圖片下方逐張刪除，或勾選後批次刪除。使用中的圖片也可從素材庫刪除，官網既有圖片與原始圖檔仍保留。可復原最近一次操作；發布後才會更新共用素材庫。</p><div id="media-grid" class="media-grid"></div><p id="media-empty" hidden>沒有符合條件的素材。</p>
       </div><datalist id="media-category-options"></datalist>
     </section>
 
