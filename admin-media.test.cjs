@@ -1,9 +1,9 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const media=require('./media-model.js'),editor=require('./media-editor.js'),cms=require('./github-cms.js');
-function harness({forms=true,initialized=true,pending=false,dropzone=true,convert=()=>Promise.resolve('data:image/webp;base64,AAAA')}={}){
+function harness({forms=true,initialized=true,pending=false,dropzone=true,detailDelete=true,convert=()=>Promise.resolve('data:image/webp;base64,AAAA')}={}){
  const elements=new Map(),created=[],events={},queued=[],messages=[];let saved=0;
  const make=(tag='div')=>({tag,value:'',hidden:false,inert:false,disabled:false,checked:false,open:false,textContent:'',files:[],dataset:{},attrs:{},children:[],listeners:{},className:'',getAttribute(k){return this.attrs[k]??null},setAttribute(k,v){this.attrs[k]=v},removeAttribute(k){delete this.attrs[k]},addEventListener(k,f){(this.listeners[k]??=[]).push(f)},dispatchEvent(e){for(const f of this.listeners[e.type]||[])f(e);return true;},append(...args){this.children.push(...args)},replaceChildren(...args){this.children=args},showModal(){this.open=true},close(){this.open=false;queued.push(()=>this.dispatchEvent({type:'close'}))}});
- const el=id=>{if(id==='media-dropzone'&&!dropzone)return null;if(!elements.has(id)){const x=make();x.id=id;elements.set(id,x);}return elements.get(id);};
+ const el=id=>{if(id==='media-dropzone'&&!dropzone||!detailDelete&&['media-detail-delete','media-delete-help'].includes(id))return null;if(!elements.has(id)){const x=make();x.id=id;elements.set(id,x);}return elements.get(id);};
  const trigger=make('button');trigger.dataset.mediaPicker='work';el('work-form').hidden=false;el('work-id').value='w';el('media-usage').value='';
  const window={TutuMedia:media,TutuMediaEditor:editor,TutuGitHub:cms,TutuPublishReady:initialized,addEventListener:(k,f)=>(events[k]??=[]).push(f)};if(forms)window.TutuFormDrafts={hasPending:()=>pending};
  const site={settings:{brand:'塗塗',lineUrl:'https://line.me/'},gallery:[{id:'w',title:'作品',image:'assets/works/a.png'},{id:'other',title:'另外',image:'assets/works/b.png'}],news:[],characters:[],festivals:[]};
@@ -56,5 +56,33 @@ test('library bulk selection is reduced to visible search rows before modifying 
 test('missing initialization or unfinished forms disable library mutations and async upload locks the dashboard',async()=>{
  for(const options of [{forms:false},{initialized:false},{pending:true}]){const h=harness(options);assert.equal(h.el('media-upload').disabled,true);}
  let resolve;const h=harness({convert:()=>new Promise(r=>resolve=r)});h.el('media-files').files=[{name:'uploaded.png'}];const operation=h.el('media-upload-form').onsubmit({preventDefault(){}});assert.equal(h.el('dashboard').inert,true);assert.equal(h.el('content').attrs['aria-busy'],'true');let prevented=false;h.events.beforeunload[0]({preventDefault(){prevented=true}});assert.equal(prevented,true);resolve('data:image/webp;base64,AAAA');await operation;assert.equal(h.el('dashboard').inert,false);assert.equal(h.context.site.mediaLibrary[0].width,100);assert.equal(h.saved,1);
+});
+test('single-image deletion asks confirmation, removes just the chosen image and supports undo',()=>{
+ const h=harness();h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''},{image:'assets/works/keep.png',name:'保留素材',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
+ const button=h.created.filter(x=>x.attrs['aria-label']==='刪除素材 刪除測試').at(-1);assert.ok(button);assert.equal(button.disabled,false);
+ let confirmations=0;h.context.confirm=()=>{confirmations++;return false;};button.onclick();assert.equal(h.context.site.mediaLibrary.length,2);assert.equal(h.saved,0);
+ h.context.confirm=()=>{confirmations++;return true;};button.onclick();assert.equal(confirmations,2);assert.deepEqual(h.context.site.mediaLibrary.map(x=>x.name),['保留素材']);assert.equal(h.saved,1);
+ h.el('media-undo').onclick();assert.equal(h.context.site.mediaLibrary.length,2);assert.equal(h.saved,2);
+});
+test('cached markup without the new detail button still starts and supports card deletion',()=>{
+ const h=harness({detailDelete:false});h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
+ h.created.filter(x=>x.attrs['aria-label']==='刪除素材 刪除測試').at(-1).onclick();assert.equal(h.saved,1);assert.equal(h.context.site.mediaLibrary.length,0);
+});
+test('used images are protected even if their disabled single delete handler is called',()=>{
+ const h=harness();const button=h.created.filter(x=>x.attrs['aria-label']==='刪除素材 作品').at(-1);assert.ok(button);assert.equal(button.disabled,true);
+ let confirmations=0;h.context.confirm=()=>{confirmations++;return true;};button.onclick();assert.equal(h.saved,0);assert.equal(confirmations,0);assert.equal(h.context.site.gallery.length,2);assert.match(button.title,/使用/);
+});
+test('detail deletion closes the dialog and removes stale selections; cancel keeps unsaved metadata',()=>{
+ const h=harness();h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
+ h.el('media-search').value='刪除測試';h.el('media-search').dispatchEvent({type:'input'});h.el('media-select-all').onchange({target:{checked:true}});
+ h.created.filter(x=>x.attrs['aria-label']==='查看素材 刪除測試').at(-1).onclick();h.el('media-name').value='尚未儲存';
+ h.context.confirm=()=>false;h.el('media-detail-delete').onclick();assert.equal(h.el('media-detail-dialog').open,true);assert.equal(h.el('media-name').value,'尚未儲存');assert.equal(h.saved,0);
+ h.context.confirm=()=>true;h.el('media-detail-delete').onclick();assert.equal(h.el('media-detail-dialog').open,false);assert.equal(h.context.site.mediaLibrary.length,0);assert.equal(h.el('media-selected-count').textContent,'已勾選 0 張');assert.equal(h.saved,1);
+});
+test('single deletion refuses unfinished forms and rechecks usage changed since the card was rendered',()=>{
+ const h=harness();h.context.site=media.add(h.context.site,[{image:'assets/works/unused.png',name:'刪除測試',category:'',alt:''}]);h.window.TutuMediaAdmin.render();
+ const button=h.created.filter(x=>x.attrs['aria-label']==='刪除素材 刪除測試').at(-1);assert.ok(button);
+ h.window.TutuFormDrafts.hasPending=()=>true;h.emit('tutu:form-buffer');button.onclick();assert.equal(h.saved,0);
+ h.window.TutuFormDrafts.hasPending=()=>false;h.context.site.gallery.push({id:'new-use',title:'新使用位置',image:'assets/works/unused.png'});button.onclick();assert.equal(h.saved,0);assert.equal(h.context.site.mediaLibrary.length,1);
 });
 

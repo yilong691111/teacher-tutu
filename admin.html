@@ -6,7 +6,7 @@
 <title>塗塗老師｜後台管理</title>
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="stylesheet" href="admin.css?v=20261102-mobile-admin">
+<link rel="stylesheet" href="admin.css?v=20261105-media-delete">
 <link rel="stylesheet" href="publish-review.css?v=20261103-sync-review">
 <script defer src="data/site-data.js?v=20261105-line-christmas"></script>
 <script defer src="content-models.js?v=20261105-line-christmas"></script>
@@ -42,7 +42,7 @@
 <script defer src="admin-rich-text.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-live-preview.js?v=20261103-preview-assets-tags"></script>
 <script defer src="admin-homepage.js?v=20261103-homepage-three"></script>
-<script defer src="admin-media.js?v=20261103-preview-assets-tags"></script>
+<script defer src="admin-media.js?v=20261105-media-delete"></script>
 <script defer src="admin-mobile.js?v=20261102-mobile-admin"></script>
 <link rel="stylesheet" href="homepage-text.css?v=20261103-rich-copy">
 <link rel="stylesheet" href="editor-enhancements.css?v=20261103-preview-assets-tags">
@@ -157,8 +157,8 @@
         <p id="media-upload-status" role="status" aria-live="polite"></p><p id="media-storage" class="muted"></p>
       </div>
       <div class="panel"><div class="media-filters"><label>搜尋素材<input id="media-search" type="search" placeholder="名稱、分類、圖片說明或使用位置"></label><label>分類<select id="media-category"><option value="">全部分類</option></select></label><label>使用狀態<select id="media-usage"><option value="">全部狀態</option><option value="used">使用中（含隱藏作品）</option><option value="unused">尚未使用</option></select></label></div>
-        <div class="media-batch"><label class="bulk-check"><input id="media-select-all" type="checkbox">全選目前顯示</label><strong id="media-selected-count">已勾選 0 張</strong><button id="media-clear" class="secondary" type="button">取消勾選</button><label>批次分類<input id="media-batch-category" maxlength="80" list="media-category-options" placeholder="留空可清除分類"></label><button id="media-batch-apply" class="secondary" type="button">套用分類</button><button id="media-delete" class="secondary" type="button">移除未使用素材</button></div>
-        <p id="media-count" class="muted"></p><p class="muted">使用中與網站固定圖片受到保護。移除只刪除素材庫紀錄；不刪除 GitHub 圖檔。所有變更先儲存為草稿，預覽後再發布。</p><div id="media-grid" class="media-grid"></div><p id="media-empty" hidden>沒有符合條件的素材。</p>
+        <div class="media-batch"><label class="bulk-check"><input id="media-select-all" type="checkbox">全選目前顯示</label><strong id="media-selected-count">已勾選 0 張</strong><button id="media-clear" class="secondary" type="button">取消勾選</button><label>批次分類<input id="media-batch-category" maxlength="80" list="media-category-options" placeholder="留空可清除分類"></label><button id="media-batch-apply" class="secondary" type="button">套用分類</button><button id="media-delete" class="secondary" type="button">刪除已勾選圖片</button></div>
+        <p id="media-count" class="muted"></p><p class="muted">可在圖片下方逐張刪除，或勾選後批次刪除；使用中與網站固定圖片受到保護。刪除只移除素材庫紀錄，原始圖檔仍保留。可復原最近一次操作；發布後才會更新共用素材庫。</p><div id="media-grid" class="media-grid"></div><p id="media-empty" hidden>沒有符合條件的素材。</p>
       </div><datalist id="media-category-options"></datalist>
     </section>
 
@@ -354,7 +354,7 @@
 
 <dialog id="media-detail-dialog" class="media-dialog" aria-labelledby="media-detail-title">
   <div class="media-dialog-head"><h2 id="media-detail-title">素材詳情</h2><button id="media-detail-close" type="button" class="secondary">關閉</button></div>
-  <div class="media-detail-layout"><div class="media-large-preview"><img id="media-detail-image" alt="素材圖片預覽"></div><div><p id="media-detail-info" class="muted"></p><h3>使用位置</h3><ul id="media-detail-uses"></ul><form id="media-metadata-form"><label>素材名稱 *<input id="media-name" required maxlength="120"></label><label>素材分類<input id="media-meta-category" maxlength="80" list="media-category-options"></label><label>圖片說明<textarea id="media-alt" rows="3" maxlength="200"></textarea></label><p class="muted">只整理素材庫資料，不會更動官網既有圖片或文字。關閉會放棄尚未儲存的素材說明。</p><div class="actions"><button id="media-save" type="submit" class="primary">儲存素材資料</button><a id="media-download" class="secondary" download>下載圖片</a></div></form></div></div>
+  <div class="media-detail-layout"><div class="media-large-preview"><img id="media-detail-image" alt="素材圖片預覽"></div><div><p id="media-detail-info" class="muted"></p><h3>使用位置</h3><ul id="media-detail-uses"></ul><form id="media-metadata-form"><label>素材名稱 *<input id="media-name" required maxlength="120"></label><label>素材分類<input id="media-meta-category" maxlength="80" list="media-category-options"></label><label>圖片說明<textarea id="media-alt" rows="3" maxlength="200"></textarea></label><p class="muted">只整理素材庫資料，不會更動官網既有圖片或文字。關閉會放棄尚未儲存的素材說明。</p><div class="actions"><button id="media-save" type="submit" class="primary">儲存素材資料</button><a id="media-download" class="secondary" download>下載圖片</a><button id="media-detail-delete" type="button" class="secondary media-delete-button" aria-describedby="media-delete-help">刪除圖片</button></div><p id="media-delete-help" class="muted" role="status"></p></form></div></div>
 </dialog>
 <dialog id="media-picker-dialog" class="media-dialog" aria-labelledby="media-picker-title"><div class="media-dialog-head"><div><h2 id="media-picker-title">從素材庫選圖</h2><p>選取後先保留在編輯表單，儲存並發布後才會更新官網。</p></div><button id="media-picker-close" class="secondary" type="button">取消選圖</button></div><div class="media-filters"><label>搜尋圖片<input id="media-picker-search" type="search" placeholder="名稱、分類或說明"></label><label>圖片分類<select id="media-picker-category"><option value="">全部分類</option></select></label></div><p id="media-picker-count" class="muted"></p><div id="media-picker-grid" class="media-grid"></div></dialog>
 

@@ -10,6 +10,7 @@
  const filters=()=>({query:$('#media-search').value,category:$('#media-category').value,usage:$('#media-usage').value});
  const fields=()=>({name:$('#media-name').value,category:$('#media-meta-category').value,alt:$('#media-alt').value});
  const dirtyDetail=()=>$('#media-detail-dialog').open&&JSON.stringify(fields())!==detailInitial;
+ const deleteReason=row=>!row?'素材已不存在，請重新選取。':row.uses.length?'圖片仍在使用中，請先更換使用位置的圖片。':!row.saved?'既有網站圖片，請先到原編輯區調整。':'';
  function categories(select,items){const value=select.value,names=[...new Set(items.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant'));select.replaceChildren(new Option('全部分類',''),...names.map(n=>new Option(n,n)));if(names.includes(value))select.value=value;return names;}
  const sizeText=image=>model.bytes(image)===null?'網站圖檔':`${Math.ceil(model.bytes(image)/1024)} KB`;
  function card(row,picker=false){
@@ -18,7 +19,10 @@
   const cover=document.createElement('div');cover.className='media-thumb';const img=document.createElement('img');img.src=safeImg(row.image);img.alt=row.alt||row.name;img.loading='lazy';cover.append(img);
   const name=document.createElement('strong');name.textContent=row.name;const info=document.createElement('p');info.textContent=`${row.category||'未分類'} · ${sizeText(row.image)}${row.width&&row.height?` · ${row.width}×${row.height}`:''}`;
   const use=document.createElement('p');use.textContent=row.uses.length?`使用中 · ${row.uses.length} 處`:'尚未使用';const button=document.createElement('button');button.type='button';button.className='secondary';button.textContent=picker?'選用這張圖片':'查看／整理';button.setAttribute('aria-label',(picker?'選用素材 ':'查看素材 ')+row.name);button.onclick=()=>picker?choose(row.image):openDetail(row.image);if(picker){button.dataset.mediaChoose='';button.disabled=busy();}
-  el.append(cover,name,info,use,button);return el;
+  el.append(cover,name,info,use);
+  if(picker)el.append(button);else{
+   const actions=document.createElement('div');actions.className='media-card-actions';const remove=document.createElement('button');remove.type='button';remove.className='secondary media-delete-button';remove.textContent='刪除圖片';remove.setAttribute('aria-label','刪除素材 '+row.name);remove.dataset.mediaDelete=row.image;remove.title=deleteReason(row)||'從素材庫刪除，可復原最近一次操作';remove.disabled=!ready()||!!deleteReason(row);remove.onclick=()=>deleteImages([row.image]);actions.append(button,remove);el.append(actions);
+  }return el;
  }
  function render(){
   const all=rows(),names=categories($('#media-category'),all);$('#media-category-options').replaceChildren(...names.map(n=>new Option(n,n)));
@@ -27,10 +31,12 @@
   if($('#media-picker-dialog').open)renderPicker();paint();
  }
  function paint(){
-  const lock=!ready(),visible=rows().filter(x=>model.matches(x,filters()));$('#media-selected-count').textContent=`已勾選 ${selection.size} 張`;
+  const lock=!ready(),items=rows(),byImage=new Map(items.map(x=>[x.image,x])),visible=items.filter(x=>model.matches(x,filters()));$('#media-selected-count').textContent=`已勾選 ${selection.size} 張`;
   const all=$('#media-select-all');all.checked=visible.length>0&&visible.every(x=>selection.has(x.image));all.indeterminate=selection.size>0&&!all.checked;all.disabled=busy()||!visible.length;
   $('#media-upload').disabled=lock;$('#media-files').disabled=lock;$('#media-dropzone')?.setAttribute('aria-disabled',String(lock));if(lock)$('#media-dropzone')?.setAttribute('data-drag-active','false');$('#media-batch-apply').disabled=lock||!selection.size;$('#media-delete').disabled=lock||!selection.size||rows().filter(x=>selection.has(x.image)).some(x=>x.uses.length||!x.saved);$('#media-clear').disabled=busy()||!selection.size;
   $('#media-save').disabled=lock;let canUndo=false;if(last&&!lock){try{model.undo(site,last);canUndo=true;}catch{}}$('#media-undo').disabled=!canUndo;
+  $$('[data-media-delete]').forEach(b=>{const reason=deleteReason(byImage.get(b.dataset.mediaDelete));b.disabled=lock||!!reason;b.title=reason||'從素材庫刪除，可復原最近一次操作';});
+  const reason=deleteReason(byImage.get(detail));if($('#media-detail-delete'))$('#media-detail-delete').disabled=lock||!!reason;if($('#media-delete-help'))$('#media-delete-help').textContent=detail?(reason||'可刪除這張尚未使用的素材；可復原最近一次操作。'):'';
   $$('[data-media-picker]').forEach(b=>b.disabled=busy()||!window.TutuFormDrafts||window.TutuPublishReady!==true);$$('[data-media-choose]').forEach(b=>b.disabled=busy());$$('[data-media-select]').forEach(b=>b.disabled=busy());
  }
  function change(next,label){
@@ -45,13 +51,23 @@
   const download=$('#media-download');if(downloadUrl){URL.revokeObjectURL(downloadUrl);downloadUrl=null;}try{const blob=editor.downloadBlob(image);download.href=blob?(downloadUrl=URL.createObjectURL(blob)):(window.TutuImageStore?.cachedURL(image)||image);download.removeAttribute('aria-disabled');download.textContent='下載圖片';}catch{download.removeAttribute('href');download.setAttribute('aria-disabled','true');download.textContent='圖片資料無法下載';}download.download=(row.name.replace(/[^\w\u3400-\u9fff-]/g,'_')||'tutu-image')+'.'+(image.startsWith('data:')?(image.match(/^data:image\/(\w+)/)?.[1]||'webp'):image.split('.').at(-1));
   detailInitial=JSON.stringify(fields());$('#media-detail-dialog').showModal();paint();
  }
- function closeDetail(){if(dirtyDetail()&&!confirm('尚未儲存的素材說明將放棄，確定關閉？'))return;$('#media-detail-dialog').close();detail=null;if(downloadUrl){URL.revokeObjectURL(downloadUrl);downloadUrl=null;}}
+ function finishDetail(){$('#media-detail-dialog').close();detail=null;if(downloadUrl){URL.revokeObjectURL(downloadUrl);downloadUrl=null;}}
+ function closeDetail(){if(dirtyDetail()&&!confirm('尚未儲存的素材說明將放棄，確定關閉？'))return;finishDetail();}
  $('#media-detail-close').onclick=closeDetail;$('#media-detail-dialog').addEventListener('cancel',e=>{e.preventDefault();closeDetail();});
  $('#media-metadata-form').onsubmit=e=>{e.preventDefault();if(detailBase!==JSON.stringify(site.mediaLibrary)){toast('素材庫已有其他修改，請關閉後重新開啟素材。',true);return;}if(perform(()=>model.save(site,detail,fields()),'素材資料')){detailInitial=JSON.stringify(fields());$('#media-detail-dialog').close();detail=null;if(downloadUrl){URL.revokeObjectURL(downloadUrl);downloadUrl=null;}}};
  for(const id of ['media-search','media-category','media-usage'])$('#'+id).addEventListener(id==='media-search'?'input':'change',render);
  $('#media-select-all').onchange=e=>{selection=e.target.checked?new Set(rows().filter(x=>model.matches(x,filters())).map(x=>x.image)):new Set();render();};$('#media-clear').onclick=()=>{selection.clear();render();};
  $('#media-batch-apply').onclick=()=>perform(()=>model.batch(site,[...selection],$('#media-batch-category').value),'素材分類');
- $('#media-delete').onclick=()=>{if(!ready()||!selection.size)return;if(confirm(`確定移除這 ${selection.size} 張未使用素材的素材庫紀錄？不會刪除 GitHub 圖檔；可復原最近一次素材操作。`))perform(()=>model.remove(site,[...selection]),'未使用素材移除');};
+ function deleteImages(images){
+  if(!ready()){toast('請先儲存或放棄未完成的編輯，並等待同步結束。',true);return false;}
+  if(!images.length)return false;const current=rows(),selected=images.map(image=>current.find(x=>x.image===image)),reason=selected.map(deleteReason).find(Boolean);if(reason){toast(reason,true);return false;}
+  const deletingDetail=$('#media-detail-dialog').open&&images.includes(detail);
+  if(deletingDetail&&detailBase!==JSON.stringify(site.mediaLibrary)){toast('素材庫已有其他修改，請關閉後重新開啟素材。',true);return false;}
+  const label=images.length===1?'「'+selected[0].name+'」':`這 ${images.length} 張未使用圖片`;
+  if(!confirm(`確定從圖片素材庫刪除${label}？${deletingDetail&&dirtyDetail()?'尚未儲存的素材說明將一併放棄。':''}可復原最近一次素材操作；發布後才會更新共用素材庫。原始圖檔仍保留。`))return false;
+  if(!perform(()=>model.remove(site,images),'圖片刪除'))return false;if(deletingDetail)finishDetail();return true;
+ }
+ $('#media-delete').onclick=()=>deleteImages([...selection]);if($('#media-detail-delete'))$('#media-detail-delete').onclick=()=>{if(detail)deleteImages([detail]);};
  $('#media-undo').onclick=()=>{if(!last||!ready())return;try{const next=model.undo(site,last);window.TutuGitHub.validateData(next);site=next;last=null;const saved=saveLocal();render();toast(saved?'已復原最近一次素材操作。':'復原只留在此頁，請先備份。',!saved);}catch(err){toast(err.message,true);paint();}};
  function dimensions(image){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve({width:img.naturalWidth,height:img.naturalHeight});img.onerror=()=>reject(new Error('無法讀取圖片尺寸'));img.src=window.TutuImageStore?.cachedURL(image)||image;});}
  async function uploadFiles(files){

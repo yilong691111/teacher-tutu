@@ -72,3 +72,5 @@ button:disabled{opacity:.5;cursor:not-allowed}.header-actions{display:flex;align
 @media(max-width:420px){.admin-header{align-items:start}.header-actions{width:100%}.header-actions>button{flex:1}.admin-state{font-size:11px;padding:7px 10px}.side{padding-inline:10px;gap:8px}.side-brand{font-size:16px}.content{padding-inline:10px}.panel{padding:16px 12px}}
 @media(max-width:350px){.media-grid,.table-scroll tbody tr{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:900px) and (max-height:500px){.side{position:relative}}
+
+.media-card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}.media-card-actions button{flex:1 1 90px;margin:0}.media-delete-button{color:#b42336;background:#fff0f1;border:1px solid #edc1c7}.media-delete-button:disabled{color:#728096;background:#f2f4f7;border-color:#d9dfe8}
