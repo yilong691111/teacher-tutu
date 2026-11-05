@@ -767,34 +767,6 @@ window.TUTU_BOOTSTRAP = {
       "coverWorkId": "",
       "workIds": [],
       "published": true
-    },
-    {
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶\""
-        ],
-        "holidays": [
-          "萬聖節"
-        ],
-        "situations": [
-          "萬聖節"
-        ]
-      },
-      "id": "line-product-37354432",
-      "title": "塗塗的日常 萬聖節篇",
-      "subtitle": "塗塗的日常 萬聖節篇",
-      "holidayName": "萬聖節",
-      "eventDate": "2026-10-31",
-      "description": "",
-      "tags": "",
-      "image": "assets/line-product-37354432.png",
-      "imageAlt": "塗塗的日常 萬聖節篇",
-      "buttonText": "前往 LINE 貼圖商店 →",
-      "buttonLink": "https://store.line.me/stickershop/product/37354432/zh-Hant",
-      "coverWorkId": "",
-      "workIds": [],
-      "published": true
     }
   ],
   "characters": [
