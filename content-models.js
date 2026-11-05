@@ -9,6 +9,17 @@
   {id:'lantian',name:'藍田老師',description:'戴著藍框眼鏡，陪大家上課、點名，一起認真學習。',image:'assets/works/lantian-32044.png',imageAlt:'藍田老師，戴著藍框眼鏡、舉手提醒上課的蠟筆角色',link:'#gallery',linkText:'看看老師的教學日常　↗',gallerySeries:'藍田老師的教學日常',tone:'ice',published:true}
  ].map(Object.freeze));
  const charactersFor=site=>site.characters===undefined?defaultCharacters.map(c=>({...c})):site.characters;
+ // Introduce this release's partners once, without replacing an editor's collection.
+ // Explicit empty collections and subsequent removals remain intentional edits.
+ function syncPublishedCharacters(local,published){
+  const revision='20261105-partners-v1',introduced=new Set(['yuanyuan','tutu-teacher']);
+  if(!local||published?.characterRevision!==revision||local.characterRevision===revision||!Array.isArray(published.characters))return local;
+  if(local.characters===undefined)return {...local,characters:structuredClone(published.characters),characterRevision:revision};
+  if(!Array.isArray(local.characters))return local;
+  const ids=new Set(local.characters.map(c=>c.id));
+  const additions=local.characters.length?published.characters.filter(c=>introduced.has(c.id)&&!ids.has(c.id)):[];
+  return {...local,characters:[...local.characters,...structuredClone(additions)],characterRevision:revision};
+ }
  const safeImage=value=>typeof value==='string'&&imagePattern.test(value);
  function safeLink(value){
   if(typeof value!=='string'||!value||value.length>2000||/\s/.test(value))return false;
@@ -66,5 +77,5 @@
   if(direction!==1&&direction!==-1)throw new Error('排序方向不正確。');const result=list.slice(),index=result.findIndex(x=>x.id===id),target=index+direction;
   if(index>=0&&target>=0&&target<result.length)[result[index],result[target]]=[result[target],result[index]];return result;
  }
- return {defaultCharacters,charactersFor,safeImage,safeLink,productFromUrl,saveProduct,saveCharacter,moveItem,validateCollections};
+ return {defaultCharacters,charactersFor,syncPublishedCharacters,safeImage,safeLink,productFromUrl,saveProduct,saveCharacter,moveItem,validateCollections};
 });

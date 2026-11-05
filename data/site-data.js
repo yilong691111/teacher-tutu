@@ -978,6 +978,30 @@ window.TUTU_BOOTSTRAP = {
       "link": "",
       "linkText": "",
       "gallerySeries": ""
+    },
+    {
+      "id": "yuanyuan",
+      "name": "圓圓姨",
+      "description": "用台語送暖的貼心姨姨\n一頭藍色捲髮、圓圓的笑臉，穿著熟悉的圍裙，圓圓姨總把大家的心情放在心上。她喜歡分享點心，也喜歡聽孩子說說今天發生的事；遇到煩惱時，她會先陪你坐一下，再一起想辦法。偶爾關心太多、忍不住多叮嚀幾句，她也在練習把時間留給自己。對圓圓姨來說，陪伴就是讓你知道：累了，可以安心歇一歇。口頭禪：「慢慢來，先歇睏一下。」",
+      "image": "assets/works/yuanyuan-aunt-20261105.png",
+      "imageAlt": "圓圓姨，藍色捲髮、圓臉與藍色圍裙，笑著比讚的蠟筆角色",
+      "tone": "ice",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
+    },
+    {
+      "id": "tutu-teacher",
+      "name": "塗塗老師",
+      "description": "♏ 天蠍座 AB 型 | 細心守護的溫柔陪伴者\n藍色短髮、方框眼鏡，穿著小背心的塗塗老師，總會留意孩子沒有說出口的心情。他看起來安靜，熟悉後卻很幽默；做事有原則，也願意蹲下來聽你把話說完。遇到難題時，他不急著給答案，而是拿起書本和彩筆，陪孩子把想法慢慢畫出來。偶爾太習慣自己承擔，他也在學著向夥伴求助。塗塗老師相信，每一次願意再試試看，都是值得鼓勵的小進步。口頭禪：「慢慢來，老師陪你一起想。」",
+      "image": "assets/works/tutu-teacher-20261105.png",
+      "imageAlt": "塗塗老師，藍色短髮、方框眼鏡與藍色背心，拿著書本揮手的男性蠟筆角色",
+      "tone": "ice",
+      "published": true,
+      "link": "",
+      "linkText": "",
+      "gallerySeries": ""
     }
   ],
   "mediaLibrary": [
@@ -1558,5 +1582,6 @@ window.TUTU_BOOTSTRAP = {
       "published": true
     }
   ],
-  "coloringRevision": "20261104-nine-pages-v1"
+  "coloringRevision": "20261104-nine-pages-v1",
+  "characterRevision": "20261105-partners-v1"
 };
