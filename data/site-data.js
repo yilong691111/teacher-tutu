@@ -1032,16 +1032,14 @@ window.TUTU_BOOTSTRAP = {
       "subtitle": "12／25 聖誕節",
       "holidayName": "聖誕節",
       "eventDate": "2026-12-25",
-      "description": "12／25 聖誕節，把祝福畫進每一天。跟著塗塗掛襪子、裝飾聖誕樹、交換禮物，用 24 張蠟筆貼圖傳遞平安與快樂。",
+      "description": "12／25 聖誕節，和塗塗一起送上聖誕快樂，用藍色蠟筆畫傳遞平安與溫暖。",
       "tags": "聖誕快樂\n平安喜樂\n交換禮物\n溫暖陪伴",
-      "image": "assets/works/christmas-920161679.png",
-      "imageAlt": "穿著聖誕服裝的塗塗與聖誕樹，送上聖誕快樂祝福。",
+      "image": "assets/works/festival-christmas-20261225.png",
+      "imageAlt": "塗塗穿著紅色聖誕服裝，站在聖誕樹旁送上聖誕快樂祝福。",
       "buttonText": "看看聖誕節貼圖 →",
       "buttonLink": "https://store.line.me/stickershop/product/37513322/zh-Hant",
-      "coverWorkId": "christmas-920161679",
-      "workIds": [
-        "christmas-920161679"
-      ],
+      "coverWorkId": "",
+      "workIds": [],
       "published": true,
       "catalogTags": {
         "topic": "festive",
@@ -1050,6 +1048,34 @@ window.TUTU_BOOTSTRAP = {
         ],
         "holidays": [
           "聖誕節"
+        ],
+        "situations": [
+          "祝福"
+        ]
+      }
+    },
+    {
+      "id": "line-product-37421102",
+      "title": "塗塗的日常",
+      "subtitle": "12／31 跨年",
+      "holidayName": "跨年",
+      "eventDate": "2026-12-31",
+      "description": "12／31 跨年夜，和塗塗一起迎接 2027！用繽紛煙火與童趣蠟筆線條，把新年的期待與祝福送給你。",
+      "tags": "跨年倒數\n迎接2027\n新年快樂",
+      "image": "assets/works/festival-newyear-20261231.png",
+      "imageAlt": "塗塗開心跳躍，搭配彩色煙火、2027 數字與「2027來啦」蠟筆文字。",
+      "buttonText": "看看跨年貼圖 →",
+      "buttonLink": "https://store.line.me/stickershop/product/37421102/zh-Hant",
+      "coverWorkId": "",
+      "workIds": [],
+      "published": true,
+      "catalogTags": {
+        "topic": "festive",
+        "characters": [
+          "塗塗"
+        ],
+        "holidays": [
+          "跨年"
         ],
         "situations": [
           "祝福"
@@ -1211,6 +1237,22 @@ window.TUTU_BOOTSTRAP = {
       "alt": "教室裡桃寶把橡皮擦借給藍寶，分享一份小小的體貼",
       "width": 1254,
       "height": 1254
+    },
+    {
+      "image": "assets/works/festival-christmas-20261225.png",
+      "name": "12／25 聖誕節｜聖誕快樂",
+      "category": "節慶系列",
+      "alt": "塗塗穿著紅色聖誕服裝，站在聖誕樹旁送上聖誕快樂祝福。",
+      "width": 259,
+      "height": 224
+    },
+    {
+      "image": "assets/works/festival-newyear-20261231.png",
+      "name": "12／31 跨年｜迎接2027",
+      "category": "節慶系列",
+      "alt": "塗塗開心跳躍，搭配彩色煙火、2027 數字與「2027來啦」蠟筆文字。",
+      "width": 259,
+      "height": 224
     }
   ],
   "reports": [
@@ -1723,5 +1765,6 @@ window.TUTU_BOOTSTRAP = {
   ],
   "coloringRevision": "20261104-nine-pages-v1",
   "characterRevision": "20261105-partners-v1",
-  "catalogRevision": "20261105-line-christmas-v1"
+  "catalogRevision": "20261105-line-christmas-v1",
+  "festivalRevision": "20261105-december-single-v1"
 };

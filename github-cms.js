@@ -80,6 +80,7 @@
  function hydrateDraft(local,published){
   if(content?.syncPublishedCharacters)local=content.syncPublishedCharacters(local,published);
   if(content?.syncPublishedCatalog)local=content.syncPublishedCatalog(local,published);
+  if(festivals?.syncPublished)local=festivals.syncPublished(local,published);
   // Drafts saved before coloring books existed have no collection at all.
   // An existing array (including []) is an intentional edit and must survive.
   if(local&&!Object.prototype.hasOwnProperty.call(local,'coloringBooks')&&Array.isArray(published?.coloringBooks))local={...local,coloringBooks:structuredClone(published.coloringBooks)};

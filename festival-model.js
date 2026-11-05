@@ -60,8 +60,27 @@
   });
   return {...next,festivals};
  }
+ function syncPublished(local,published){
+  const revision='20261105-december-single-v1';
+  if(!local||published?.festivalRevision!==revision||local.festivalRevision===revision||!Array.isArray(published.festivals))return local;
+  const christmas=published.festivals.find(f=>f.id==='line-product-37513322'),newyear=published.festivals.find(f=>f.id==='line-product-37421102');
+  const previousDescription='12／25 聖誕節，把祝福畫進每一天。跟著塗塗掛襪子、裝飾聖誕樹、交換禮物，用 24 張蠟筆貼圖傳遞平安與快樂。';
+  let list=local.festivals===undefined?structuredClone(published.festivals):local.festivals;
+  if(Array.isArray(list)){
+   list=list.map(f=>{
+    // Detach the previous auto-collected Christmas cover from removed gallery
+    // works. Independently edited covers and other draft fields stay intact.
+    if(!christmas||f.id!==christmas.id||f.image!=='assets/works/christmas-920161679.png'||!['','christmas-920161679',undefined].includes(f.coverWorkId)||!Array.isArray(f.workIds)||!f.workIds.every(id=>/^christmas-\d+$/.test(id)))return f;
+    const next={...f,image:christmas.image,imageAlt:christmas.imageAlt,coverWorkId:'',workIds:[]};if(f.description===previousDescription)next.description=christmas.description;return next;
+   });
+   if(list.length&&newyear&&!list.some(f=>f.id===newyear.id)){const added=structuredClone(newyear);if(local.lineProducts?.find(p=>p.id==='37421102')?.published===false)added.published=false;list.push(added);}
+  }
+  const media=(local.mediaLibrary||[]).slice(),images=new Set(media.map(x=>x.image)),introduced=new Set([christmas?.image,newyear?.image]);
+  for(const item of published.mediaLibrary||[])if(introduced.has(item.image)&&!images.has(item.image)){media.push(structuredClone(item));images.add(item.image);}
+  return {...local,festivals:list,mediaLibrary:media,festivalRevision:revision};
+ }
  const step=(index,length,delta)=>length?((index+delta)%length+length)%length:0;
  const recoveryId=(site,record)=>record.identity===''&&!Object.hasOwn(record.values,'festival-id')&&site.festivals===undefined?'legacy-festival':record.identity;
- return {festivalsFor,validDate,validate,saveFestival,syncProduct,reconcileProducts,ordered,select,frames,step,recoveryId};
+ return {festivalsFor,validDate,validate,saveFestival,syncProduct,reconcileProducts,syncPublished,ordered,select,frames,step,recoveryId};
 });
 
