@@ -61,6 +61,11 @@
   return {...next,festivals};
  }
  function syncPublished(local,published){
+  const dateRevision='20261106-year-order-v1';
+  if(local&&published?.festivalDateRevision===dateRevision&&local.festivalDateRevision!==dateRevision&&Array.isArray(local.festivals)){
+   const corrected=published.festivals?.find(f=>f.id==='legacy-festival'&&f.holidayName==='羊年賀歲祝福'&&f.eventDate==='2027-02-06');
+   if(corrected)local={...local,festivalDateRevision:dateRevision,festivals:local.festivals.map(f=>f.id===corrected.id&&f.holidayName===corrected.holidayName&&f.eventDate==='2007-02-04'?{...f,eventDate:corrected.eventDate}:f)};
+  }
   const captionRevision='20261106-image-copy-v1';
   if(local&&published?.festivalCaptionRevision===captionRevision&&local.festivalCaptionRevision!==captionRevision&&Array.isArray(local.festivals)&&Array.isArray(published.festivals)){
    const previous={

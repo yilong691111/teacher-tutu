@@ -628,7 +628,7 @@
       "title": "塗塗的日常",
       "subtitle": "羊年賀歲祝福",
       "holidayName": "羊年賀歲祝福",
-      "eventDate": "2007-02-04",
+      "eventDate": "2027-02-06",
       "description": "塗塗男孩與女孩穿著紅色賀年服，一起展示向上成長的業績卷軸。藍色蠟筆字「業績長紅」搭配花朵、祥雲與星星，送上事業進步的祝福。",
       "tags": "喜氣羊羊\n吉羊迎春\n羊年大吉\n福星高照",
       "image": "assets/works/031.webp",
@@ -1294,5 +1294,6 @@
       "mobileHeight": 640
     }
   ],
-  "festivalCaptionRevision": "20261106-image-copy-v1"
+  "festivalCaptionRevision": "20261106-image-copy-v1",
+  "festivalDateRevision": "20261106-year-order-v1"
 }
