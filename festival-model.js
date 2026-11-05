@@ -61,6 +61,25 @@
   return {...next,festivals};
  }
  function syncPublished(local,published){
+  const captionRevision='20261106-image-copy-v1';
+  if(local&&published?.festivalCaptionRevision===captionRevision&&local.festivalCaptionRevision!==captionRevision&&Array.isArray(local.festivals)&&Array.isArray(published.festivals)){
+   const previous={
+    'legacy-festival':['assets/works/031.webp','業績長紅','紅色賀年服裝、藍色蠟筆祝福字、童趣的喜怒哀樂——這是一份來自塗塗的暖心新年禮物。'],
+    'line-product-37531576':['assets/line-product-37531576.png','塗塗的日常 萬聖節不給糖就搗蛋篇',''],
+    'line-product-37496417':['assets/line-product-37496417.png','塗塗的日常 感恩節篇',''],
+    'line-product-37354432':['assets/line-product-37354432.png','塗塗的日常 萬聖節篇','']
+   };
+   const captions=new Map(published.festivals.map(f=>[f.id,f]));
+   const list=local.festivals.map(f=>{
+    const old=previous[f.id],source=captions.get(f.id);
+    if(!old||!source||f.image!==old[0]||source.image!==old[0]||f.coverWorkId||source.coverWorkId)return f;
+    const next={...f};
+    if(f.imageAlt===old[1])next.imageAlt=source.imageAlt;
+    if(f.description===old[2])next.description=source.description;
+    return next;
+   });
+   local={...local,festivals:list,festivalCaptionRevision:captionRevision};
+  }
   const revision='20261105-december-single-v1';
   if(!local||published?.festivalRevision!==revision||local.festivalRevision===revision||!Array.isArray(published.festivals))return local;
   const christmas=published.festivals.find(f=>f.id==='line-product-37513322'),newyear=published.festivals.find(f=>f.id==='line-product-37421102');
