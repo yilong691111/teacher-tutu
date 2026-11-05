@@ -1030,23 +1030,25 @@ window.TUTU_BOOTSTRAP = {
       }
     },
     {
-      "id": "37268227",
-      "title": "塗塗的日常",
+      "id": "37531576",
+      "title": "塗塗的日常 萬聖節不給糖就搗蛋篇",
       "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37268227/zh-Hant",
-      "image": "assets/line-product-37268227.png",
+      "url": "https://store.line.me/stickershop/product/37531576/zh-Hant",
+      "image": "assets/line-product-37531576.png",
       "description": "",
       "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37268227/LINEStorePC/main.png?v=1",
-      "category": "日常",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37531576/LINEStorePC/main.png?v=1",
+      "category": "萬聖節",
       "published": true,
       "catalogTags": {
-        "topic": "daily",
+        "topic": "festive",
         "characters": [
           "塗塗"
         ],
-        "holidays": [],
+        "holidays": [
+          "萬聖節"
+        ],
         "situations": []
       }
     },
@@ -1072,15 +1074,15 @@ window.TUTU_BOOTSTRAP = {
       }
     },
     {
-      "id": "37335808",
-      "title": "塗塗的日常 校園篇1",
+      "id": "37336030",
+      "title": "塗塗的日常 校園篇2",
       "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37335808/zh-Hant",
-      "image": "assets/line-product-37335808.png",
+      "url": "https://store.line.me/stickershop/product/37336030/zh-Hant",
+      "image": "assets/line-product-37336030.png",
       "description": "",
       "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37335808/LINEStorePC/main.png?v=1",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37336030/LINEStorePC/main.png?v=1",
       "category": "校園與教學",
       "published": true,
       "catalogTags": {
@@ -1095,15 +1097,36 @@ window.TUTU_BOOTSTRAP = {
       }
     },
     {
-      "id": "37336030",
-      "title": "塗塗的日常 校園篇2",
+      "id": "37268227",
+      "title": "塗塗的日常",
       "author": "塗塗老師",
       "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37336030/zh-Hant",
-      "image": "assets/line-product-37336030.png",
+      "url": "https://store.line.me/stickershop/product/37268227/zh-Hant",
+      "image": "assets/line-product-37268227.png",
       "description": "",
       "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37336030/LINEStorePC/main.png?v=1",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37268227/LINEStorePC/main.png?v=1",
+      "category": "日常",
+      "published": true,
+      "catalogTags": {
+        "topic": "daily",
+        "characters": [
+          "塗塗"
+        ],
+        "holidays": [],
+        "situations": []
+      }
+    },
+    {
+      "id": "37335808",
+      "title": "塗塗的日常 校園篇1",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37335808/zh-Hant",
+      "image": "assets/line-product-37335808.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37335808/LINEStorePC/main.png?v=1",
       "category": "校園與教學",
       "published": true,
       "catalogTags": {
@@ -1150,29 +1173,6 @@ window.TUTU_BOOTSTRAP = {
       "description": "",
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37354432/LINEStorePC/main.png?v=1",
-      "category": "萬聖節",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "萬聖節"
-        ],
-        "situations": []
-      }
-    },
-    {
-      "id": "37531576",
-      "title": "塗塗的日常 萬聖節不給糖就搗蛋篇",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37531576/zh-Hant",
-      "image": "assets/line-product-37531576.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37531576/LINEStorePC/main.png?v=1",
       "category": "萬聖節",
       "published": true,
       "catalogTags": {
@@ -1616,7 +1616,7 @@ window.TUTU_BOOTSTRAP = {
       "buttonLink": "https://store.line.me/stickershop/product/37513322/zh-Hant",
       "coverWorkId": "christmas-920161679",
       "workIds": [
-        "christmas-920161679"
+        "christmas-920161678"
       ],
       "published": true,
       "catalogTags": {
@@ -1637,7 +1637,7 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "boy",
       "name": "藍寶",
-      "description": "♊ 雙子座 B 型  | 點子滿滿的好奇探索家\n每個「為什麼」，都是冒險的開始，個性活潑、好奇、想像力豐富，喜歡嘗試新鮮事。偶爾容易分心，腦袋裡總有下一個點子。藍寶是塗塗世界裡的小小發明家，一片落葉、一盒彩筆，都能讓他玩出新花樣。他最喜歡拉著朋友一起探索，把普通的一天變成有趣的冒險。雖然常常做到一半就想到別的事，但他正在學習：把一件事情好好完成，也會有新的發現！口頭禪：「欸！我們來試試看！」",
+      "description": "♊ 雙子座 B 型  | 點子滿滿的好奇探索家\n每個「為什麼」，都是冒險的開始，個性活潑、好奇、想像力豐富，喜歡嘗試新鮮事。偶爾容易分心，腦袋裡總有下一個點子。\n口頭禪：「欸！我們來試試看！」",
       "image": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c.webp",
       "imageAlt": "男塗塗",
       "tone": "ice",
@@ -1649,7 +1649,7 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "girl",
       "name": "桃寶",
-      "description": "♌ 獅子座 O 型 | 散播快樂的祝福小太陽\n把平凡的日子，過成值得慶祝的日子，個*開朗、熱情、喜歡分享，擅長替大家加油。偶爾太想讓大家開心，會把自己的失落藏起來。桃寶是大家的快樂小太陽，記得朋友的生日，也不會錯過任何值得鼓掌的小進步。她喜歡畫卡片、準備驚喜，把祝福送到每個人手裡。即使偶爾遇到不開心的事，她也正在學習說出來，因為帶給大家笑容的桃寶，也值得被好好安慰。口頭禪：「這個也值得慶祝呀！」",
+      "description": "♌ 獅子座 O 型 | 散播快樂的祝福小太陽\n把平凡的日子，過成值得慶祝的日子，個*開朗、熱情、喜歡分享，擅長替大家加油。偶爾太想讓大家開心，會把自己的失落藏起來。\n口頭禪：「這個也值得慶祝呀！」",
       "image": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6.webp",
       "imageAlt": "女塗塗",
       "tone": "pink",
@@ -1661,7 +1661,7 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "xiaolan",
       "name": "小藍姐姐",
-      "description": "♎ 天秤座 AB 型 | 有主見又懂得體貼的創意姐姐\n有自己的想法，也願意聽你的想法，個性自信、機靈、有創意，喜歡漂亮又有趣的事物。偶爾選擇太多會猶豫，也有一點小得意。綁著藍色雙馬尾的小藍姐姐，總能想出讓大家眼睛一亮的好點子。她喜歡畫畫、搭配衣服，也擅長幫朋友把想法變成作品。朋友意見不同時，她會邀請大家輪流說說看；但遇到不公平的事情，她也會勇敢站出來。她相信，每個人都可以有自己的樣子。口頭禪：「你的想法也很棒，我們一起想！」",
+      "description": "♎ 天秤座 AB 型 | 有主見又懂得體貼的創意姐姐\n有自己的想法，也願意聽你的想法，個性自信、機靈、有創意，喜歡漂亮又有趣的事物。\n口頭禪：「你的想法也很棒，我們一起想！」",
       "image": "assets/xiaolan-sister.png",
       "imageAlt": "小藍姐姐，藍色雙馬尾與藍色洋裝的蠟筆角色",
       "tone": "ice",
@@ -1673,7 +1673,7 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "lantian",
       "name": "藍田老師",
-      "description": "♍ 處女座 A 型 | 認真可靠的成長引路人\n要求你認真，也陪你慢慢學會，個性認真、細心、有責任感，重視規矩與承諾。偶爾要求太高、忍不住碎念，但總會記得回頭鼓勵孩子。戴著藍框眼鏡的藍田老師，上課時精神十足，備課時也一絲不苟。她會提醒大家專心、完成作業，也會蹲下來聽孩子說：「我不會。」在她眼裡，犯錯是找出下一步的線索。她期待孩子把事情做好，更希望每個孩子都能發現：原來，我比昨天更進步了。口頭禪：「先別說不會，我們一步一步來！」",
+      "description": "♍ 處女座 A 型 | 認真可靠的成長引路人\n要求你認真，也陪你慢慢學會，個性認真、細心、有責任感，重視規矩與承諾。偶爾要求太高、忍不住碎念，但總會記得回頭鼓勵孩子。\n口頭禪：「先別說不會，我們一步一步來！」",
       "image": "assets/works/lantian-32044.png",
       "imageAlt": "藍田老師，戴著藍框眼鏡、舉手提醒上課的蠟筆角色",
       "link": "https://store.line.me/stickershop/product/37468349/zh-Hant",
@@ -1697,7 +1697,7 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "nuannuan",
       "name": "暖暖",
-      "description": "♋ 巨蟹座 A 型 | 溫柔陪伴者，開朗、細心，擅長發現別人的心情。\n當朋友失落或不敢開口，她會安靜聽完，再說：「有你真好！」她喜歡分享，也會為不起眼的小進步開心鼓掌。偶爾太在意別人，會忘了照顧自己；她正學著勇敢說出自己的感受。對暖暖來說，善良就是讓每個人都覺得：我被看見，也值得被喜歡。口頭禪：「有你真好！」",
+      "description": "♋ 巨蟹座 A 型 | 溫柔陪伴者，開朗、細心，擅長發現別人的心情。\n當朋友失落或不敢開口，她會安靜聽完，再說：「有你真好！」她喜歡分享，也會為不起眼的小進步開心鼓掌。\n口頭禪：「有你真好！」",
       "image": "assets/nuannuan.webp",
       "imageAlt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩",
       "tone": "pink",
@@ -1709,7 +1709,7 @@ window.TUTU_BOOTSTRAP = {
     {
       "id": "yuanyuan",
       "name": "圓圓姨",
-      "description": "用台語送暖的貼心姨姨\n一頭藍色捲髮、圓圓的笑臉，穿著熟悉的圍裙，圓圓姨總把大家的心情放在心上。她喜歡分享點心，也喜歡聽孩子說說今天發生的事；遇到煩惱時，她會先陪你坐一下，再一起想辦法。偶爾關心太多、忍不住多叮嚀幾句，她也在練習把時間留給自己。對圓圓姨來說，陪伴就是讓你知道：累了，可以安心歇一歇。口頭禪：「慢慢來，先歇睏一下。」",
+      "description": "用台語送暖的貼心姨姨\n一頭藍色捲髮、圓圓的笑臉，穿著熟悉的圍裙，圓圓姨總把大家的心情放在心上。\n口頭禪：「慢慢來，先歇睏一下。」",
       "image": "assets/works/yuanyuan-aunt-20261105.png",
       "imageAlt": "圓圓姨，藍色捲髮、圓臉與藍色圍裙，笑著比讚的蠟筆角色",
       "tone": "ice",
