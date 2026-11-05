@@ -990,18 +990,6 @@ window.TUTU_BOOTSTRAP = {
       "link": "",
       "linkText": "",
       "gallerySeries": ""
-    },
-    {
-      "id": "tutu-teacher",
-      "name": "塗塗老師",
-      "description": "♏ 天蠍座 AB 型 | 細心守護的溫柔陪伴者\n藍色短髮、方框眼鏡，穿著小背心的塗塗老師，總會留意孩子沒有說出口的心情。他看起來安靜，熟悉後卻很幽默；做事有原則，也願意蹲下來聽你把話說完。遇到難題時，他不急著給答案，而是拿起書本和彩筆，陪孩子把想法慢慢畫出來。偶爾太習慣自己承擔，他也在學著向夥伴求助。塗塗老師相信，每一次願意再試試看，都是值得鼓勵的小進步。口頭禪：「慢慢來，老師陪你一起想。」",
-      "image": "assets/works/tutu-teacher-20261105.png",
-      "imageAlt": "塗塗老師，藍色短髮、方框眼鏡與藍色背心，拿著書本揮手的男性蠟筆角色",
-      "tone": "ice",
-      "published": true,
-      "link": "",
-      "linkText": "",
-      "gallerySeries": ""
     }
   ],
   "mediaLibrary": [
