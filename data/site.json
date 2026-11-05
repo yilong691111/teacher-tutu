@@ -20,31 +20,13 @@
   },
   "news": [
     {
-      "id": "nmw1of3ww",
-      "title": "塗塗的世界 著色本【讓世界暫停 5 分鐘，今天你想塗上什麼顏色？🎨】",
-      "date": "2026-11-04",
-      "category": "作品更新",
-      "body": "生活節奏太快、腦袋塞滿了待辦事項嗎？\n給自己一首歌曲的時間，打開全新上架的《塗塗世界著色本》。\n在這裡，沒有人會幫你的創意打分數，\n不需要任何繪畫基礎，只要拿起畫筆，\n你就是自己世界裡的偉大藝術家！\n\n點選或複製網址 : https://yilong691111.github.io/teacher-tutu/#coloring\n\n或點選網頁右上角 書本圖示",
-      "published": true
-    },
-    {
-      "id": "n20261031-world-kindness-day",
-      "title": "世界善良日作品分享｜把善良放進每天的聊天",
-      "category": "作品更新",
-      "date": "2026-10-31",
-      "body": "迎接 2026/11/13 世界善良日，塗塗老師分享五張原創主題作品！\n\n藍寶與桃寶一起擁抱地球、互相幫忙，也把「借你橡皮擦」的小小體貼，畫成溫暖的蠟筆日常。從一句謝謝、一次分享開始，讓關心有表情，也讓善意有行動。\n\n特別報導〈把善良放進聊天，讓溫暖走進日常。〉同步發布，收錄五張完整作品、情境貼圖文案，以及給家長、老師與學生的互動提案。邀請你一起看看：今天，你想把哪一份善意傳給誰？",
-      "link": "#report-world-kindness-day-20261113",
-      "linkText": "閱讀世界善良日特別報導 →",
-      "published": true
-    },
-    {
       "id": "n20261029-idiom-copy",
       "title": "聊天有梗，成語也有戲",
       "category": "網站公告",
       "date": "2026-10-29",
       "body": "七年級成語篇 1–5\n\n12年國教七年級常用成語\n\n聊天有梗，成語也有戲。\n\n讓孩子在聊天過程中，就能活用成語。\n\n把書本裡看過的詞語，放進每天想說的話。從「循序漸進」的鼓勵，到「相親相愛」的心意，跟著塗塗的蠟筆表情，讓成語多一個走進日常的機會。\n\n給家長\n\n讓學過的詞，多一次被想起。\n\n成語不必只出現在課本與考卷裡。孩子想替朋友加油、送出一句祝福，或表達當下的心情時，都可以試著找一張貼切的貼圖。您也能順著問一句：「為什麼這裡適合用這個成語？」讓一句聊天，成為親子分享詞義與情境的小起點。\n\n給老師\n\n多一個讓學生願意開口的引子。\n\n上課前選一張貼圖，請學生猜意思、找情境、接一句話；下課前，再用一句造句收尾。也可以把「這張貼圖適合傳給誰？」當成討論題，讓學生比較不同用法。把熟悉的聊天語言，接回課堂裡的表達練習，讓成語教學多一個有趣的開場。\n\n給學生\n\n回得有梗，也回出你的風格。\n\n替朋友加油，想回得更有自己的風格；看到有趣的事，也想用一張貼圖接住心情。讓塗塗替聊天加點戲！可愛的蠟筆角色搭配成語表達，回覆可以有梗，也能有意思。挑選最喜歡的一輯，把熟悉的成語變成你的聊天風格。\n\n挑一輯喜歡的塗塗，讓下一次聊天多一點詞彙，也多一點你的風格。",
-      "link": "#grade7-idioms",
-      "linkText": "閱讀聊天有梗，成語也有戲特別報導",
+      "link": "#line-catalog",
+      "linkText": "挑選 LINE 貼圖 →",
       "published": true
     },
     {
@@ -91,17 +73,7 @@
       "image": "assets/works/lantian-32044.png",
       "description": "舉起手指提醒大家上課，準備一起學習。",
       "featured": true,
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "藍田老師"
-        ],
-        "holidays": [],
-        "situations": [
-          "上課"
-        ]
-      }
+      "published": true
     },
     {
       "id": "w001",
@@ -111,15 +83,7 @@
       "image": "assets/works/001.webp",
       "description": "塗塗誕生的第一張畫｜創作起點。保留塗塗的藍色蠟筆線條與童趣表情。",
       "featured": true,
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": []
-      }
+      "published": true
     },
     {
       "id": "w031",
@@ -129,17 +93,7 @@
       "image": "assets/works/031.webp",
       "description": "業績長紅｜新春成語篇。保留塗塗的藍色蠟筆線條與童趣表情。",
       "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "idioms",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "w062",
@@ -149,15 +103,7 @@
       "image": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c.webp",
       "description": "塗塗男孩｜角色與日常。保留塗塗的藍色蠟筆線條與童趣表情。",
       "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "藍寶"
-        ],
-        "holidays": [],
-        "situations": []
-      }
+      "published": true
     },
     {
       "id": "w063",
@@ -167,15 +113,7 @@
       "image": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6.webp",
       "description": "塗塗女孩｜角色與日常。保留塗塗的藍色蠟筆線條與童趣表情。",
       "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "桃寶"
-        ],
-        "holidays": [],
-        "situations": []
-      }
+      "published": true
     }
   ],
   "lineProducts": [
@@ -301,24 +239,6 @@
       }
     },
     {
-      "url": "https://store.line.me/stickershop/product/37675366/zh-Hant",
-      "title": "11/13 世界善良日",
-      "author": "瀧塗塗老師",
-      "category": "其他節慶",
-      "description": "2026/11/13 世界善良日",
-      "published": true,
-      "image": "assets/works/upload-7e40ab62978208dc83257168b6d075fa02b33c6597c6bac7758a7811d9076d13.webp",
-      "id": "37675366",
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [],
-        "holidays": [
-          "世界善良日"
-        ],
-        "situations": []
-      }
-    },
-    {
       "url": "https://store.line.me/stickershop/product/37631556/zh-Hant",
       "title": "羊年賀歲祝福",
       "author": "塗塗老師",
@@ -326,17 +246,7 @@
       "description": "",
       "published": true,
       "image": "assets/works/031.webp",
-      "id": "37631556",
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [],
-        "holidays": [
-          "農曆新年"
-        ],
-        "situations": [
-          "祝福"
-        ]
-      }
+      "id": "37631556"
     },
     {
       "id": "37506154",
@@ -349,17 +259,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37506154/LINEStorePC/main.png?v=1",
       "category": "12年國教七年級常用成語",
-      "published": true,
-      "catalogTags": {
-        "topic": "idioms",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37520435",
@@ -372,17 +272,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37520435/LINEStorePC/main.png?v=1",
       "category": "12年國教七年級常用成語",
-      "published": true,
-      "catalogTags": {
-        "topic": "idioms",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37533150",
@@ -395,17 +285,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37533150/LINEStorePC/main.png?v=1",
       "category": "12年國教七年級常用成語",
-      "published": true,
-      "catalogTags": {
-        "topic": "idioms",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37540330",
@@ -418,17 +298,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37540330/LINEStorePC/main.png?v=1",
       "category": "12年國教七年級常用成語",
-      "published": true,
-      "catalogTags": {
-        "topic": "idioms",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37564448",
@@ -441,17 +311,85 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37564448/LINEStorePC/main.png?v=1",
       "category": "12年國教七年級常用成語",
-      "published": true,
-      "catalogTags": {
-        "topic": "idioms",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
+    },
+    {
+      "id": "37268227",
+      "title": "塗塗的日常",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37268227/zh-Hant",
+      "image": "assets/line-product-37268227.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37268227/LINEStorePC/main.png?v=1",
+      "category": "日常",
+      "published": true
+    },
+    {
+      "id": "37332619",
+      "title": "塗塗的日常3",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37332619/zh-Hant",
+      "image": "assets/line-product-37332619.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37332619/LINEStorePC/main.png?v=1",
+      "category": "日常",
+      "published": true
+    },
+    {
+      "id": "37335808",
+      "title": "塗塗的日常 校園篇1",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37335808/zh-Hant",
+      "image": "assets/line-product-37335808.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37335808/LINEStorePC/main.png?v=1",
+      "category": "校園與教學",
+      "published": true
+    },
+    {
+      "id": "37336030",
+      "title": "塗塗的日常 校園篇2",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37336030/zh-Hant",
+      "image": "assets/line-product-37336030.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37336030/LINEStorePC/main.png?v=1",
+      "category": "校園與教學",
+      "published": true
+    },
+    {
+      "id": "37342970",
+      "title": "塗塗的日常 考試篇",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37342970/zh-Hant",
+      "image": "assets/line-product-37342970.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37342970/LINEStorePC/main.png?v=1",
+      "category": "校園與教學",
+      "published": true
+    },
+    {
+      "id": "37354432",
+      "title": "塗塗的日常 萬聖節篇",
+      "author": "塗塗老師",
+      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
+      "url": "https://store.line.me/stickershop/product/37354432/zh-Hant",
+      "image": "assets/line-product-37354432.png",
+      "description": "",
+      "checkedDate": "2026-10-29",
+      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37354432/LINEStorePC/main.png?v=1",
+      "category": "萬聖節",
+      "published": true
     },
     {
       "id": "37531576",
@@ -467,147 +405,13 @@
       "published": true,
       "catalogTags": {
         "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
+        "characters": [],
         "holidays": [
           "萬聖節"
         ],
-        "situations": []
-      }
-    },
-    {
-      "id": "37332619",
-      "title": "塗塗的日常3",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37332619/zh-Hant",
-      "image": "assets/line-product-37332619.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37332619/LINEStorePC/main.png?v=1",
-      "category": "日常",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": []
-      }
-    },
-    {
-      "id": "37336030",
-      "title": "塗塗的日常 校園篇2",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37336030/zh-Hant",
-      "image": "assets/line-product-37336030.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37336030/LINEStorePC/main.png?v=1",
-      "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
         "situations": [
-          "上課"
-        ]
-      }
-    },
-    {
-      "id": "37268227",
-      "title": "塗塗的日常",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37268227/zh-Hant",
-      "image": "assets/line-product-37268227.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37268227/LINEStorePC/main.png?v=1",
-      "category": "日常",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": []
-      }
-    },
-    {
-      "id": "37335808",
-      "title": "塗塗的日常 校園篇1",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37335808/zh-Hant",
-      "image": "assets/line-product-37335808.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37335808/LINEStorePC/main.png?v=1",
-      "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "上課"
-        ]
-      }
-    },
-    {
-      "id": "37342970",
-      "title": "塗塗的日常 考試篇",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37342970/zh-Hant",
-      "image": "assets/line-product-37342970.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37342970/LINEStorePC/main.png?v=1",
-      "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "考試"
-        ]
-      }
-    },
-    {
-      "id": "37354432",
-      "title": "塗塗的日常 萬聖節篇",
-      "author": "塗塗老師",
-      "sourceAuthorUrl": "https://store.line.me/stickershop/author/5947333/zh-Hant",
-      "url": "https://store.line.me/stickershop/product/37354432/zh-Hant",
-      "image": "assets/line-product-37354432.png",
-      "description": "",
-      "checkedDate": "2026-10-29",
-      "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37354432/LINEStorePC/main.png?v=1",
-      "category": "萬聖節",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
           "萬聖節"
-        ],
-        "situations": []
+        ]
       }
     },
     {
@@ -621,17 +425,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37390494/LINEStorePC/main.png?v=1",
       "category": "其他節慶",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "世界兒童節"
-        ],
-        "situations": []
-      }
+      "published": true
     },
     {
       "id": "37391699",
@@ -644,19 +438,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37391699/LINEStorePC/main.png?v=1",
       "category": "生日祝福",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "生日"
-        ],
-        "situations": [
-          "祝福"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37392398",
@@ -669,17 +451,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37392398/LINEStorePC/main.png?v=1",
       "category": "日常",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "加班"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37421034",
@@ -692,19 +464,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37421034/LINEStorePC/main.png?v=1",
       "category": "新年與跨年",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "農曆新年"
-        ],
-        "situations": [
-          "祝福"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37421043",
@@ -717,19 +477,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37421043/LINEStorePC/main.png?v=1",
       "category": "新年與跨年",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "農曆新年"
-        ],
-        "situations": [
-          "祝福"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37421102",
@@ -742,17 +490,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37421102/LINEStorePC/main.png?v=1",
       "category": "新年與跨年",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "跨年"
-        ],
-        "situations": []
-      }
+      "published": true
     },
     {
       "id": "37439051",
@@ -765,17 +503,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37439051/LINEStorePC/main.png?v=1",
       "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37439058",
@@ -788,17 +516,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37439058/LINEStorePC/main.png?v=1",
       "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37454198",
@@ -811,17 +529,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37454198/LINEStorePC/main.png?v=1",
       "category": "日常",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "天氣"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37468349",
@@ -834,17 +542,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37468349/LINEStorePC/main.png?v=1",
       "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "上課"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37488930",
@@ -857,18 +555,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37488930/LINEStorePC/main.png?v=1",
       "category": "校園與教學",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [],
-        "situations": [
-          "上課",
-          "學習"
-        ]
-      }
+      "published": true
     },
     {
       "id": "37496417",
@@ -884,13 +571,13 @@
       "published": true,
       "catalogTags": {
         "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
+        "characters": [],
         "holidays": [
           "感恩節"
         ],
-        "situations": []
+        "situations": [
+          "感恩節"
+        ]
       }
     },
     {
@@ -904,17 +591,7 @@
       "checkedDate": "2026-10-29",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/37496902/LINEStorePC/main.png?v=1",
       "category": "其他節慶",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "光復節"
-        ],
-        "situations": []
-      }
+      "published": true
     },
     {
       "id": "37513322",
@@ -927,19 +604,7 @@
       "checkedDate": "2026-11-05",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/sticker/920161679/android/sticker.png?v=1",
       "category": "聖誕節",
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福"
-        ]
-      }
+      "published": true
     }
   ],
   "festivals": [
@@ -959,19 +624,7 @@
         "w039"
       ],
       "published": true,
-      "coverWorkId": "",
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "農曆新年"
-        ],
-        "situations": [
-          "祝福"
-        ]
-      }
+      "coverWorkId": ""
     },
     {
       "id": "world-childrens-day-20261120",
@@ -987,44 +640,7 @@
       "buttonLink": "https://store.line.me/stickershop/product/37390494/zh-Hant",
       "workIds": [],
       "coverWorkId": "",
-      "published": true,
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "塗塗"
-        ],
-        "holidays": [
-          "世界兒童節"
-        ],
-        "situations": []
-      }
-    },
-    {
-      "id": "f361bf779fe586666a0c1ef971b6429cc",
-      "title": "塗塗的日常",
-      "subtitle": "世界善良日",
-      "holidayName": "世界善良日",
-      "eventDate": "2026-11-13",
-      "description": "把善良放進聊天，讓溫暖走進日常。\n一塊借出的橡皮擦、一句「我來幫你」，都能成為孩子理解善良的起點。跟著藍寶與桃寶，把想說的關心化成看得見的心意。",
-      "tags": "世界善良日",
-      "imageAlt": "世界善良日",
-      "buttonText": "看看系列作品 →",
-      "buttonLink": "https://store.line.me/stickershop/product/37675366/zh-Hant",
-      "workIds": [],
-      "published": true,
-      "image": "assets/works/upload-7e40ab62978208dc83257168b6d075fa02b33c6597c6bac7758a7811d9076d13.webp",
-      "coverWorkId": "",
-      "catalogTags": {
-        "topic": "daily",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "世界善良日"
-        ],
-        "situations": []
-      }
+      "published": true
     },
     {
       "id": "line-product-37513322",
@@ -1081,13 +697,65 @@
           "祝福"
         ]
       }
+    },
+    {
+      "catalogTags": {
+        "topic": "festive",
+        "characters": [],
+        "holidays": [
+          "萬聖節"
+        ],
+        "situations": [
+          "萬聖節"
+        ]
+      },
+      "id": "line-product-37531576",
+      "title": "塗塗的日常 萬聖節不給糖就搗蛋篇",
+      "subtitle": "塗塗的日常 萬聖節不給糖就搗蛋篇",
+      "holidayName": "萬聖節",
+      "eventDate": "2026-10-31",
+      "description": "",
+      "tags": "",
+      "image": "assets/line-product-37531576.png",
+      "imageAlt": "塗塗的日常 萬聖節不給糖就搗蛋篇",
+      "buttonText": "前往 LINE 貼圖商店 →",
+      "buttonLink": "https://store.line.me/stickershop/product/37531576/zh-Hant",
+      "coverWorkId": "",
+      "workIds": [],
+      "published": true
+    },
+    {
+      "catalogTags": {
+        "topic": "festive",
+        "characters": [],
+        "holidays": [
+          "感恩節"
+        ],
+        "situations": [
+          "感恩節"
+        ]
+      },
+      "id": "line-product-37496417",
+      "title": "塗塗的日常 感恩節篇",
+      "subtitle": "塗塗的日常 感恩節篇",
+      "holidayName": "感恩節",
+      "eventDate": "2026-11-26",
+      "description": "",
+      "tags": "",
+      "image": "assets/line-product-37496417.png",
+      "imageAlt": "塗塗的日常 感恩節篇",
+      "buttonText": "前往 LINE 貼圖商店 →",
+      "buttonLink": "https://store.line.me/stickershop/product/37496417/zh-Hant",
+      "coverWorkId": "",
+      "workIds": [],
+      "published": true
     }
   ],
   "characters": [
     {
       "id": "boy",
       "name": "藍寶",
-      "description": "♊ 雙子座 B 型  | 點子滿滿的好奇探索家\n每個「為什麼」，都是冒險的開始，個性活潑、好奇、想像力豐富，喜歡嘗試新鮮事。偶爾容易分心，腦袋裡總有下一個點子。\n口頭禪：「欸！我們來試試看！」",
+      "description": "活潑、好奇，總想第一個探索新鮮事。",
       "image": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c.webp",
       "imageAlt": "男塗塗",
       "tone": "ice",
@@ -1099,7 +767,7 @@
     {
       "id": "girl",
       "name": "桃寶",
-      "description": "♌ 獅子座 O 型 | 散播快樂的祝福小太陽\n把平凡的日子，過成值得慶祝的日子，個*開朗、熱情、喜歡分享，擅長替大家加油。偶爾太想讓大家開心，會把自己的失落藏起來。\n口頭禪：「這個也值得慶祝呀！」",
+      "description": "開朗、熱情，喜歡把祝福送給每個人。",
       "image": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6.webp",
       "imageAlt": "女塗塗",
       "tone": "pink",
@@ -1111,50 +779,23 @@
     {
       "id": "xiaolan",
       "name": "小藍姐姐",
-      "description": "♎ 天秤座 AB 型 | 有主見又懂得體貼的創意姐姐\n有自己的想法，也願意聽你的想法，個性自信、機靈、有創意，喜歡漂亮又有趣的事物。\n口頭禪：「你的想法也很棒，我們一起想！」",
+      "description": "藍色雙馬尾、藍色洋裝，帶著笑容加入塗塗的夥伴。",
       "image": "assets/xiaolan-sister.png",
       "imageAlt": "小藍姐姐，藍色雙馬尾與藍色洋裝的蠟筆角色",
-      "tone": "ice",
-      "published": true,
-      "link": "",
-      "linkText": "",
-      "gallerySeries": ""
-    },
-    {
-      "id": "lantian",
-      "name": "藍田老師",
-      "description": "♍ 處女座 A 型 | 認真可靠的成長引路人\n要求你認真，也陪你慢慢學會，個性認真、細心、有責任感，重視規矩與承諾。偶爾要求太高、忍不住碎念，但總會記得回頭鼓勵孩子。\n口頭禪：「先別說不會，我們一步一步來！」",
-      "image": "assets/works/lantian-32044.png",
-      "imageAlt": "藍田老師，戴著藍框眼鏡、舉手提醒上課的蠟筆角色",
-      "link": "https://store.line.me/stickershop/product/37468349/zh-Hant",
-      "linkText": "看看老師的教學日常　↗",
-      "gallerySeries": "藍田老師的教學日常",
       "tone": "ice",
       "published": true
     },
     {
-      "id": "youyou",
-      "name": "佑佑",
-      "description": "♈ 牡羊座  O 型 | 熱心行動派，勇敢、直率，喜歡幫助朋友。\n看到同學搬不動書、遊戲少了一位隊友，他總會笑著說：「我來幫你！」偶爾太心急，還沒聽完就衝出去；但他也在練習先問一句：「你需要什麼？」對佑佑來說，善良就是把關心變成小小的行動，陪大家一起試、一起進步。口頭禪：「我來幫你！」",
-      "image": "assets/youyou.webp",
-      "imageAlt": "佑佑，藍色短髮、藍白制服與短褲，笑著揮手的蠟筆男孩",
+      "id": "lantian",
+      "name": "藍田老師",
+      "description": "戴著藍框眼鏡，陪大家上課、點名，一起認真學習。",
+      "image": "assets/works/lantian-32044.png",
+      "imageAlt": "藍田老師，戴著藍框眼鏡、舉手提醒上課的蠟筆角色",
+      "link": "#gallery",
+      "linkText": "看看老師的教學日常　↗",
+      "gallerySeries": "藍田老師的教學日常",
       "tone": "ice",
-      "published": true,
-      "link": "",
-      "linkText": "",
-      "gallerySeries": ""
-    },
-    {
-      "id": "nuannuan",
-      "name": "暖暖",
-      "description": "♋ 巨蟹座 A 型 | 溫柔陪伴者，開朗、細心，擅長發現別人的心情。\n當朋友失落或不敢開口，她會安靜聽完，再說：「有你真好！」她喜歡分享，也會為不起眼的小進步開心鼓掌。\n口頭禪：「有你真好！」",
-      "image": "assets/nuannuan.webp",
-      "imageAlt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩",
-      "tone": "pink",
-      "published": true,
-      "link": "",
-      "linkText": "",
-      "gallerySeries": ""
+      "published": true
     },
     {
       "id": "yuanyuan",
@@ -1195,62 +836,6 @@
       "alt": "女塗塗"
     },
     {
-      "image": "assets/youyou.webp",
-      "name": "佑佑｜個人角色照",
-      "category": "人物夥伴",
-      "alt": "佑佑，藍色短髮、藍白制服與短褲，笑著揮手的蠟筆男孩",
-      "width": 1254,
-      "height": 1254
-    },
-    {
-      "image": "assets/nuannuan.webp",
-      "name": "暖暖｜個人角色照",
-      "category": "人物夥伴",
-      "alt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩",
-      "width": 1254,
-      "height": 1254
-    },
-    {
-      "image": "assets/works/kindness-20261113-cover.webp",
-      "name": "世界善良日｜擁抱地球",
-      "category": "世界善良日",
-      "alt": "藍寶與桃寶擁抱心形地球，向大家送上十一月十三日世界善良日祝福",
-      "width": 1312,
-      "height": 1199
-    },
-    {
-      "image": "assets/works/kindness-20261113-help.webp",
-      "name": "世界善良日｜互相幫忙",
-      "category": "世界善良日",
-      "alt": "藍寶拿掃把、桃寶拿畚箕，一起打掃並互相幫忙",
-      "width": 1254,
-      "height": 1254
-    },
-    {
-      "image": "assets/works/kindness-20261113-heart.webp",
-      "name": "世界善良日｜把愛心送給你",
-      "category": "世界善良日",
-      "alt": "藍寶與桃寶一起舉起紅色愛心，歡慶十一月十三日世界善良日",
-      "width": 1254,
-      "height": 1254
-    },
-    {
-      "image": "assets/works/kindness-20261113-better-world.webp",
-      "name": "世界善良日｜用善良讓世界更美好",
-      "category": "世界善良日",
-      "alt": "藍寶與桃寶擁抱微笑愛心，用善良讓世界更美好",
-      "width": 1207,
-      "height": 1303
-    },
-    {
-      "image": "assets/works/kindness-20261113-eraser.webp",
-      "name": "世界善良日｜借你橡皮擦",
-      "category": "世界善良日",
-      "alt": "教室裡桃寶把橡皮擦借給藍寶，分享一份小小的體貼",
-      "width": 1254,
-      "height": 1254
-    },
-    {
       "image": "assets/works/festival-christmas-20261225.png",
       "name": "12／25 聖誕節｜聖誕快樂",
       "category": "節慶系列",
@@ -1275,120 +860,9 @@
       "height": 1254
     }
   ],
-  "reports": [
-    {
-      "id": "grade7-idioms",
-      "label": "七年級成語篇 1–5",
-      "subtitle": "12年國教七年級常用成語",
-      "title": "聊天有梗，成語也有戲。",
-      "summary": "讓孩子在聊天過程中，就能活用成語。",
-      "body": "把書本裡看過的詞語，放進每天想說的話。從「循序漸進」的鼓勵，到「相親相愛」的心意，跟著塗塗的蠟筆表情，讓成語多一個走進日常的機會。",
-      "sections": [
-        {
-          "label": "給家長",
-          "title": "讓學過的詞，多一次被想起。",
-          "body": "成語不必只出現在課本與考卷裡。孩子想替朋友加油、送出一句祝福，或表達當下的心情時，都可以試著找一張貼切的貼圖。您也能順著問一句：「為什麼這裡適合用這個成語？」讓一句聊天，成為親子分享詞義與情境的小起點。"
-        },
-        {
-          "label": "給老師",
-          "title": "多一個讓學生願意開口的引子。",
-          "body": "上課前選一張貼圖，請學生猜意思、找情境、接一句話；下課前，再用一句造句收尾。也可以把「這張貼圖適合傳給誰？」當成討論題，讓學生比較不同用法。把熟悉的聊天語言，接回課堂裡的表達練習，讓成語教學多一個有趣的開場。"
-        },
-        {
-          "label": "給學生",
-          "title": "回得有梗，也回出你的風格。",
-          "body": "替朋友加油，想回得更有自己的風格；看到有趣的事，也想用一張貼圖接住心情。讓塗塗替聊天加點戲！可愛的蠟筆角色搭配成語表達，回覆可以有梗，也能有意思。挑選最喜歡的一輯，把熟悉的成語變成你的聊天風格。"
-        }
-      ],
-      "closing": "挑一輯喜歡的塗塗，讓下一次聊天多一點詞彙，也多一點你的風格。",
-      "buttonText": "挑選我的成語貼圖 ↓",
-      "buttonLink": "?topic=idioms#line-catalog",
-      "published": true
-    },
-    {
-      "id": "world-kindness-day-20261113",
-      "label": "2026.11.13 世界善良日",
-      "subtitle": "世界善良日・原創貼圖作品分享",
-      "title": "把善良放進聊天，讓溫暖走進日常。",
-      "summary": "一塊借出的橡皮擦、一句「我來幫你」，都能成為孩子理解善良的起點。跟著藍寶與桃寶，把想說的關心化成看得見的心意。",
-      "body": "迎接 2026 年 11 月 13 日世界善良日，塗塗老師用熟悉的蠟筆線條，畫下孩子每天都可能遇見的溫暖時刻：一起打掃、分享文具、給朋友鼓勵，也向曾經幫助自己的人說聲謝謝。\n\n善良不是一定要做一件很大的事，而是在別人需要時，多留意一點、多體諒一點。看到同學忙不過來，問一句「需要幫忙嗎？」；收到朋友的關心，回一句「謝謝你，我有感受到。」簡單的話配上有表情的貼圖，就能讓心意更容易被接住。\n\n這次分享五張世界善良日主題作品，讓藍寶與桃寶把「互相幫忙」與「願意分享」畫成可愛的日常。你可以從喜歡的畫面開始聊：這張圖讓你想到誰？最近誰幫助過你？今天，你又想把哪一份善意傳出去？\n\n傳出貼圖之後，再做一件小小的好事。把一句關心變成真實的陪伴，把一次感謝變成願意回應的行動，讓聊天裡的溫暖，也走進教室、家庭與每一天。",
-      "images": [
-        {
-          "image": "assets/works/kindness-20261113-cover.webp",
-          "alt": "藍寶與桃寶擁抱心形地球，向大家送上十一月十三日世界善良日祝福",
-          "caption": "世界善良日｜把善良放進每天的聊天。\n一句「謝謝你」，一張溫暖的貼圖，都是心意的起點。讓藍寶與桃寶陪你把關心送出去，也把善意帶進真實生活。"
-        },
-        {
-          "image": "assets/works/kindness-20261113-help.webp",
-          "alt": "藍寶拿掃把、桃寶拿畚箕，一起打掃並互相幫忙",
-          "caption": "互相幫忙｜「不用一個人忙，我們一起來！」\n打掃時一起分工、同學需要時搭把手。這張貼圖適合傳給一起完成任務的夥伴：有你幫忙，平凡的小事也變得暖暖的。"
-        },
-        {
-          "image": "assets/works/kindness-20261113-heart.webp",
-          "alt": "藍寶與桃寶一起舉起紅色愛心，歡慶十一月十三日世界善良日",
-          "caption": "世界善良日 11/13｜「今天，把一點點善良送給你。」\n把愛心傳給想感謝、想鼓勵的人。也可以多說一句：「謝謝你上次陪我，我一直記得。」讓收到的人知道，你的心意有具體的模樣。"
-        },
-        {
-          "image": "assets/works/kindness-20261113-better-world.webp",
-          "alt": "藍寶與桃寶擁抱微笑愛心，用善良讓世界更美好",
-          "caption": "用善良讓世界更美好｜「你的小小善意，我有看見！」\n為願意分享、耐心傾聽的朋友按個讚。善良不必轟轟烈烈；一份體貼被看見，就能讓彼此的日常多一點溫度。"
-        },
-        {
-          "image": "assets/works/kindness-20261113-eraser.webp",
-          "alt": "教室裡桃寶把橡皮擦借給藍寶，分享一份小小的體貼",
-          "caption": "借你橡皮擦｜「別擔心，借你用！」\n從一塊橡皮擦、一句溫柔回應開始，練習看見身邊的需要。借出時說「借你用」，收到時說「謝謝你」，用完記得歸還：讓善良有來有往，也照顧彼此的界線。"
-        }
-      ],
-      "sections": [
-        {
-          "label": "給家長",
-          "title": "從「要善良」，聊到「我可以怎麼做」。",
-          "body": "與其只提醒孩子要有禮貌，不妨一起看看「借你橡皮擦」：對方為什麼需要幫忙？我們可以怎麼問？如果自己正在使用，又能如何溫柔說明？從一個熟悉的小畫面開始，陪孩子練習表達感謝、主動關心，也尊重自己的意願與別人的感受。今晚可以一起分享：「今天，有哪一件小事讓你覺得很溫暖？」"
-        },
-        {
-          "label": "給老師",
-          "title": "善用圖片，變成一堂有對話的善意練習。",
-          "body": "班會或晨光時間，選一張作品，邀請學生說出「我看見什麼、我會怎麼說、我能怎麼做」。用「互相幫忙」討論打掃分工，用「借你橡皮擦」練習借用與歸還，再請每個人寫下一句想送給同學的感謝。也可以設定一週善意小任務，以自願分享的方式記錄體貼時刻，讓品格教育從生活情境開場。"
-        },
-        {
-          "label": "給學生",
-          "title": "可愛地說謝謝，帥氣地伸出援手。",
-          "body": "朋友幫你補上筆記、陪你度過低潮，想說謝謝卻一時找不到話？讓藍寶與桃寶替你的回覆加一點表情，再寫上屬於你們的那一句。可以暖暖地說「謝謝你陪我」，也可以爽快地說「我們一起來！」把喜歡的作品分享給朋友，讓聊天更有你的風格，也讓身邊的人知道：你的好，我有放在心上。"
-        }
-      ],
-      "closing": "11/13，把善良傳出去；接下來的每一天，也留一點溫柔給自己與身邊的人。你今天想先謝謝誰？",
-      "buttonText": "世界善良日的 LINE 貼圖 →",
-      "buttonLink": "https://store.line.me/stickershop/product/37675366/zh-Hant",
-      "published": true,
-      "showImages": false
-    }
-  ],
-  "imageAssets": [
-    {
-      "image": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c.webp",
-      "width": 682,
-      "height": 930,
-      "mobile": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c-mobile.webp",
-      "mobileWidth": 469,
-      "mobileHeight": 640
-    },
-    {
-      "image": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6.webp",
-      "width": 677,
-      "height": 930,
-      "mobile": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6-mobile.webp",
-      "mobileWidth": 466,
-      "mobileHeight": 640
-    },
-    {
-      "image": "assets/works/upload-7e40ab62978208dc83257168b6d075fa02b33c6597c6bac7758a7811d9076d13.webp",
-      "width": 1312,
-      "height": 1199,
-      "mobile": "assets/works/upload-7e40ab62978208dc83257168b6d075fa02b33c6597c6bac7758a7811d9076d13-mobile.webp",
-      "mobileWidth": 640,
-      "mobileHeight": 585
-    }
-  ],
+  "characterRevision": "20261105-teacher-v2",
+  "catalogRevision": "20261105-line-christmas-v1",
+  "festivalRevision": "20261105-december-single-v1",
   "coloringBooks": [
     {
       "id": "friends-daily",
@@ -1784,7 +1258,22 @@
     }
   ],
   "coloringRevision": "20261104-nine-pages-v1",
-  "characterRevision": "20261105-teacher-v2",
-  "catalogRevision": "20261105-line-christmas-v1",
-  "festivalRevision": "20261105-december-single-v1"
+  "imageAssets": [
+    {
+      "image": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c.webp",
+      "width": 682,
+      "height": 930,
+      "mobile": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c-mobile.webp",
+      "mobileWidth": 469,
+      "mobileHeight": 640
+    },
+    {
+      "image": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6.webp",
+      "width": 677,
+      "height": 930,
+      "mobile": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6-mobile.webp",
+      "mobileWidth": 466,
+      "mobileHeight": 640
+    }
+  ]
 }
