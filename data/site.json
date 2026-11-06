@@ -644,7 +644,7 @@
     {
       "id": "world-childrens-day-20261120",
       "title": "塗塗的日常",
-      "subtitle": "世界兒童節",
+      "subtitle": "11/20 世界兒童節",
       "holidayName": "世界兒童節",
       "eventDate": "2026-11-20",
       "description": "和塗塗一起抱抱地球，祝每個孩子世界兒童節快樂！",
@@ -655,7 +655,13 @@
       "buttonLink": "https://store.line.me/stickershop/product/37390494/zh-Hant",
       "workIds": [],
       "coverWorkId": "",
-      "published": true
+      "published": true,
+      "catalogTags": {
+        "topic": "daily",
+        "characters": [],
+        "holidays": [],
+        "situations": []
+      }
     },
     {
       "id": "line-product-37513322",
@@ -725,7 +731,7 @@
         ]
       },
       "id": "line-product-37531576",
-      "title": "塗塗的日常 萬聖節不給糖就搗蛋篇",
+      "title": "10/31 萬聖節",
       "subtitle": "塗塗的日常 萬聖節不給糖就搗蛋篇",
       "holidayName": "萬聖節",
       "eventDate": "2026-10-31",
@@ -755,7 +761,7 @@
       },
       "id": "line-product-37496417",
       "title": "塗塗的日常 感恩節篇",
-      "subtitle": "塗塗的日常 感恩節篇",
+      "subtitle": "11/26 感恩節",
       "holidayName": "感恩節",
       "eventDate": "2026-11-26",
       "description": "塗塗男孩張開雙手，在南瓜與秋葉旁送上感恩節祝福。木牌上的「幸福」與「感恩節」字樣，搭配愛心與溫暖秋色，把想說的感謝傳給身邊的人。",
