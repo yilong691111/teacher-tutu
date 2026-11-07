@@ -1287,6 +1287,55 @@ window.TUTU_BOOTSTRAP = {
         }
       ],
       "published": true
+    },
+    {
+      "id": "tutu-teacher",
+      "title": "塗塗老師｜快樂陪伴著色本",
+      "category": "人物篇",
+      "description": "9 頁 A4 黑白著色本，跟著塗塗老師畫畫、閱讀、種花、做點心、雨天散步、野餐、放紙飛機、玩音樂與看星星。粗線條、大面積留白，每頁附一句溫柔引導，可單頁列印。",
+      "image": "assets/works/coloring-tutu-teacher-cover-20261107.png",
+      "pdf": "assets/coloring/upload-521c7d826f7cdb7ab6ac0965b9ca9bd1d45668e1e51feeeffbb464fb72895da6.pdf",
+      "pageCount": 9,
+      "fileSize": 12631889,
+      "pages": [
+        {
+          "id": "tutu-teacher-p01",
+          "title": "開心畫畫"
+        },
+        {
+          "id": "tutu-teacher-p02",
+          "title": "閱讀小宇宙"
+        },
+        {
+          "id": "tutu-teacher-p03",
+          "title": "種下小希望"
+        },
+        {
+          "id": "tutu-teacher-p04",
+          "title": "愛心小點心"
+        },
+        {
+          "id": "tutu-teacher-p05",
+          "title": "雨天的陪伴"
+        },
+        {
+          "id": "tutu-teacher-p06",
+          "title": "一起去野餐"
+        },
+        {
+          "id": "tutu-teacher-p07",
+          "title": "紙飛機出發"
+        },
+        {
+          "id": "tutu-teacher-p08",
+          "title": "快樂小樂章"
+        },
+        {
+          "id": "tutu-teacher-p09",
+          "title": "星空說晚安"
+        }
+      ],
+      "published": true
     }
   ],
   "coloringRevision": "20261104-nine-pages-v1",
@@ -1309,5 +1358,6 @@ window.TUTU_BOOTSTRAP = {
     }
   ],
   "festivalCaptionRevision": "20261106-image-copy-v1",
-  "festivalDateRevision": "20261106-year-order-v1"
+  "festivalDateRevision": "20261106-year-order-v1",
+  "coloringAdditionsRevision": "20261107-tutu-teacher-v1"
 };

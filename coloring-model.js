@@ -7,7 +7,7 @@
  const validImage=value=>typeof value==='string'&&/^assets\/(?:works\/[\w-]+|[\w-]+)\.(?:webp|png|jpe?g)$/.test(value);
  const books=site=>Array.isArray(site?.coloringBooks)?site.coloringBooks:[];
  const visible=site=>books(site).filter(b=>b.published!==false);
- function syncPublished(local,published){
+ function syncNinePageEdition(local,published){
   if(!local||!release||published?.coloringRevision!==release.version||local.coloringRevision===release.version||!Array.isArray(local.coloringBooks))return local;
   const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
   const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
@@ -22,6 +22,15 @@
    return next;
   });
   return {...local,coloringBooks:updated,coloringRevision:release.version};
+ }
+ function syncPublished(local,published){
+  local=syncNinePageEdition(local,published);
+  if(!local||!Array.isArray(local.coloringBooks)||!release?.additionsVersion||published?.coloringAdditionsRevision!==release.additionsVersion||local.coloringAdditionsRevision===release.additionsVersion)return local;
+  const known=new Set(local.coloringBooks.map(book=>book.id));
+  const additions=books(published).filter(book=>release.addedBookIds.includes(book.id)&&!known.has(book.id)).map(book=>structuredClone(book));
+  // Adopt only this release's new books once. Preserve custom order, edits,
+  // existing deletions, and a later intentional removal of the new book.
+  return {...local,coloringBooks:[...local.coloringBooks,...additions],coloringAdditionsRevision:release.additionsVersion};
  }
  function validate(site){
   if(site.coloringBooks===undefined)return site;

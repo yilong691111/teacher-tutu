@@ -108,7 +108,7 @@ test('pre-coloring drafts recover the published books without losing unrelated e
  const original=structuredClone(local),remote={data:data(),baseBlob:'latest'};
  remote.data.coloringBooks[0].pages=[{id:'first',title:'第一頁'},{id:'second',title:'第二頁'}];remote.data.coloringBooks[0].pageCount=2;
  const result=cms.resolveDraft(local,remote,{baseBlob:'before-coloring'});
- assert.equal(result.data.coloringBooks.length,8);
+ assert.equal(result.data.coloringBooks.length,remote.data.coloringBooks.length);
  assert.equal(result.data.coloringBooks[0].title,'塗塗的快樂日常｜全體人物著色本');
  assert.equal(result.data.news[0].title,'保留我的未發布公告');
  assert.equal(result.needsAdoption,true);assert.equal(result.baseBlob,null);assert.equal(result.dirty,true);
@@ -118,7 +118,7 @@ test('pre-coloring drafts recover the published books without losing unrelated e
 test('a draft that only lacks the new coloring collection becomes current after recovery',()=>{
  const local=data();delete local.coloringBooks;
  const result=cms.resolveDraft(local,{data:data(),baseBlob:'latest'},{baseBlob:'old'});
- assert.equal(result.data.coloringBooks.length,8);assert.equal(result.dirty,false);
+ assert.equal(result.data.coloringBooks.length,data().coloringBooks.length);assert.equal(result.dirty,false);
  assert.equal(result.needsAdoption,false);assert.equal(result.baseBlob,'latest');
 });
 test('book edits, reordering and an explicitly emptied coloring collection survive reconciliation',()=>{

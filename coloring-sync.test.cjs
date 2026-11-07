@@ -36,3 +36,19 @@ test('the upgrade runs once and a pristine old draft becomes the published editi
  result.data.coloringBooks[1].title='新版之後的修改';result.data.coloringBooks[1].pdf=release.previousBooks[1].pdf;
  assert.deepEqual(cms.hydrateDraft(result.data,published),result.data);
 });
+
+test('new teacher book reaches an older draft without restoring deleted books or discarding edits',()=>{
+ const {before,published}=fixture();before.coloringRevision=release.version;published.coloringAdditionsRevision=release.additionsVersion;
+ before.coloringBooks=before.coloringBooks.slice(2).reverse();before.news[0].title='保留未發布的修改';
+ const teacher={...structuredClone(published.coloringBooks[0]),id:'tutu-teacher',title:'塗塗老師｜九頁著色本'};published.coloringBooks.push(teacher);
+ const oldIds=before.coloringBooks.map(b=>b.id),original=structuredClone(before),result=cms.hydrateDraft(before,published);
+ assert.deepEqual(result.coloringBooks.map(b=>b.id),[...oldIds,'tutu-teacher']);assert.deepEqual(result.coloringBooks.at(-1),teacher);
+ assert.equal(result.news[0].title,'保留未發布的修改');assert.equal(result.coloringAdditionsRevision,release.additionsVersion);assert.deepEqual(before,original);
+});
+test('a customized teacher book survives adoption and its later deletion remains intentional',()=>{
+ const {before,published}=fixture();before.coloringRevision=release.version;published.coloringAdditionsRevision=release.additionsVersion;
+ const teacher={...structuredClone(published.coloringBooks[0]),id:'tutu-teacher',title:'官網的版本'};published.coloringBooks.push(teacher);
+ const custom={...structuredClone(teacher),title:'我的標題',published:false};custom.pages.reverse();before.coloringBooks.unshift(custom);
+ const result=cms.hydrateDraft(before,published);assert.deepEqual(result.coloringBooks[0],custom);assert.equal(result.coloringBooks.filter(b=>b.id==='tutu-teacher').length,1);
+ result.coloringBooks=result.coloringBooks.filter(b=>b.id!=='tutu-teacher');assert.deepEqual(cms.hydrateDraft(result,published),result);
+});
