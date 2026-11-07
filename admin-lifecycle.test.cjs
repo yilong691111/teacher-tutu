@@ -26,6 +26,14 @@ function dom(){
  return {el,elements};
 }
 function memoryStorage(){const disk=new Map();return {get length(){return disk.size},key:i=>[...disk.keys()][i]??null,getItem:k=>disk.get(k)??null,setItem:(k,v)=>disk.set(k,v),removeItem:k=>disk.delete(k)};}
+test('single-product top and bottom controls persist the complete order including hidden products',()=>{
+ const {el}=dom(),site={lineProducts:[{id:'a',title:'A'},{id:'b',title:'B',published:false},{id:'c',title:'C'},{id:'d',title:'D'}],characters:[],festivals:[]},saved=[];
+ const context={window:{TutuContent:models,TutuFestivals:require('./festival-model.js'),TutuGitHub:{validateData(){}}},$:s=>el(s.slice(1)),site,URL,Option:function(){},clean:String,safeImg:String,saveLocal:()=>{saved.push(structuredClone(site));return true},toast(message,error){if(error)throw Error(message)}};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/admin-collections.js','utf8'),context);
+ const click=(id,action)=>el('products-table').handlers.click({target:{closest:()=>({dataset:{collection:'products',action,id},disabled:false})}});
+ click('c','top');assert.deepEqual(saved[0].lineProducts.map(p=>p.id),['c','a','b','d']);
+ click('b','bottom');assert.deepEqual(saved[1].lineProducts.map(p=>p.id),['c','a','d','b']);
+});
 function draftHarness(compressImage){
  const {el}=dom(),events={},windowEvents={},storage=memoryStorage(),toasts=[];
  el('work-id').value='w1';el('work-existing-image').value='assets/works/009.webp';

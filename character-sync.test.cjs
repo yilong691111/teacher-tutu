@@ -7,6 +7,18 @@ const aunt={id:'yuanyuan',name:'圓圓姨',image:'assets/works/yuanyuan-aunt-202
 const teacher={id:'tutu-teacher',name:'塗塗老師',image:'assets/works/tutu-teacher-20261105.png',published:true};
 const published=()=>({settings:{brand:'塗塗'},gallery:[],news:[],characters:[old,aunt,teacher],characterRevision:revision});
 const teacherRelease=()=>({...published(),characterRevision:'20261105-teacher-v2',mediaLibrary:[{image:teacher.image,name:'塗塗老師｜人物角色',category:'人物夥伴'}]});
+test('principal and returning friends reach older drafts once without replacing edits or other removed characters',()=>{
+ const principal={id:'malan-principal',name:'瑪藍校長',image:'assets/works/malan-principal-20261108.png'},boy={id:'youyou',name:'佑佑',image:'assets/youyou.webp'},girl={id:'nuannuan',name:'暖暖',image:'assets/nuannuan.webp'};
+ const remote={...teacherRelease(),characters:[old,aunt,teacher,principal,boy,girl],characterRevision:'20261108-principal-friends-v1',mediaLibrary:[principal,boy,girl].map(c=>({image:c.image,name:c.name,category:'人物夥伴'}))};
+ const custom={...boy,name:'我的佑佑',published:false},local={...teacherRelease(),characters:[old,custom],news:[{id:'unfinished'}],mediaLibrary:[{image:boy.image,name:'保留素材名',deleted:true}]};
+ const result=cms.hydrateDraft(local,remote);
+ assert.deepEqual(result.characters.map(c=>c.id),['boy','youyou','malan-principal','nuannuan']);
+ assert.deepEqual(result.characters[1],custom);assert.deepEqual(result.news,local.news);
+ assert.equal(result.mediaLibrary[0].name,'保留素材名');assert.equal(result.mediaLibrary[0].deleted,true);
+ assert.equal(result.mediaLibrary.filter(x=>x.image===principal.image).length,1);
+ result.characters=result.characters.filter(c=>c.id!=='malan-principal');
+ assert.deepEqual(cms.hydrateDraft(result,remote),result);
+});
 test('teacher release reaches drafts from the prior release without restoring other removed partners',()=>{
  const local={...published(),characters:[{...old,name:'草稿藍寶'}],mediaLibrary:[],news:[{id:'draft'}]};
  const result=cms.hydrateDraft(local,teacherRelease());

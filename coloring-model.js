@@ -27,7 +27,9 @@
   local=syncNinePageEdition(local,published);
   if(!local||!Array.isArray(local.coloringBooks)||!release?.additionsVersion||published?.coloringAdditionsRevision!==release.additionsVersion||local.coloringAdditionsRevision===release.additionsVersion)return local;
   const known=new Set(local.coloringBooks.map(book=>book.id));
-  const additions=books(published).filter(book=>release.addedBookIds.includes(book.id)&&!known.has(book.id)).map(book=>structuredClone(book));
+  const releases=release.additionReleases||[{version:release.additionsVersion,ids:release.addedBookIds}],seen=releases.findIndex(r=>r.version===local.coloringAdditionsRevision);
+  const introduced=new Set(releases.slice(seen+1).flatMap(r=>r.ids));
+  const additions=books(published).filter(book=>introduced.has(book.id)&&!known.has(book.id)).map(book=>structuredClone(book));
   // Adopt only this release's new books once. Preserve custom order, edits,
   // existing deletions, and a later intentional removal of the new book.
   return {...local,coloringBooks:[...local.coloringBooks,...additions],coloringAdditionsRevision:release.additionsVersion};

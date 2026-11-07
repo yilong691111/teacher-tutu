@@ -11,7 +11,7 @@
   const select=$('#'+prefix+'-gallery-image');select.replaceChildren(new Option('保留目前圖片',''));
   (site.gallery||[]).filter(w=>w.published!==false).forEach(w=>select.add(new Option(w.title,w.id)));
  }
- function actions(kind,item,index,length,disabled=false){const name=clean(item.title||item.name);return `<div class="collection-actions"><button type="button" data-collection="${kind}" data-action="up" data-id="${clean(item.id)}" aria-label="上移 ${name}" ${index===0||disabled?'disabled':''}>↑</button><button type="button" data-collection="${kind}" data-action="down" data-id="${clean(item.id)}" aria-label="下移 ${name}" ${index===length-1||disabled?'disabled':''}>↓</button><button type="button" data-collection="${kind}" data-action="edit" data-id="${clean(item.id)}">編輯</button><button type="button" data-collection="${kind}" data-action="delete" data-id="${clean(item.id)}">刪除</button></div>`;}
+ function actions(kind,item,index,length,disabled=false){const name=clean(item.title||item.name);return `<div class="collection-actions">${kind==='products'?`<button type="button" data-collection="products" data-action="top" data-id="${clean(item.id)}" aria-label="移至最上方 ${name}" ${index===0?'disabled':''}>置頂</button><button type="button" data-collection="products" data-action="bottom" data-id="${clean(item.id)}" aria-label="移至最下方 ${name}" ${index===length-1?'disabled':''}>置底</button>`:''}<button type="button" data-collection="${kind}" data-action="up" data-id="${clean(item.id)}" aria-label="上移 ${name}" ${index===0||disabled?'disabled':''}>↑</button><button type="button" data-collection="${kind}" data-action="down" data-id="${clean(item.id)}" aria-label="下移 ${name}" ${index===length-1||disabled?'disabled':''}>↓</button><button type="button" data-collection="${kind}" data-action="edit" data-id="${clean(item.id)}">編輯</button><button type="button" data-collection="${kind}" data-action="delete" data-id="${clean(item.id)}">刪除</button></div>`;}
  function renderProducts(){
   if(window.TutuBulkAdmin)return window.TutuBulkAdmin.renderProducts();
   const list=site.lineProducts||[],query=$('#admin-product-search').value.trim().toLocaleLowerCase();
@@ -100,7 +100,8 @@
    if(action==='delete'){
     const item=list.find(x=>x.id===id),linked=key==='lineProducts'&&(site.festivals||[]).some(f=>f.id==='line-product-'+id);if(!item||!confirm('確定從官網草稿刪除「'+(item.title||item.name)+'」？'+(linked?'同步建立的節慶系列也會刪除。':'')+'發布後才會更新官網。'))return;
     persist(key,list.filter(x=>x.id!==id));
-   }else persist(key,model.moveItem(list,id,action==='up'?-1:1));
+   }else if(['up','down','top','bottom'].includes(action))persist(key,model.moveItem(list,id,action==='up'?-1:action==='down'?1:action));
+   else return;
    render();toast(action==='delete'?'已從草稿刪除。':'展示順序已儲存為草稿。');
   }catch(err){toast(err.message,true);}
  }

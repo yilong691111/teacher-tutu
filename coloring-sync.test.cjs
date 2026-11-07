@@ -2,6 +2,16 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const cms=require('./github-cms.js');
 const release=require('./coloring-release.js');
+test('principal book reaches a teacher-era draft without restoring an intentionally removed teacher book',()=>{
+ const local={settings:{},gallery:[],news:[],coloringRevision:release.version,coloringBooks:[{id:'custom',title:'我的書'}],coloringAdditionsRevision:'20261107-tutu-teacher-v1'};
+ const principal={id:'malan-principal',title:'瑪藍校長｜暖心校園著色本',pages:[{id:'p1',title:'校門口的早安'}]},teacher={id:'tutu-teacher',title:'塗塗老師'};
+ const remote={...local,coloringBooks:[teacher,principal],coloringAdditionsRevision:'20261108-malan-principal-v1'};
+ const result=cms.hydrateDraft(local,remote);
+ assert.deepEqual(result.coloringBooks.map(b=>b.id),['custom','malan-principal']);
+ result.coloringBooks[1].title='我的校長著色本';result.coloringBooks[1].published=false;
+ assert.deepEqual(cms.hydrateDraft(result,remote),result);
+ result.coloringBooks.pop();assert.deepEqual(cms.hydrateDraft(result,remote),result);
+});
 function fixture(){
  const before={settings:{brand:'塗塗'},gallery:[],news:[{id:'n1',title:'原公告'}],coloringBooks:structuredClone(release.previousBooks)};
  const published={...structuredClone(before),coloringRevision:release.version};

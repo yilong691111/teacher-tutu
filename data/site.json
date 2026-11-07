@@ -852,6 +852,42 @@
       "link": "",
       "linkText": "",
       "gallerySeries": ""
+    },
+    {
+      "id": "malan-principal",
+      "name": "瑪藍校長",
+      "description": "暖心校園的陪伴者\n微胖身形、藍色上梳短髮與下巴小鬍子，穿著圓點裝飾外套。瑪藍校長喜歡聽孩子說話，也陪大家探索校園，為每一份努力鼓掌。\n口頭禪：「慢慢說，校長陪你一起想。」",
+      "image": "assets/works/malan-principal-20261108.png",
+      "imageAlt": "瑪藍校長，微胖男性、藍色上梳短髮、小鬍子與圓點裝飾外套，拿著愛心資料夾比讚的蠟筆角色",
+      "tone": "ice",
+      "published": true,
+      "link": "https://yilong691111.github.io/teacher-tutu/assets/coloring/upload-bc63545d9005938cfc4108a74563407ae63ac2f5f5316590f5ca5be5153b303e.pdf",
+      "linkText": "下載九頁著色本　↗",
+      "gallerySeries": ""
+    },
+    {
+      "id": "youyou",
+      "name": "佑佑",
+      "description": "♈ 牡羊座  O 型 | 熱心行動派，勇敢、直率，喜歡幫助朋友。\n看到同學搬不動書、遊戲少了一位隊友，他總會笑著說：「我來幫你！」偶爾太心急，還沒聽完就衝出去；但他也在練習先問一句：「你需要什麼？」對佑佑來說，善良就是把關心變成小小的行動，陪大家一起試、一起進步。口頭禪：「我來幫你！」",
+      "image": "assets/youyou.webp",
+      "imageAlt": "佑佑，藍色短髮、藍白制服與短褲，笑著揮手的蠟筆男孩",
+      "tone": "ice",
+      "published": true,
+      "link": "https://yilong691111.github.io/teacher-tutu/assets/coloring/upload-d311789f82d2a96e65613455997d07b2d4740972ac75403e75cbbb7419a04e1f.pdf",
+      "linkText": "下載九頁著色本　↗",
+      "gallerySeries": ""
+    },
+    {
+      "id": "nuannuan",
+      "name": "暖暖",
+      "description": "♋ 巨蟹座 A 型 | 溫柔陪伴者，開朗、細心，擅長發現別人的心情。\n當朋友失落或不敢開口，她會安靜聽完，再說：「有你真好！」她喜歡分享，也會為不起眼的小進步開心鼓掌。\n口頭禪：「有你真好！」",
+      "image": "assets/nuannuan.webp",
+      "imageAlt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩",
+      "tone": "pink",
+      "published": true,
+      "link": "https://yilong691111.github.io/teacher-tutu/assets/coloring/upload-7dc1fa2c8348e2076f0cd1af61968407a8a014071517ca607d8550157a0bf316.pdf",
+      "linkText": "下載九頁著色本　↗",
+      "gallerySeries": ""
     }
   ],
   "mediaLibrary": [
@@ -890,9 +926,81 @@
       "alt": "塗塗老師，藍色短髮、藍框眼鏡與藍色背心，拿著愛心畫冊揮手的蠟筆男性角色",
       "width": 1254,
       "height": 1254
+    },
+    {
+      "image": "assets/works/malan-principal-20261108.png",
+      "name": "瑪藍校長｜人物角色",
+      "category": "人物夥伴",
+      "alt": "瑪藍校長，微胖男性、藍色上梳短髮、小鬍子與圓點裝飾外套，拿著愛心資料夾比讚的蠟筆角色"
+    },
+    {
+      "image": "assets/youyou.webp",
+      "name": "佑佑｜人物角色",
+      "category": "人物夥伴",
+      "alt": "佑佑，藍色短髮、藍白制服與短褲，笑著揮手的蠟筆男孩"
+    },
+    {
+      "image": "assets/nuannuan.webp",
+      "name": "暖暖｜人物角色",
+      "category": "人物夥伴",
+      "alt": "暖暖，藍色丸子頭搭配紅蝴蝶結、藍白制服與百褶裙，笑著揮手的蠟筆女孩"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p01-20261108.png",
+      "name": "瑪藍校長著色本｜01 校門口的早安",
+      "category": "著色本素材",
+      "alt": "校門口的早安，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p02-20261108.png",
+      "name": "瑪藍校長著色本｜02 故事裡的小星星",
+      "category": "著色本素材",
+      "alt": "故事裡的小星星，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p03-20261108.png",
+      "name": "瑪藍校長著色本｜03 一起種下希望",
+      "category": "著色本素材",
+      "alt": "一起種下希望，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p04-20261108.png",
+      "name": "瑪藍校長著色本｜04 快樂運動日",
+      "category": "著色本素材",
+      "alt": "快樂運動日，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p05-20261108.png",
+      "name": "瑪藍校長著色本｜05 聽你說說心情",
+      "category": "著色本素材",
+      "alt": "聽你說說心情，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p06-20261108.png",
+      "name": "瑪藍校長著色本｜06 唱出好心情",
+      "category": "著色本素材",
+      "alt": "唱出好心情，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p07-20261108.png",
+      "name": "瑪藍校長著色本｜07 校園小小探索家",
+      "category": "著色本素材",
+      "alt": "校園小小探索家，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p08-20261108.png",
+      "name": "瑪藍校長著色本｜08 每份努力都發光",
+      "category": "著色本素材",
+      "alt": "每份努力都發光，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-malan-principal-p09-20261108.png",
+      "name": "瑪藍校長著色本｜09 掛上我的小夢想",
+      "category": "著色本素材",
+      "alt": "掛上我的小夢想，瑪藍校長黑白著色圖"
     }
   ],
-  "characterRevision": "20261105-teacher-v2",
+  "characterRevision": "20261108-principal-friends-v1",
   "catalogRevision": "20261105-line-christmas-v1",
   "festivalRevision": "20261105-december-single-v1",
   "coloringBooks": [
@@ -1336,6 +1444,55 @@
         }
       ],
       "published": true
+    },
+    {
+      "id": "malan-principal",
+      "title": "瑪藍校長｜暖心校園著色本",
+      "category": "人物篇",
+      "description": "9 頁 A4 黑白著色本，跟著瑪藍校長迎接上學、分享故事、種植、運動、聆聽心情、合唱、探索校園、鼓勵努力與掛上夢想。粗線條、大面積留白，每頁附一句暖心引導，可單頁列印。",
+      "image": "assets/works/coloring-malan-principal-cover-20261108.png",
+      "pdf": "assets/coloring/upload-bc63545d9005938cfc4108a74563407ae63ac2f5f5316590f5ca5be5153b303e.pdf",
+      "pageCount": 9,
+      "fileSize": 12979465,
+      "pages": [
+        {
+          "id": "malan-principal-p01",
+          "title": "校門口的早安"
+        },
+        {
+          "id": "malan-principal-p02",
+          "title": "故事裡的小星星"
+        },
+        {
+          "id": "malan-principal-p03",
+          "title": "一起種下希望"
+        },
+        {
+          "id": "malan-principal-p04",
+          "title": "快樂運動日"
+        },
+        {
+          "id": "malan-principal-p05",
+          "title": "聽你說說心情"
+        },
+        {
+          "id": "malan-principal-p06",
+          "title": "唱出好心情"
+        },
+        {
+          "id": "malan-principal-p07",
+          "title": "校園小小探索家"
+        },
+        {
+          "id": "malan-principal-p08",
+          "title": "每份努力都發光"
+        },
+        {
+          "id": "malan-principal-p09",
+          "title": "掛上我的小夢想"
+        }
+      ],
+      "published": true
     }
   ],
   "coloringRevision": "20261104-nine-pages-v1",
@@ -1359,5 +1516,5 @@
   ],
   "festivalCaptionRevision": "20261106-image-copy-v1",
   "festivalDateRevision": "20261106-year-order-v1",
-  "coloringAdditionsRevision": "20261107-tutu-teacher-v1"
+  "coloringAdditionsRevision": "20261108-malan-principal-v1"
 }

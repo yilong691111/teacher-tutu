@@ -57,6 +57,16 @@ test('moving an item changes one position without dropping hidden records or mut
  assert.throws(()=>m.moveItem(old,'a',2));
 });
 
+test('a product can move directly to either end while other products retain their order',()=>{
+ const rows=[{id:'a'},{id:'b',published:false},{id:'c'},{id:'d'}];
+ assert.deepEqual(m.moveItem(rows,'c','top').map(x=>x.id),['c','a','b','d']);
+ assert.deepEqual(m.moveItem(rows,'b','bottom').map(x=>x.id),['a','c','d','b']);
+ assert.deepEqual(m.moveItem(rows,'a','top'),rows);
+ assert.deepEqual(m.moveItem(rows,'d','bottom'),rows);
+ assert.deepEqual(m.moveItem(rows,'missing','top'),rows);
+ assert.deepEqual(rows.map(x=>x.id),['a','b','c','d']);
+});
+
 test('collection validation accepts current content and rejects unsafe or malformed new fields',()=>{
  assert.equal(typeof m.validateCollections,'function');assert.doesNotThrow(()=>m.validateCollections(data()));
  for(const patch of [{image:'https://example.com/tracker.png'},{id:'12345678',url:'https://store.line.me/stickershop/product/22222222/zh-Hant'},{published:'false'},{title:''}]){

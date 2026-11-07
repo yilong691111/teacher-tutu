@@ -13,14 +13,14 @@
  // Explicit empty collections and subsequent removals remain intentional edits.
  function syncPublishedCharacters(local,published){
   const revision=published?.characterRevision;
-  const releases={'20261105-partners-v1':['yuanyuan','tutu-teacher'],'20261105-teacher-v2':['tutu-teacher']};
+  const releases={'20261105-partners-v1':['yuanyuan','tutu-teacher'],'20261105-teacher-v2':['tutu-teacher'],'20261108-principal-friends-v1':['malan-principal','youyou','nuannuan']};
   if(!local||!releases[revision]||local.characterRevision===revision||!Array.isArray(published.characters))return local;
   const introduced=new Set(releases[revision]);
-  if(revision==='20261105-teacher-v2'){
-   const image=published.characters.find(c=>c.id==='tutu-teacher')?.image;
+  if(revision==='20261105-teacher-v2'||revision==='20261108-principal-friends-v1'){
+   const images=new Set(published.characters.filter(c=>introduced.has(c.id)).map(c=>c.image));
    const current=local.mediaLibrary||[];
    if(Array.isArray(current)&&Array.isArray(published.mediaLibrary)){
-    const entries=published.mediaLibrary.filter(m=>m.image===image&&!current.some(c=>c.image===m.image));
+    const entries=published.mediaLibrary.filter(m=>images.has(m.image)&&!current.some(c=>c.image===m.image));
     if(entries.length)local={...local,mediaLibrary:[...current,...structuredClone(entries)]};
    }
   }
@@ -112,8 +112,9 @@
   return upsert(list,originalId,fields,validateCharacter,'角色');
  }
  function moveItem(list,id,direction){
-  if(direction!==1&&direction!==-1)throw new Error('排序方向不正確。');const result=list.slice(),index=result.findIndex(x=>x.id===id),target=index+direction;
-  if(index>=0&&target>=0&&target<result.length)[result[index],result[target]]=[result[target],result[index]];return result;
+  if(![1,-1,'top','bottom'].includes(direction))throw new Error('排序方向不正確。');
+  const result=list.slice(),index=result.findIndex(x=>x.id===id),target=direction==='top'?0:direction==='bottom'?result.length-1:index+direction;
+  if(index>=0&&target>=0&&target<result.length)result.splice(target,0,result.splice(index,1)[0]);return result;
  }
  return {defaultCharacters,charactersFor,syncPublishedCharacters,syncPublishedCatalog,safeImage,safeLink,productFromUrl,saveProduct,saveCharacter,moveItem,validateCollections};
 });
