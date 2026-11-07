@@ -998,6 +998,60 @@
       "name": "瑪藍校長著色本｜09 掛上我的小夢想",
       "category": "著色本素材",
       "alt": "掛上我的小夢想，瑪藍校長黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p01-20261108.png",
+      "name": "合集第二本｜01 友情集合日",
+      "category": "著色本素材",
+      "alt": "友情集合日，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p02-20261108.png",
+      "name": "合集第二本｜02 一起尋找冒險地圖",
+      "category": "著色本素材",
+      "alt": "一起尋找冒險地圖，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p03-20261108.png",
+      "name": "合集第二本｜03 整理玩具小隊",
+      "category": "著色本素材",
+      "alt": "整理玩具小隊，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p04-20261108.png",
+      "name": "合集第二本｜04 彩繪夢想風箏",
+      "category": "著色本素材",
+      "alt": "彩繪夢想風箏，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p05-20261108.png",
+      "name": "合集第二本｜05 星空小劇場",
+      "category": "著色本素材",
+      "alt": "星空小劇場，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p06-20261108.png",
+      "name": "合集第二本｜06 小小愛心郵局",
+      "category": "著色本素材",
+      "alt": "小小愛心郵局，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p07-20261108.png",
+      "name": "合集第二本｜07 照顧動物好朋友",
+      "category": "著色本素材",
+      "alt": "照顧動物好朋友，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p08-20261108.png",
+      "name": "合集第二本｜08 積木橋的挑戰",
+      "category": "著色本素材",
+      "alt": "積木橋的挑戰，塗塗全體人物合集第二本黑白著色圖"
+    },
+    {
+      "image": "assets/works/coloring-friends-adventure2-p09-20261108.png",
+      "name": "合集第二本｜09 彩虹下的友情派對",
+      "category": "著色本素材",
+      "alt": "彩虹下的友情派對，塗塗全體人物合集第二本黑白著色圖"
     }
   ],
   "characterRevision": "20261108-principal-friends-v1",
@@ -1493,6 +1547,55 @@
         }
       ],
       "published": true
+    },
+    {
+      "id": "friends-adventure-2",
+      "title": "塗塗的友情小冒險｜全體人物著色本 2",
+      "category": "合集篇",
+      "description": "第二本全體人物合集，9 頁 A4 黑白著色本。藍寶、桃寶、小藍姐姐、藍田老師、圓圓姨、塗塗老師、瑪藍校長、佑佑與暖暖一起集合、找地圖、整理玩具、做風箏、演手偶劇、寄愛心卡、照顧小狗、搭積木橋與分享友情。粗線條、大面積留白，每頁附中文標題與引導句，可單頁列印。",
+      "image": "assets/works/coloring-friends-adventure2-cover-20261108.png",
+      "pdf": "assets/coloring/upload-08b3c09feeedd4d3bcfa828eb128e2dded048cdeea910156caca4f5e441ddbd5.pdf",
+      "pageCount": 9,
+      "fileSize": 15192093,
+      "pages": [
+        {
+          "id": "friends-adventure-2-p01",
+          "title": "友情集合日"
+        },
+        {
+          "id": "friends-adventure-2-p02",
+          "title": "一起尋找冒險地圖"
+        },
+        {
+          "id": "friends-adventure-2-p03",
+          "title": "整理玩具小隊"
+        },
+        {
+          "id": "friends-adventure-2-p04",
+          "title": "彩繪夢想風箏"
+        },
+        {
+          "id": "friends-adventure-2-p05",
+          "title": "星空小劇場"
+        },
+        {
+          "id": "friends-adventure-2-p06",
+          "title": "小小愛心郵局"
+        },
+        {
+          "id": "friends-adventure-2-p07",
+          "title": "照顧動物好朋友"
+        },
+        {
+          "id": "friends-adventure-2-p08",
+          "title": "積木橋的挑戰"
+        },
+        {
+          "id": "friends-adventure-2-p09",
+          "title": "彩虹下的友情派對"
+        }
+      ],
+      "published": true
     }
   ],
   "coloringRevision": "20261104-nine-pages-v1",
@@ -1516,6 +1619,6 @@
   ],
   "festivalCaptionRevision": "20261106-image-copy-v1",
   "festivalDateRevision": "20261106-year-order-v1",
-  "coloringAdditionsRevision": "20261108-malan-principal-v1",
+  "coloringAdditionsRevision": "20261108-friends-collection2-v1",
   "characterProfilesRevision": "20261108-character-profiles-v1"
 }

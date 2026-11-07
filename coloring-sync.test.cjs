@@ -5,10 +5,21 @@ const release=require('./coloring-release.js');
 test('principal book reaches a teacher-era draft without restoring an intentionally removed teacher book',()=>{
  const local={settings:{},gallery:[],news:[],coloringRevision:release.version,coloringBooks:[{id:'custom',title:'我的書'}],coloringAdditionsRevision:'20261107-tutu-teacher-v1'};
  const principal={id:'malan-principal',title:'瑪藍校長｜暖心校園著色本',pages:[{id:'p1',title:'校門口的早安'}]},teacher={id:'tutu-teacher',title:'塗塗老師'};
- const remote={...local,coloringBooks:[teacher,principal],coloringAdditionsRevision:'20261108-malan-principal-v1'};
+ const remote={...local,coloringBooks:[teacher,principal],coloringAdditionsRevision:release.additionsVersion};
  const result=cms.hydrateDraft(local,remote);
  assert.deepEqual(result.coloringBooks.map(b=>b.id),['custom','malan-principal']);
  result.coloringBooks[1].title='我的校長著色本';result.coloringBooks[1].published=false;
+ assert.deepEqual(cms.hydrateDraft(result,remote),result);
+ result.coloringBooks.pop();assert.deepEqual(cms.hydrateDraft(result,remote),result);
+});
+test('second collection reaches principal-era drafts while deleted earlier books stay removed',()=>{
+ const local={settings:{brand:'保留草稿'},gallery:[],news:[{id:'unfinished'}],coloringRevision:release.version,coloringBooks:[{id:'custom',title:'自訂著色本'}],coloringAdditionsRevision:'20261108-malan-principal-v1'};
+ const book={id:'friends-adventure-2',title:'塗塗的友情小冒險｜全體人物著色本 2',pageCount:9,pages:Array.from({length:9},(_,i)=>({id:'adventure-'+i,title:'情境'+i}))};
+ const remote={...local,coloringBooks:[{id:'tutu-teacher'},{id:'malan-principal'},book],coloringAdditionsRevision:'20261108-friends-collection2-v1'};
+ const result=cms.hydrateDraft(local,remote);
+ assert.deepEqual(result.coloringBooks.map(b=>b.id),['custom','friends-adventure-2']);
+ assert.equal(result.coloringBooks[1].pageCount,9);assert.deepEqual(result.news,local.news);assert.equal(result.settings.brand,'保留草稿');
+ result.coloringBooks[1].pages.reverse();result.coloringBooks[1].title='我的合集標題';
  assert.deepEqual(cms.hydrateDraft(result,remote),result);
  result.coloringBooks.pop();assert.deepEqual(cms.hydrateDraft(result,remote),result);
 });

@@ -1,11 +1,12 @@
 /* Published baseline for the one-time nine-page coloring-book upgrade. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.TutuColoringRelease=api;})(typeof window==='undefined'?globalThis:window,function(){return {
   "version": "20261104-nine-pages-v1",
-  "additionsVersion": "20261108-malan-principal-v1",
-  "addedBookIds": ["malan-principal"],
+  "additionsVersion": "20261108-friends-collection2-v1",
+  "addedBookIds": ["friends-adventure-2"],
   "additionReleases": [
     {"version":"20261107-tutu-teacher-v1","ids":["tutu-teacher"]},
-    {"version":"20261108-malan-principal-v1","ids":["malan-principal"]}
+    {"version":"20261108-malan-principal-v1","ids":["malan-principal"]},
+    {"version":"20261108-friends-collection2-v1","ids":["friends-adventure-2"]}
   ],
   "previousBooks": [
     {
