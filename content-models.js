@@ -11,7 +11,7 @@
  const charactersFor=site=>site.characters===undefined?defaultCharacters.map(c=>({...c})):site.characters;
  // Introduce this release's partners once, without replacing an editor's collection.
  // Explicit empty collections and subsequent removals remain intentional edits.
- function syncPublishedCharacters(local,published){
+ function syncCharacterAdditions(local,published){
   const revision=published?.characterRevision;
   const releases={'20261105-partners-v1':['yuanyuan','tutu-teacher'],'20261105-teacher-v2':['tutu-teacher'],'20261108-principal-friends-v1':['malan-principal','youyou','nuannuan']};
   if(!local||!releases[revision]||local.characterRevision===revision||!Array.isArray(published.characters))return local;
@@ -29,6 +29,18 @@
   const ids=new Set(local.characters.map(c=>c.id));
   const additions=local.characters.length?published.characters.filter(c=>introduced.has(c.id)&&!ids.has(c.id)):[];
   return {...local,characters:[...local.characters,...structuredClone(additions)],characterRevision:revision};
+ }
+ function syncPublishedCharacters(local,published){
+  local=syncCharacterAdditions(local,published);
+  const revision='20261108-character-profiles-v1';
+  if(!local||published?.characterProfilesRevision!==revision||local.characterProfilesRevision===revision||!Array.isArray(local.characters)||!Array.isArray(published.characters))return local;
+  const shortened={boy:'活潑、好奇，總想第一個探索新鮮事。',girl:'開朗、熱情，喜歡把祝福送給每個人。',xiaolan:'藍色雙馬尾、藍色洋裝，帶著笑容加入塗塗的夥伴。',lantian:'戴著藍框眼鏡，陪大家上課、點名，一起認真學習。'};
+  const current=new Map(published.characters.map(c=>[c.id,c]));
+  const characters=local.characters.map(c=>{
+   const after=current.get(c.id);
+   return shortened[c.id]!==undefined&&c.description===shortened[c.id]&&typeof after?.description==='string'?{...c,description:after.description}:c;
+  });
+  return {...local,characters,characterProfilesRevision:revision};
  }
  function syncPublishedCatalog(local,published){
   const revision='20261105-line-christmas-v1';

@@ -7,6 +7,25 @@ const aunt={id:'yuanyuan',name:'圓圓姨',image:'assets/works/yuanyuan-aunt-202
 const teacher={id:'tutu-teacher',name:'塗塗老師',image:'assets/works/tutu-teacher-20261105.png',published:true};
 const published=()=>({settings:{brand:'塗塗'},gallery:[],news:[],characters:[old,aunt,teacher],characterRevision:revision});
 const teacherRelease=()=>({...published(),characterRevision:'20261105-teacher-v2',mediaLibrary:[{image:teacher.image,name:'塗塗老師｜人物角色',category:'人物夥伴'}]});
+test('restored profiles replace shortened introductions in existing drafts without overwriting custom descriptions or links',()=>{
+ const boy={id:'boy',name:'藍寶',description:'活潑、好奇，總想第一個探索新鮮事。',image:'assets/tutu-boy.webp',link:'https://example.com/my-book',published:false};
+ const girl={id:'girl',name:'桃寶',description:'我特別編寫的桃寶介紹',image:'assets/tutu-girl.webp'};
+ const remote={...published(),characterRevision:'20261108-principal-friends-v1',characterProfilesRevision:'20261108-character-profiles-v1',characters:[{...boy,description:'♊ 雙子座 B 型\n口頭禪：「欸！我們來試試看！」'},{...girl,description:'♌ 獅子座 O 型\n口頭禪：「這個也值得慶祝呀！」'}]};
+ const local={...remote,characters:[girl,boy],characterProfilesRevision:undefined,news:[{id:'unfinished'}]},original=structuredClone(local);
+ const result=cms.hydrateDraft(local,remote);
+ assert.equal(result.characters[1].description,remote.characters[0].description);
+ assert.equal(result.characters[1].link,'https://example.com/my-book');assert.equal(result.characters[1].published,false);
+ assert.deepEqual(result.characters[0],girl);assert.deepEqual(result.news,local.news);assert.deepEqual(local,original);
+ assert.equal(result.characterProfilesRevision,'20261108-character-profiles-v1');
+ result.characters[1].description=boy.description;
+ assert.deepEqual(cms.hydrateDraft(result,remote),result);
+});
+test('profile restoration preserves intentionally removed characters and empty collections',()=>{
+ const remote={...published(),characterRevision:'20261108-principal-friends-v1',characterProfilesRevision:'20261108-character-profiles-v1'};
+ const local={...remote,characterProfilesRevision:undefined,characters:[]};
+ const result=cms.hydrateDraft(local,remote);
+ assert.deepEqual(result.characters,[]);assert.equal(result.characterProfilesRevision,remote.characterProfilesRevision);
+});
 test('principal and returning friends reach older drafts once without replacing edits or other removed characters',()=>{
  const principal={id:'malan-principal',name:'瑪藍校長',image:'assets/works/malan-principal-20261108.png'},boy={id:'youyou',name:'佑佑',image:'assets/youyou.webp'},girl={id:'nuannuan',name:'暖暖',image:'assets/nuannuan.webp'};
  const remote={...teacherRelease(),characters:[old,aunt,teacher,principal,boy,girl],characterRevision:'20261108-principal-friends-v1',mediaLibrary:[principal,boy,girl].map(c=>({image:c.image,name:c.name,category:'人物夥伴'}))};

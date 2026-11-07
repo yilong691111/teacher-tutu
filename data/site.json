@@ -787,7 +787,7 @@
     {
       "id": "boy",
       "name": "藍寶",
-      "description": "活潑、好奇，總想第一個探索新鮮事。",
+      "description": "♊ 雙子座 B 型  | 點子滿滿的好奇探索家\n每個「為什麼」，都是冒險的開始，個性活潑、好奇、想像力豐富，喜歡嘗試新鮮事。偶爾容易分心，腦袋裡總有下一個點子。\n口頭禪：「欸！我們來試試看！」",
       "image": "assets/works/upload-bdff061c0548fcc966605b91d27a17c3df304f2e5a793ec3603ca525431f415c.webp",
       "imageAlt": "男塗塗",
       "tone": "ice",
@@ -799,7 +799,7 @@
     {
       "id": "girl",
       "name": "桃寶",
-      "description": "開朗、熱情，喜歡把祝福送給每個人。",
+      "description": "♌ 獅子座 O 型 | 散播快樂的祝福小太陽\n把平凡的日子，過成值得慶祝的日子，個性開朗、熱情、喜歡分享，擅長替大家加油。偶爾太想讓大家開心，會把自己的失落藏起來。\n口頭禪：「這個也值得慶祝呀！」",
       "image": "assets/works/upload-6de0a83772d81ee3d5c6a10602f6fc30d816250b3ba70bf35219d3dbed97e6e6.webp",
       "imageAlt": "女塗塗",
       "tone": "pink",
@@ -811,7 +811,7 @@
     {
       "id": "xiaolan",
       "name": "小藍姐姐",
-      "description": "藍色雙馬尾、藍色洋裝，帶著笑容加入塗塗的夥伴。",
+      "description": "♎ 天秤座 AB 型 | 有主見又懂得體貼的創意姐姐\n有自己的想法，也願意聽你的想法，個性自信、機靈、有創意，喜歡漂亮又有趣的事物。\n口頭禪：「你的想法也很棒，我們一起想！」",
       "image": "assets/xiaolan-sister.png",
       "imageAlt": "小藍姐姐，藍色雙馬尾與藍色洋裝的蠟筆角色",
       "tone": "ice",
@@ -820,7 +820,7 @@
     {
       "id": "lantian",
       "name": "藍田老師",
-      "description": "戴著藍框眼鏡，陪大家上課、點名，一起認真學習。",
+      "description": "♍ 處女座 A 型 | 認真可靠的成長引路人\n要求你認真，也陪你慢慢學會，個性認真、細心、有責任感，重視規矩與承諾。偶爾要求太高、忍不住碎念，但總會記得回頭鼓勵孩子。\n口頭禪：「先別說不會，我們一步一步來！」",
       "image": "assets/works/lantian-32044.png",
       "imageAlt": "藍田老師，戴著藍框眼鏡、舉手提醒上課的蠟筆角色",
       "link": "#gallery",
@@ -1516,5 +1516,6 @@
   ],
   "festivalCaptionRevision": "20261106-image-copy-v1",
   "festivalDateRevision": "20261106-year-order-v1",
-  "coloringAdditionsRevision": "20261108-malan-principal-v1"
+  "coloringAdditionsRevision": "20261108-malan-principal-v1",
+  "characterProfilesRevision": "20261108-character-profiles-v1"
 }
