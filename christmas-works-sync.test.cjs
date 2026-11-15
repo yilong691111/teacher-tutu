@@ -1,6 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const cms=require('./github-cms.js');
-const version='20261115-christmas-works-v1',id='line-product-37513322';
+const version='20261115-christmas-works-v2',id='line-product-37513322';
 const old={id,image:'assets/works/festival-christmas-20261225.png',imageAlt:'舊圖說',description:'12／25 聖誕節，和塗塗一起送上聖誕快樂，用藍色蠟筆畫傳遞平安與溫暖。',workIds:[],coverWorkId:'',published:true};
 function fixture(){
  const work={id:'christmas-20261115-01',image:'assets/works/christmas-20261115-p01.png',title:'有你最暖'};
@@ -23,4 +23,13 @@ test('an absent Christmas festival is added once and custom covers or descriptio
  const customized={...before,festivals:[{...old,image:'assets/works/custom.png',description:'我的介紹',workIds:['custom']}],mediaLibrary:[{image:remote.gallery[0].image,name:'自訂素材名',deleted:true}]};
  const result=cms.hydrateDraft(customized,remote);
  assert.deepEqual(result.festivals,customized.festivals);assert.deepEqual(result.mediaLibrary,customized.mediaLibrary);
+});
+test('Christmas product tags reach old drafts without overwriting owner tag choices',()=>{
+ const {before,remote}=fixture(),tags={topic:'festive',characters:['藍寶','桃寶'],holidays:['聖誕節'],situations:['祝福']};
+ before.lineProducts=[{id:'37513322',title:'保留商品名稱'},{id:'other',catalogTags:{topic:'daily'}}];
+ remote.lineProducts=[{id:'37513322',catalogTags:tags}];
+ const result=cms.hydrateDraft(before,remote);
+ assert.deepEqual(result.lineProducts[0].catalogTags,tags);assert.equal(result.lineProducts[0].title,'保留商品名稱');
+ before.lineProducts[0].catalogTags={topic:'daily',characters:['自訂角色'],holidays:[],situations:[]};
+ assert.deepEqual(cms.hydrateDraft(before,remote).lineProducts[0].catalogTags,before.lineProducts[0].catalogTags);
 });

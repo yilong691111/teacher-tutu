@@ -843,7 +843,21 @@
       "checkedDate": "2026-11-05",
       "sourceImageUrl": "https://stickershop.line-scdn.net/stickershop/v1/sticker/920161679/android/sticker.png?v=1",
       "category": "聖誕節",
-      "published": true
+      "published": true,
+      "catalogTags": {
+        "topic": "festive",
+        "characters": [
+          "藍寶",
+          "桃寶"
+        ],
+        "holidays": [
+          "聖誕節"
+        ],
+        "situations": [
+          "祝福",
+          "陪伴"
+        ]
+      }
     }
   ],
   "festivals": [
@@ -1903,5 +1917,5 @@
   "festivalDateRevision": "20261106-year-order-v1",
   "coloringAdditionsRevision": "20261108-friends-collection2-v1",
   "characterProfilesRevision": "20261108-character-profiles-v1",
-  "christmasWorksRevision": "20261115-christmas-works-v1"
+  "christmasWorksRevision": "20261115-christmas-works-v2"
 }

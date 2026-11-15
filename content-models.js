@@ -72,7 +72,7 @@
  }
  function syncPublishedCatalog(local,published){
   local=syncLegacyCatalog(local,published);
-  const revision='20261115-christmas-works-v1';
+  const revision='20261115-christmas-works-v2';
   if(!local||published?.christmasWorksRevision!==revision||local.christmasWorksRevision===revision)return local;
   const works=(published.gallery||[]).filter(w=>/^christmas-20261115-\d{2}$/.test(w.id)),images=new Set(works.map(w=>w.image));
   const gallery=Array.isArray(local.gallery)?local.gallery.slice():structuredClone(published.gallery||[]),known=new Set(gallery.map(w=>w.id));
@@ -93,7 +93,9 @@
   }
   const mediaLibrary=Array.isArray(local.mediaLibrary)?local.mediaLibrary.slice():[],saved=new Set(mediaLibrary.map(m=>m.image));
   mediaLibrary.push(...structuredClone((published.mediaLibrary||[]).filter(m=>images.has(m.image)&&!saved.has(m.image))));
-  return {...local,gallery,festivals,mediaLibrary,christmasWorksRevision:revision};
+  const product=published.lineProducts?.find(p=>p.id==='37513322');
+  const productUpdate=Array.isArray(local.lineProducts)?{lineProducts:local.lineProducts.map(p=>p.id===product?.id&&!p.catalogTags&&product.catalogTags?{...p,catalogTags:structuredClone(product.catalogTags)}:p)}:{};
+  return {...local,...productUpdate,gallery,festivals,mediaLibrary,christmasWorksRevision:revision};
  }
  const safeImage=value=>typeof value==='string'&&imagePattern.test(value);
  function safeLink(value){
