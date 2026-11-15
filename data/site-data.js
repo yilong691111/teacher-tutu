@@ -146,198 +146,6 @@ window.TUTU_BOOTSTRAP = {
           "陪伴"
         ]
       }
-    },
-    {
-      "id": "christmas-20261115-02",
-      "title": "心願掛上",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p02.png",
-      "description": "藍寶與桃寶穿睡衣坐在長椅上，窗邊掛著三隻聖誕襪，文字寫著「心願掛上」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-03",
-      "title": "故事開場",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p03.png",
-      "description": "聖誕老公公坐在扶手椅上打開故事書，藍寶與桃寶坐在旁邊聽故事，文字寫著「故事開場」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-04",
-      "title": "歡笑升空",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p04.png",
-      "description": "藍寶、桃寶與聖誕老公公搭乘紅色雪橇，由麋鹿拉著飛過月亮與雲朵，文字寫著「歡笑升空」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-05",
-      "title": "雪人你好",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p05.png",
-      "description": "藍寶與桃寶戴著毛帽、圍著圍巾，陪戴高帽的雪人一起玩雪，文字寫著「雪人你好」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-06",
-      "title": "快樂加倍",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p06.png",
-      "description": "藍寶拉手風琴，桃寶彈吉他，兩人在布幕舞台與麥克風前演奏，文字寫著「快樂加倍」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-07",
-      "title": "把暖送你",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p07.png",
-      "description": "藍寶與桃寶坐在沙發上共蓋花紋暖毯，旁邊有毛線籃，文字寫著「把暖送你」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-08",
-      "title": "陪你許願",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p08.png",
-      "description": "藍寶與桃寶在星星裝飾的心願池旁閉眼許願，池裡漂著紙船，文字寫著「陪你許願」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
-    },
-    {
-      "id": "christmas-20261115-09",
-      "title": "團聚真好",
-      "category": "節慶",
-      "series": "藍寶桃寶｜聖誕節篇第五輯",
-      "image": "assets/works/christmas-20261115-p09.png",
-      "description": "藍寶與桃寶穿節慶服裝，在綠色聖誕花圈下牽手跳舞，文字寫著「團聚真好」。",
-      "featured": false,
-      "published": true,
-      "catalogTags": {
-        "topic": "festive",
-        "characters": [
-          "藍寶",
-          "桃寶"
-        ],
-        "holidays": [
-          "聖誕節"
-        ],
-        "situations": [
-          "祝福",
-          "陪伴"
-        ]
-      }
     }
   ],
   "lineProducts": [
@@ -873,9 +681,7 @@ window.TUTU_BOOTSTRAP = {
       "imageAlt": "塗塗男孩與女孩穿紅色賀年服，拿著紅色上升圖表卷軸，上方寫著藍色蠟筆字「業績長紅」。",
       "buttonText": "看看羊年系列 →",
       "buttonLink": "https://store.line.me/stickershop/product/37631556/zh-Hant?from=sticker",
-      "workIds": [
-        "w039"
-      ],
+      "workIds": [],
       "published": true,
       "coverWorkId": ""
     },
@@ -907,24 +713,14 @@ window.TUTU_BOOTSTRAP = {
       "subtitle": "12／25 聖誕節",
       "holidayName": "聖誕節",
       "eventDate": "2026-12-25",
-      "description": "12／25 聖誕節，藍寶與桃寶帶來最新九張節慶作品。從聖誕樹與禮物、掛襪許願、聽故事、麋鹿雪橇、雪人、小樂隊，到分享暖毯、心願池與花圈舞步，把平安、溫暖與團聚的心意送給你。",
+      "description": "12／25 聖誕節，藍寶與桃寶在聖誕樹與禮物旁送上「有你最暖」的祝福，用童趣的藍色蠟筆畫，把平安與溫暖送給你。",
       "tags": "聖誕快樂\n平安喜樂\n交換禮物\n溫暖陪伴",
       "image": "assets/works/christmas-20261115-p01.png",
       "imageAlt": "藍寶與桃寶穿著節慶服裝，站在聖誕樹與大禮物旁，藍色蠟筆字寫著「有你最暖」。",
       "buttonText": "看看聖誕節貼圖 →",
       "buttonLink": "https://store.line.me/stickershop/product/37513322/zh-Hant",
-      "coverWorkId": "christmas-20261115-01",
-      "workIds": [
-        "christmas-20261115-01",
-        "christmas-20261115-02",
-        "christmas-20261115-03",
-        "christmas-20261115-04",
-        "christmas-20261115-05",
-        "christmas-20261115-06",
-        "christmas-20261115-07",
-        "christmas-20261115-08",
-        "christmas-20261115-09"
-      ],
+      "coverWorkId": "",
+      "workIds": [],
       "published": true,
       "catalogTags": {
         "topic": "festive",
@@ -1300,54 +1096,6 @@ window.TUTU_BOOTSTRAP = {
       "name": "聖誕節第五輯｜有你最暖",
       "category": "節慶素材",
       "alt": "藍寶與桃寶穿著節慶服裝，站在聖誕樹與大禮物旁，藍色蠟筆字寫著「有你最暖」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p02.png",
-      "name": "聖誕節第五輯｜心願掛上",
-      "category": "節慶素材",
-      "alt": "藍寶與桃寶穿睡衣坐在長椅上，窗邊掛著三隻聖誕襪，文字寫著「心願掛上」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p03.png",
-      "name": "聖誕節第五輯｜故事開場",
-      "category": "節慶素材",
-      "alt": "聖誕老公公坐在扶手椅上打開故事書，藍寶與桃寶坐在旁邊聽故事，文字寫著「故事開場」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p04.png",
-      "name": "聖誕節第五輯｜歡笑升空",
-      "category": "節慶素材",
-      "alt": "藍寶、桃寶與聖誕老公公搭乘紅色雪橇，由麋鹿拉著飛過月亮與雲朵，文字寫著「歡笑升空」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p05.png",
-      "name": "聖誕節第五輯｜雪人你好",
-      "category": "節慶素材",
-      "alt": "藍寶與桃寶戴著毛帽、圍著圍巾，陪戴高帽的雪人一起玩雪，文字寫著「雪人你好」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p06.png",
-      "name": "聖誕節第五輯｜快樂加倍",
-      "category": "節慶素材",
-      "alt": "藍寶拉手風琴，桃寶彈吉他，兩人在布幕舞台與麥克風前演奏，文字寫著「快樂加倍」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p07.png",
-      "name": "聖誕節第五輯｜把暖送你",
-      "category": "節慶素材",
-      "alt": "藍寶與桃寶坐在沙發上共蓋花紋暖毯，旁邊有毛線籃，文字寫著「把暖送你」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p08.png",
-      "name": "聖誕節第五輯｜陪你許願",
-      "category": "節慶素材",
-      "alt": "藍寶與桃寶在星星裝飾的心願池旁閉眼許願，池裡漂著紙船，文字寫著「陪你許願」。"
-    },
-    {
-      "image": "assets/works/christmas-20261115-p09.png",
-      "name": "聖誕節第五輯｜團聚真好",
-      "category": "節慶素材",
-      "alt": "藍寶與桃寶穿節慶服裝，在綠色聖誕花圈下牽手跳舞，文字寫著「團聚真好」。"
     }
   ],
   "characterRevision": "20261108-principal-friends-v1",
@@ -1917,5 +1665,6 @@ window.TUTU_BOOTSTRAP = {
   "festivalDateRevision": "20261106-year-order-v1",
   "coloringAdditionsRevision": "20261108-friends-collection2-v1",
   "characterProfilesRevision": "20261108-character-profiles-v1",
-  "christmasWorksRevision": "20261115-christmas-works-v2"
+  "christmasWorksRevision": "20261115-christmas-works-v2",
+  "festivalSingleImageRevision": "20261115-festival-single-image-v1"
 };

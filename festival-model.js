@@ -60,7 +60,7 @@
   });
   return {...next,festivals};
  }
- function syncPublished(local,published){
+ function syncLegacyPublished(local,published){
   const dateRevision='20261106-year-order-v1';
   if(local&&published?.festivalDateRevision===dateRevision&&local.festivalDateRevision!==dateRevision&&Array.isArray(local.festivals)){
    const corrected=published.festivals?.find(f=>f.id==='legacy-festival'&&f.holidayName==='羊年賀歲祝福'&&f.eventDate==='2027-02-06');
@@ -102,6 +102,24 @@
   const media=(local.mediaLibrary||[]).slice(),images=new Set(media.map(x=>x.image)),introduced=new Set([christmas?.image,newyear?.image]);
   for(const item of published.mediaLibrary||[])if(introduced.has(item.image)&&!images.has(item.image)){media.push(structuredClone(item));images.add(item.image);}
   return {...local,festivals:list,mediaLibrary:media,festivalRevision:revision};
+ }
+ function syncPublished(local,published){
+  local=syncLegacyPublished(local,published);
+  const revision='20261115-festival-single-image-v1';
+  if(!local||published?.festivalSingleImageRevision!==revision||local.festivalSingleImageRevision===revision)return local;
+  const current=local.festivals===undefined?published.festivals:local.festivals;
+  if(!Array.isArray(current))return local;
+  const works=new Map((local.gallery||[]).map(w=>[w.id,w]));
+  const festivals=current.map(f=>{
+   const cover=works.get(f.coverWorkId),next={...f,image:content.safeImage(cover?.image)?cover.image:f.image,coverWorkId:'',workIds:[]};
+   if(f.id==='line-product-37513322'&&f.description==='12／25 聖誕節，藍寶與桃寶帶來最新九張節慶作品。從聖誕樹與禮物、掛襪許願、聽故事、麋鹿雪橇、雪人、小樂隊，到分享暖毯、心願池與花圈舞步，把平安、溫暖與團聚的心意送給你。'){
+    const source=published.festivals?.find(p=>p.id===f.id);if(source)next.description=source.description;
+   }
+   return next;
+  });
+  const used=new Set(festivals.map(f=>f.image)),removedImage=image=>/^assets\/works\/christmas-20261115-p0[2-9]\.png$/.test(image)&&!used.has(image);
+  const gallery=(local.gallery||[]).filter(w=>!removedImage(w.image)),mediaLibrary=(local.mediaLibrary||[]).filter(m=>!removedImage(m.image));
+  return {...local,festivals,gallery,mediaLibrary,festivalSingleImageRevision:revision};
  }
  const step=(index,length,delta)=>length?((index+delta)%length+length)%length:0;
  const recoveryId=(site,record)=>record.identity===''&&!Object.hasOwn(record.values,'festival-id')&&site.festivals===undefined?'legacy-festival':record.identity;
