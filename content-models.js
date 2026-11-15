@@ -42,7 +42,7 @@
   });
   return {...local,characters,characterProfilesRevision:revision};
  }
- function syncPublishedCatalog(local,published){
+ function syncLegacyCatalog(local,published){
   const revision='20261105-line-christmas-v1';
   if(!local||published?.catalogRevision!==revision||local.catalogRevision===revision)return local;
   const productIds=new Set(['37744779','37687563','37681899','37654041','37327487']);
@@ -69,6 +69,31 @@
    if(Array.isArray(next.workIds))next.workIds=next.workIds.filter(id=>available.has(id));return next;
   });
   return {...local,lineProducts,gallery,festivals,catalogRevision:revision};
+ }
+ function syncPublishedCatalog(local,published){
+  local=syncLegacyCatalog(local,published);
+  const revision='20261115-christmas-works-v1';
+  if(!local||published?.christmasWorksRevision!==revision||local.christmasWorksRevision===revision)return local;
+  const works=(published.gallery||[]).filter(w=>/^christmas-20261115-\d{2}$/.test(w.id)),images=new Set(works.map(w=>w.image));
+  const gallery=Array.isArray(local.gallery)?local.gallery.slice():structuredClone(published.gallery||[]),known=new Set(gallery.map(w=>w.id));
+  gallery.push(...structuredClone(works.filter(w=>!known.has(w.id))));
+  const source=published.festivals?.find(f=>f.id==='line-product-37513322');
+  let festivals=Array.isArray(local.festivals)?local.festivals.slice():structuredClone(published.festivals||[]);
+  if(source){
+   if(!festivals.some(f=>f.id===source.id))festivals.push(structuredClone(source));
+   else festivals=festivals.map(f=>{
+    if(f.id!==source.id)return f;
+    const next={...f};
+    if(f.image==='assets/works/festival-christmas-20261225.png'&&!f.coverWorkId&&Array.isArray(f.workIds)&&!f.workIds.length){
+     for(const key of ['image','imageAlt','coverWorkId','workIds'])next[key]=structuredClone(source[key]);
+    }
+    if(f.description===''||f.description==='12／25 聖誕節，和塗塗一起送上聖誕快樂，用藍色蠟筆畫傳遞平安與溫暖。')next.description=source.description;
+    return next;
+   });
+  }
+  const mediaLibrary=Array.isArray(local.mediaLibrary)?local.mediaLibrary.slice():[],saved=new Set(mediaLibrary.map(m=>m.image));
+  mediaLibrary.push(...structuredClone((published.mediaLibrary||[]).filter(m=>images.has(m.image)&&!saved.has(m.image))));
+  return {...local,gallery,festivals,mediaLibrary,christmasWorksRevision:revision};
  }
  const safeImage=value=>typeof value==='string'&&imagePattern.test(value);
  function safeLink(value){
