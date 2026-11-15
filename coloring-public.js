@@ -12,10 +12,11 @@
    const actions=document.createElement('div');actions.className='coloring-card-actions';const download=document.createElement('a');download.className='button blue';download.textContent='下載 PDF ↓';download.download=book.title.replace(/[\\/:*?"<>|]/g,'-')+'.pdf';download.href=model.validPdf(book.pdf)?book.pdf:'#';
    const preview=document.createElement('a');preview.className='coloring-preview-link';preview.textContent='預覽 PDF ↗';preview.href=download.href;preview.target='_blank';preview.rel='noopener noreferrer';
    if(draftMode&&window.TutuColoringFiles)window.TutuColoringFiles.url(book.pdf).then(url=>{if(download.isConnected){download.href=url;preview.href=url;}}).catch(()=>{download.removeAttribute('href');preview.removeAttribute('href');});
-   actions.append(download,preview);body.append(badge,title,description,actions);card.append(img,body);grid.append(card);
+   download.setAttribute('data-coloring-download',book.id);const count=document.createElement('p');count.className='book-download-count';count.setAttribute('aria-live','polite');window.TutuSiteStatistics?.decorateCount(count,book);
+   actions.append(download,preview);body.append(badge,title,description,count,actions);card.append(img,body);grid.append(card);
   }
  }
- function open(){returnFocus=document.activeElement;render();if(!dialog.open)dialog.showModal();trigger.setAttribute('aria-expanded','true');search.focus();}
+ function open(){returnFocus=document.activeElement;render();window.TutuSiteStatistics?.refresh();if(!dialog.open)dialog.showModal();trigger.setAttribute('aria-expanded','true');search.focus();}
  trigger.addEventListener('click',open);document.getElementById('coloring-close').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{trigger.setAttribute('aria-expanded','false');returnFocus?.focus();});
  for(const button of dialog.querySelectorAll('[data-coloring-category]'))button.addEventListener('click',()=>{category=button.dataset.coloringCategory;for(const b of dialog.querySelectorAll('[data-coloring-category]'))b.setAttribute('aria-pressed',String(b===button));render();});search.addEventListener('input',render);
  addEventListener('hashchange',()=>{if(location.hash==='#coloring')open();});if(location.hash==='#coloring')open();
